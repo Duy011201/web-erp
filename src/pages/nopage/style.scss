@@ -1,0 +1,41 @@
+.parallax {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+
+  #title {
+    font-size: 70px;
+    color: var(--cl-white);
+    position: absolute;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  img {
+    position: absolute;
+    object-fit: contain;
+    top: 0;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+  }
+}
+
+.content {
+  background-color: #003329;
+  position: relative;
+  padding: 100px;
+  color: var(--cl-white);
+  text-align: justify;
+
+  h1 {
+    color: var(--cl-white);
+    font-size: 40px;
+  }
+
+  .btn-login {
+    font-size: larger;
+  }
+}

@@ -1,0 +1,25 @@
+.wrap-register {
+  background-image: url("/src/assets/images/bg-auth.jpg");
+
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+  &[loading="lazy"] {
+    background-image: none;
+  }
+
+  .wrap-content {
+    min-width: 400px;
+    border: 1px solid var(--bg-border-primary);
+    backdrop-filter: blur(200px);
+
+    .icon-email,
+    .icon-password,
+    .icon-username {
+      top: 35px;
+      right: 15px;
+    }
+  }
+}
