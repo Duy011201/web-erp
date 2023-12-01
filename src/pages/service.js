@@ -36,3 +36,34 @@ export const DELETE_STORE_BY_ID = id => {
     `${setting.BASE_URL}${setting.URL_API.DELETE_STORE_BY_ID}?id=${id}`
   );
 };
+
+// Product
+export const GET_ALL_PRODUCT = () => {
+  return axios.post(setting.BASE_URL + setting.URL_API.GET_ALL_PRODUCT);
+};
+
+export const GET_PRODUCT_BY_ID = id => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.GET_PRODUCT_BY_ID}?id=${id}`
+  );
+};
+
+export const UPDATE_PRODUCT_BY_ID = updateData => {
+  return axios.post(
+    setting.BASE_URL + setting.URL_API.UPDATE_PRODUCT_BY_ID,
+    updateData
+  );
+};
+
+export const CREATE_PRODUCT = newData => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.CREATE_PRODUCT}`,
+    newData
+  );
+};
+
+export const DELETE_PRODUCT_BY_ID = id => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.DELETE_PRODUCT_BY_ID}?id=${id}`
+  );
+};

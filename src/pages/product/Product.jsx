@@ -16,25 +16,30 @@ import Loading from "../../components/loading/Loading.jsx";
 
 import "./style.scss";
 import {
+  GET_ALL_PRODUCT,
   GET_ALL_STORE,
-  DELETE_STORE_BY_ID,
-  UPDATE_STORE_BY_ID,
-  CREATE_STORE,
+  DELETE_PRODUCT_BY_ID,
+  UPDATE_PRODUCT_BY_ID,
+  CREATE_PRODUCT,
 } from "../service.js";
 import setting from "../../setting.js";
 
-export default function Store() {
+export default function Product() {
   const [loading, setLoading] = useState(false);
+  const [listProduct, setListProduct] = useState([]);
   const [listStore, setListStore] = useState([]);
   const [open, setOpen] = React.useState(false);
   const [action, setAction] = React.useState("");
   const [formData, setFormData] = useState({
     id: "",
-    loaiKho: "",
-    tenKho: "",
-    diaChi: "",
-    trangThai: "",
+    tenSP: "",
+    loaiSP: "",
+    donViTinh: "",
+    soLuong: 0,
+    gia: "",
+    maKho: 0,
   });
+
   const handleInputChange = e => {
     const { name, value } = e.target;
     setFormData(prevData => ({
@@ -44,32 +49,13 @@ export default function Store() {
   };
 
   const columns = [
-    { field: "id", headerName: "Mã Kho", width: 120 },
-    { field: "tenKho", headerName: "Tên kho", width: 200 },
-    { field: "diaChi", headerName: "Địa chỉ", width: 250 },
-    {
-      field: "trangThai",
-      headerName: "Trạng thái",
-      width: 150,
-      renderCell: params => (
-        <div
-          style={{
-            color:
-              params.value === setting.STORE_STATUS.EMPTY.code
-                ? "orange"
-                : params.value === setting.STORE_STATUS.IN_USE.code
-                ? "green"
-                : "yellow",
-          }}
-        >
-          {params.value && params.value === setting.STORE_STATUS.EMPTY.code
-            ? setting.STORE_STATUS.EMPTY.name
-            : params.value && params.value === setting.STORE_STATUS.IN_USE.code
-            ? setting.STORE_STATUS.IN_USE.name
-            : setting.STORE_STATUS.FULL.name}
-        </div>
-      ),
-    },
+    { field: "id", headerName: "Mã", width: 100 },
+    { field: "tenSP", headerName: "Tên", width: 150 },
+    { field: "loaiSP", headerName: "Loại", width: 150 },
+    { field: "donViTinh", headerName: "Đơn vị tính", width: 150 },
+    { field: "soLuong", headerName: "Số lượng", width: 150 },
+    { field: "gia", headerName: "Giá", width: 150 },
+    { field: "maKho", headerName: "Mã kho", width: 150 },
     {
       field: "",
       headerName: "Thao tác",
@@ -107,32 +93,43 @@ export default function Store() {
   const updateStore = async () => {
     setOpen(false);
 
-    if (isEmptyNullUndefined(formData.tenKho)) {
-      error("Bạn chưa nhập tên kho!");
+    if (isEmptyNullUndefined(formData.tenSP)) {
+      error("Bạn chưa nhập tên sản phẩm!");
       return;
     }
 
-    if (isEmptyNullUndefined(formData.diaChi)) {
-      error("Bạn chưa nhập địa chỉ kho!");
+    if (isEmptyNullUndefined(formData.loaiSP)) {
+      error("Bạn chưa nhập loại sản phẩm!");
       return;
     }
 
-    if (isEmptyNullUndefined(formData.trangThai)) {
-      error("Bạn chưa chọn trạng thái kho!");
+    if (isEmptyNullUndefined(formData.donViTinh)) {
+      error("Bạn chưa nhập đơn vị tính sản phẩm!");
       return;
     }
 
-    if (isEmptyNullUndefined(formData.loaiKho)) {
-      error("Bạn chưa chọn kho!");
+    if (isEmptyNullUndefined(formData.soLuong)) {
+      error("Bạn chưa nhập số lượng sản phẩm!");
+      return;
+    }
+
+    if (isEmptyNullUndefined(formData.gia)) {
+      error("Bạn chưa nhập giá sản phẩm!");
+      return;
+    }
+
+    if (isEmptyNullUndefined(formData.maKho)) {
+      error("Bạn chưa nhập mã kho!");
       return;
     }
 
     setLoading(true);
-    await UPDATE_STORE_BY_ID(formData).then(res => {
+    await UPDATE_PRODUCT_BY_ID(formData).then(res => {
       setLoading(false);
       if (res.status === setting.STATUS_CODE.OK) {
         success(res.data.msg);
-        getALLStore();
+        getAllProduct();
+        getAllStore();
       } else {
         error(res.data.msg);
       }
@@ -142,32 +139,43 @@ export default function Store() {
   const createStore = async () => {
     setOpen(false);
 
-    if (isEmptyNullUndefined(formData.tenKho)) {
-      error("Bạn chưa nhập tên kho!");
+    if (isEmptyNullUndefined(formData.tenSP)) {
+      error("Bạn chưa nhập tên sản phẩm!");
       return;
     }
 
-    if (isEmptyNullUndefined(formData.diaChi)) {
-      error("Bạn chưa nhập địa chỉ kho!");
+    if (isEmptyNullUndefined(formData.loaiSP)) {
+      error("Bạn chưa nhập loại sản phẩm!");
       return;
     }
 
-    if (isEmptyNullUndefined(formData.trangThai)) {
-      error("Bạn chưa chọn trạng thái kho!");
+    if (isEmptyNullUndefined(formData.donViTinh)) {
+      error("Bạn chưa nhập đơn vị tính sản phẩm!");
       return;
     }
 
-    if (isEmptyNullUndefined(formData.loaiKho)) {
-      error("Bạn chưa chọn kho!");
+    if (isEmptyNullUndefined(formData.soLuong)) {
+      error("Bạn chưa nhập số lượng sản phẩm!");
+      return;
+    }
+
+    if (isEmptyNullUndefined(formData.gia)) {
+      error("Bạn chưa nhập giá sản phẩm!");
+      return;
+    }
+
+    if (isEmptyNullUndefined(formData.maKho)) {
+      error("Bạn chưa nhập mã kho!");
       return;
     }
     setLoading(true);
 
-    await CREATE_STORE(formData).then(res => {
+    await CREATE_PRODUCT(formData).then(res => {
       setLoading(false);
       if (res.status === setting.STATUS_CODE.OK) {
         success(res.data.msg);
-        getALLStore();
+        getAllProduct();
+        getAllStore();
       } else {
         error(res.data.msg);
       }
@@ -180,10 +188,12 @@ export default function Store() {
         if (status === setting.ACTION.OPEN) {
           setFormData({
             id: "",
-            loaiKho: "",
-            tenKho: "",
-            diaChi: "",
-            trangThai: "",
+            tenSP: "",
+            loaiSP: "",
+            donViTinh: "",
+            soLuong: 0,
+            gia: "",
+            maKho: 0,
           });
         }
         break;
@@ -193,22 +203,24 @@ export default function Store() {
         } else {
           setFormData({
             id: "",
-            loaiKho: "",
-            tenKho: "",
-            diaChi: "",
-            trangThai: "",
+            tenSP: "",
+            loaiSP: "",
+            donViTinh: "",
+            soLuong: 0,
+            gia: "",
+            maKho: 0,
           });
         }
         break;
       case setting.ACTION.DELETE:
-        confirmDialog("Bạn muốn xóa kho này!").then(async result => {
+        confirmDialog("Bạn muốn xóa sản phẩm này!").then(async result => {
           if (result.value) {
             setLoading(true);
-            await DELETE_STORE_BY_ID(data.id).then(res => {
+            await DELETE_PRODUCT_BY_ID(data.id).then(res => {
               setLoading(false);
               if (res.status === setting.STATUS_CODE.OK) {
                 success(res.data.msg);
-                getALLStore();
+                getAllProduct();
               } else {
                 error(res.data.msg);
               }
@@ -221,7 +233,24 @@ export default function Store() {
     setOpen(status);
   };
 
-  const getALLStore = async () => {
+  const getAllProduct = async () => {
+    try {
+      setLoading(true);
+      let listProduct;
+      await GET_ALL_PRODUCT().then(res => {
+        setLoading(false);
+        if (res.status === setting.STATUS_CODE.OK) {
+          listProduct = res.data.data;
+          setListProduct(listProduct);
+        }
+      });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setLoading(false);
+    }
+  };
+
+  const getAllStore = async () => {
     try {
       setLoading(true);
       let listStore;
@@ -241,7 +270,8 @@ export default function Store() {
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
-      getALLStore();
+      getAllStore();
+      getAllProduct();
     }, 500);
   }, []);
 
@@ -255,7 +285,7 @@ export default function Store() {
           <div className="container-sm">
             <div className="d-flex justify-content-between mt-20">
               <span className="fw-700 pl-10 title-page font-30">
-                Quản lý kho
+                Quản lý sản phẩm
               </span>
               <button
                 type="button"
@@ -271,7 +301,7 @@ export default function Store() {
 
             <div className="mt-20" style={{ height: 400, width: "100%" }}>
               <DataGrid
-                rows={listStore}
+                rows={listProduct}
                 columns={columns}
                 initialState={{
                   pagination: {
@@ -295,70 +325,87 @@ export default function Store() {
                   : action === setting.ACTION.UPDATE
                   ? "Sửa"
                   : "Xóa"
-              } kho`}
+              } sản phẩm`}
             </DialogTitle>
             <DialogContent>
               <div className="row">
                 <div className="form-group mt-10 col-md-6">
-                  <label htmlFor="tenKho">Tên Kho</label>
+                  <label htmlFor="tenSP">Tên sản phẩm</label>
                   <input
                     type="text"
                     className="form-control"
-                    name="tenKho"
-                    value={formData.tenKho}
-                    placeholder="Nhập tên kho"
+                    name="tenSP"
+                    value={formData.tenSP}
+                    placeholder="Nhập tên sản phẩm"
                     onChange={handleInputChange}
                     required
                   />
                 </div>
                 <div className="form-group mt-10 col-md-6">
-                  <label htmlFor="diaChi">Địa chỉ</label>
+                  <label htmlFor="loaiSP">Loại sản phẩm</label>
                   <input
                     type="text"
-                    name="diaChi"
-                    value={formData.diaChi}
+                    name="loaiSP"
+                    value={formData.loaiSP}
                     onChange={handleInputChange}
                     className="form-control"
-                    placeholder="Nhập địa chỉ"
+                    placeholder="Nhập loại sản phẩm"
                     required
                   />
                 </div>
               </div>
               <div className="row">
-                <div className="col-md-6 mt-10">
-                  <label htmlFor="trangThai">Trạng Thái</label>
-                  <select
-                    className="form-select"
-                    aria-label="Default select example"
-                    value={formData.trangThai}
+                <div className="form-group mt-10 col-md-6">
+                  <label htmlFor="donViTinh">Đơn vị tính</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="donViTinh"
+                    value={formData.donViTinh}
+                    placeholder="Nhập đơn vị tính"
                     onChange={handleInputChange}
-                    name="trangThai"
-                  >
-                    <option value="" disabled>
-                      Chọn trạng thái
-                    </option>
-                    {Object.values(setting.STORE_STATUS).map(store => (
-                      <option key={store.code} value={store.code}>
-                        {store.name}
-                      </option>
-                    ))}
-                  </select>
+                    required
+                  />
+                </div>
+                <div className="form-group mt-10 col-md-6">
+                  <label htmlFor="soLuong">Số lượng</label>
+                  <input
+                    type="number"
+                    name="soLuong"
+                    value={formData.soLuong}
+                    onChange={handleInputChange}
+                    className="form-control"
+                    placeholder="Nhập số lượng"
+                    required
+                  />
+                </div>
+              </div>
+              <div className="row">
+                <div className="form-group mt-10 col-md-6">
+                  <label htmlFor="gia">Giá</label>
+                  <input
+                    type="number"
+                    name="gia"
+                    value={formData.gia}
+                    onChange={handleInputChange}
+                    className="form-control"
+                    placeholder="Nhập giá"
+                    required
+                  />
                 </div>
                 <div className="col-md-6 mt-10">
-                  <label htmlFor="loaiKho">Trạng Thái</label>
+                  <label htmlFor="maKho">Mã kho</label>
                   <select
                     className="form-select"
                     aria-label="Default select example"
-                    value={formData.loaiKho}
+                    value={formData.maKho}
                     onChange={handleInputChange}
-                    name="loaiKho"
+                    name="maKho"
                   >
-                    <option value="">
-                      Chọn loại kho
-                    </option>
-                    {Object.values(setting.STORE_TYPE).map(store => (
-                      <option key={store.code} value={store.code}>
-                        {store.name}
+                    <option value="">Chọn loại kho</option>
+                    {listStore.map(store => (
+                      <option key={store.id} name={store.id} value={store.id}>
+                        {store.tenKho}
                       </option>
                     ))}
                   </select>

@@ -26,6 +26,10 @@ const URL_API = {
   UPDATE_STORE_BY_ID: "/store/update",
 
   GET_ALL_PRODUCT: "/product/all",
+  GET_PRODUCT_BY_ID: "/product",
+  CREATE_PRODUCT: "/product/create",
+  DELETE_PRODUCT_BY_ID: "/product/delete",
+  UPDATE_PRODUCT_BY_ID: "/product/update",
 };
 
 const ACTION = {
