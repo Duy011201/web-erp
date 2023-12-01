@@ -178,14 +178,26 @@ export default function Store() {
     switch (action) {
       case setting.ACTION.ADD:
         if (status === setting.ACTION.OPEN) {
-          setFormData({});
+          setFormData({
+            id: "",
+            loaiKho: "",
+            tenKho: "",
+            diaChi: "",
+            trangThai: "",
+          });
         }
         break;
       case setting.ACTION.UPDATE:
         if (status === setting.ACTION.OPEN) {
           setFormData(data.row);
         } else {
-          setFormData({});
+          setFormData({
+            id: "",
+            loaiKho: "",
+            tenKho: "",
+            diaChi: "",
+            trangThai: "",
+          });
         }
         break;
       case setting.ACTION.DELETE:
