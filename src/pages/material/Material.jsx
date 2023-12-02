@@ -16,24 +16,23 @@ import Loading from "../../components/loading/Loading.jsx";
 
 import "./style.scss";
 import {
-  GET_ALL_PRODUCT,
+  GET_ALL_MATERIAL,
   GET_ALL_STORE,
-  DELETE_PRODUCT_BY_ID,
-  UPDATE_PRODUCT_BY_ID,
-  CREATE_PRODUCT,
+  DELETE_MATERIAL_BY_ID,
+  UPDATE_MATERIAL_BY_ID,
+  CREATE_MATERIAL,
 } from "../service.js";
 import setting from "../../setting.js";
 
-export default function Product() {
+export default function Material() {
   const [loading, setLoading] = useState(false);
-  const [listProduct, setListProduct] = useState([]);
+  const [listMaterial, setListMaterial] = useState([]);
   const [listStore, setListStore] = useState([]);
   const [open, setOpen] = React.useState(false);
   const [action, setAction] = React.useState("");
   const [formData, setFormData] = useState({
     id: "",
-    tenSP: "",
-    loaiSP: "",
+    tenNVL: "",
     donViTinh: "",
     soLuong: 0,
     gia: 0,
@@ -50,8 +49,7 @@ export default function Product() {
 
   const columns = [
     { field: "id", headerName: "Mã", width: 100 },
-    { field: "tenSP", headerName: "Tên", width: 150 },
-    { field: "loaiSP", headerName: "Loại", width: 150 },
+    { field: "tenNVL", headerName: "Tên", width: 150 },
     { field: "donViTinh", headerName: "Đơn vị tính", width: 150 },
     { field: "soLuong", headerName: "Số lượng", width: 150 },
     { field: "gia", headerName: "Giá", width: 150 },
@@ -90,31 +88,26 @@ export default function Product() {
     },
   ];
 
-  const updateProduct = async () => {
+  const updateMaterial = async () => {
     setOpen(false);
 
-    if (isEmptyNullUndefined(formData.tenSP)) {
-      error("Bạn chưa nhập tên sản phẩm!");
-      return;
-    }
-
-    if (isEmptyNullUndefined(formData.loaiSP)) {
-      error("Bạn chưa nhập loại sản phẩm!");
+    if (isEmptyNullUndefined(formData.tenNVL)) {
+      error("Bạn chưa nhập tên nguyên vật liệu!");
       return;
     }
 
     if (isEmptyNullUndefined(formData.donViTinh)) {
-      error("Bạn chưa nhập đơn vị tính sản phẩm!");
+      error("Bạn chưa nhập đơn vị tính nguyên vật liệu!");
       return;
     }
 
     if (isEmptyNullUndefined(formData.soLuong)) {
-      error("Bạn chưa nhập số lượng sản phẩm!");
+      error("Bạn chưa nhập số lượng nguyên vật liệu!");
       return;
     }
 
     if (isEmptyNullUndefined(formData.gia)) {
-      error("Bạn chưa nhập giá sản phẩm!");
+      error("Bạn chưa nhập giá nguyên vật liệu!");
       return;
     }
 
@@ -124,11 +117,11 @@ export default function Product() {
     }
 
     setLoading(true);
-    await UPDATE_PRODUCT_BY_ID(formData).then(res => {
+    await UPDATE_MATERIAL_BY_ID(formData).then(res => {
       setLoading(false);
       if (res.status === setting.STATUS_CODE.OK) {
         success(res.data.msg);
-        getAllProduct();
+        getAllMaterial();
         getAllStore();
       } else {
         error(res.data.msg);
@@ -136,31 +129,26 @@ export default function Product() {
     });
   };
 
-  const createProduct = async () => {
+  const createMaterial = async () => {
     setOpen(false);
 
-    if (isEmptyNullUndefined(formData.tenSP)) {
-      error("Bạn chưa nhập tên sản phẩm!");
-      return;
-    }
-
-    if (isEmptyNullUndefined(formData.loaiSP)) {
-      error("Bạn chưa nhập loại sản phẩm!");
+    if (isEmptyNullUndefined(formData.tenNVL)) {
+      error("Bạn chưa nhập tên nguyên vật liệu!");
       return;
     }
 
     if (isEmptyNullUndefined(formData.donViTinh)) {
-      error("Bạn chưa nhập đơn vị tính sản phẩm!");
+      error("Bạn chưa nhập đơn vị tính nguyên vật liệu!");
       return;
     }
 
     if (isEmptyNullUndefined(formData.soLuong)) {
-      error("Bạn chưa nhập số lượng sản phẩm!");
+      error("Bạn chưa nhập số lượng nguyên vật liệu!");
       return;
     }
 
     if (isEmptyNullUndefined(formData.gia)) {
-      error("Bạn chưa nhập giá sản phẩm!");
+      error("Bạn chưa nhập giá nguyên vật liệu!");
       return;
     }
 
@@ -170,11 +158,11 @@ export default function Product() {
     }
     setLoading(true);
 
-    await CREATE_PRODUCT(formData).then(res => {
+    await CREATE_MATERIAL(formData).then(res => {
       setLoading(false);
       if (res.status === setting.STATUS_CODE.OK) {
         success(res.data.msg);
-        getAllProduct();
+        getAllMaterial();
         getAllStore();
       } else {
         error(res.data.msg);
@@ -213,35 +201,37 @@ export default function Product() {
         }
         break;
       case setting.ACTION.DELETE:
-        confirmDialog("Bạn muốn xóa sản phẩm này!").then(async result => {
-          if (result.value) {
-            setLoading(true);
-            await DELETE_PRODUCT_BY_ID(data.id).then(res => {
-              setLoading(false);
-              if (res.status === setting.STATUS_CODE.OK) {
-                success(res.data.msg);
-                getAllProduct();
-              } else {
-                error(res.data.msg);
-              }
-            });
+        confirmDialog("Bạn muốn xóa nguyên vật liệu này!").then(
+          async result => {
+            if (result.value) {
+              setLoading(true);
+              await DELETE_MATERIAL_BY_ID(data.id).then(res => {
+                setLoading(false);
+                if (res.status === setting.STATUS_CODE.OK) {
+                  success(res.data.msg);
+                  getAllMaterial();
+                } else {
+                  error(res.data.msg);
+                }
+              });
+            }
           }
-        });
+        );
         break;
     }
     setAction(action);
     setOpen(status);
   };
 
-  const getAllProduct = async () => {
+  const getAllMaterial = async () => {
     try {
       setLoading(true);
-      let listProduct;
-      await GET_ALL_PRODUCT().then(res => {
+      let listMaterial;
+      await GET_ALL_MATERIAL().then(res => {
         setLoading(false);
         if (res.status === setting.STATUS_CODE.OK) {
-          listProduct = res.data.data;
-          setListProduct(listProduct);
+          listMaterial = res.data.data;
+          setListMaterial(listMaterial);
         }
       });
     } catch (error) {
@@ -271,7 +261,7 @@ export default function Product() {
     setLoading(true);
     setTimeout(() => {
       getAllStore();
-      getAllProduct();
+      getAllMaterial();
     }, 500);
   }, []);
 
@@ -285,7 +275,7 @@ export default function Product() {
           <div className="container-sm">
             <div className="d-flex justify-content-between mt-20">
               <span className="fw-700 pl-10 title-page font-30">
-                Quản lý sản phẩm
+                Quản lý nguyên vật liệu
               </span>
               <button
                 type="button"
@@ -301,7 +291,7 @@ export default function Product() {
 
             <div className="mt-20" style={{ height: 400, width: "100%" }}>
               <DataGrid
-                rows={listProduct}
+                rows={listMaterial}
                 columns={columns}
                 initialState={{
                   pagination: {
@@ -325,31 +315,19 @@ export default function Product() {
                   : action === setting.ACTION.UPDATE
                   ? "Sửa"
                   : "Xóa"
-              } sản phẩm`}
+              } nguyên vật liệu`}
             </DialogTitle>
             <DialogContent>
               <div className="row">
                 <div className="form-group mt-10 col-md-6">
-                  <label htmlFor="tenSP">Tên sản phẩm</label>
+                  <label htmlFor="tenNVL">Tên nguyên vật liệu</label>
                   <input
                     type="text"
                     className="form-control"
-                    name="tenSP"
-                    value={formData.tenSP}
-                    placeholder="Nhập tên sản phẩm"
+                    name="tenNVL"
+                    value={formData.tenNVL}
+                    placeholder="Nhập tên nguyên vật liệu"
                     onChange={handleInputChange}
-                    required
-                  />
-                </div>
-                <div className="form-group mt-10 col-md-6">
-                  <label htmlFor="loaiSP">Loại sản phẩm</label>
-                  <input
-                    type="text"
-                    name="loaiSP"
-                    value={formData.loaiSP}
-                    onChange={handleInputChange}
-                    className="form-control"
-                    placeholder="Nhập loại sản phẩm"
                     required
                   />
                 </div>
@@ -419,9 +397,9 @@ export default function Product() {
                 Hủy
               </Button>
               {action === setting.ACTION.ADD ? (
-                <Button onClick={() => createProduct()}>Thêm mới</Button>
+                <Button onClick={() => createMaterial()}>Thêm mới</Button>
               ) : (
-                <Button onClick={() => updateProduct()}>Lưu</Button>
+                <Button onClick={() => updateMaterial()}>Lưu</Button>
               )}
             </DialogActions>
           </Dialog>

@@ -102,11 +102,6 @@ export default function Header() {
               id="navbarSupportedContent"
             >
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                <li className="nav-item">
-                  <Link className="nav-link" aria-current="page" to="/product">
-                    Hàng hóa
-                  </Link>
-                </li>
                 <li className="nav-item dropdown">
                   <Link
                     className="nav-link dropdown-toggle"
@@ -143,7 +138,7 @@ export default function Header() {
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item" to="#">
+                      <Link className="dropdown-item" to="/material">
                         Nguyên vật liệu
                       </Link>
                     </li>

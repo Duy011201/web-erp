@@ -67,3 +67,34 @@ export const DELETE_PRODUCT_BY_ID = id => {
     `${setting.BASE_URL}${setting.URL_API.DELETE_PRODUCT_BY_ID}?id=${id}`
   );
 };
+
+// Material
+export const GET_ALL_MATERIAL = () => {
+  return axios.post(setting.BASE_URL + setting.URL_API.GET_ALL_MATERIAL);
+};
+
+export const GET_MATERIAL_BY_ID = id => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.GET_MATERIAL_BY_ID}?id=${id}`
+  );
+};
+
+export const UPDATE_MATERIAL_BY_ID = updateData => {
+  return axios.post(
+    setting.BASE_URL + setting.URL_API.UPDATE_MATERIAL_BY_ID,
+    updateData
+  );
+};
+
+export const CREATE_MATERIAL = newData => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.CREATE_MATERIAL}`,
+    newData
+  );
+};
+
+export const DELETE_MATERIAL_BY_ID = id => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.DELETE_MATERIAL_BY_ID}?id=${id}`
+  );
+};

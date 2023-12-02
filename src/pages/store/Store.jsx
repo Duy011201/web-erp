@@ -353,9 +353,7 @@ export default function Store() {
                     onChange={handleInputChange}
                     name="loaiKho"
                   >
-                    <option value="">
-                      Chọn loại kho
-                    </option>
+                    <option value="">Chọn loại kho</option>
                     {Object.values(setting.STORE_TYPE).map(store => (
                       <option key={store.code} value={store.code}>
                         {store.name}
@@ -372,9 +370,7 @@ export default function Store() {
                 Hủy
               </Button>
               {action === setting.ACTION.ADD ? (
-                <>
-                  <Button onClick={() => createStore()}>Thêm mới</Button>
-                </>
+                <Button onClick={() => createStore()}>Thêm mới</Button>
               ) : (
                 <Button onClick={() => updateStore()}>Lưu</Button>
               )}

@@ -7,6 +7,7 @@ import Home from "./pages/home/Home";
 import NoPage from "./pages/nopage/NoPage";
 import Store from "./pages/store/Store";
 import Product from "./pages/product/Product";
+import Material from "./pages/material/Material";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/forgot-password" element={<Forgot />} />
         <Route path="/store" element={<Store />} />
         <Route path="/product" element={<Product />} />
+        <Route path="/material" element={<Material />} />
         <Route path="*" element={<NoPage />} />
       </Routes>
     </BrowserRouter>
