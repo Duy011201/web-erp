@@ -208,7 +208,13 @@ export default function WarehouseReceipt() {
       }
       setLoading(true);
 
-      await CREATE_WAREHOUSE_RECEIPT(warehouseReceipt).then(res => {
+      let payload = {
+        maNV: JSON.parse(setting.USER_LOCAL).id,
+        loaiHang: warehouseReceipt.loaiHang,
+        ghiChu: warehouseReceipt.ghiChu,
+      };
+
+      await CREATE_WAREHOUSE_RECEIPT(payload).then(res => {
         setLoading(false);
         if (res.status === setting.STATUS_CODE.OK) {
           success(res.data.msg);
