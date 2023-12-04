@@ -182,3 +182,14 @@ export const CREATE_REGISTER = user => {
 export const UPDATE_PASSWORD = user => {
   return axios.post(setting.BASE_URL + setting.URL_API.UPDATE_PASSWORD, user);
 };
+
+// User
+export const UPDATE_USER_BY_ID = user => {
+  return axios.post(setting.BASE_URL + setting.URL_API.UPDATE_USER_BY_ID, user);
+};
+
+export const GET_USER_BY_ID = id => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.GET_USER_BY_ID}?id=${id}`
+  );
+};

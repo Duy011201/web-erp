@@ -54,6 +54,9 @@ const URL_API = {
   REGISTER: "/auth/register",
   CREATE_REGISTER: "/auth/create-register",
   UPDATE_PASSWORD: "/auth/update-password",
+
+  UPDATE_USER_BY_ID: "/user/update",
+  GET_USER_BY_ID: "/user",
 };
 
 const ACTION = {
@@ -68,6 +71,11 @@ const STORE_STATUS = {
   EMPTY: { code: "EMPTY", name: "Trống" },
   FULL: { code: "FULL", name: "Đã đầy" },
   IN_USE: { code: "IN_USE", name: "Đang sử dụng" },
+};
+
+const GENDER_STATUS = {
+  MALE: { code: "MALE", name: "Nam" },
+  FA_MALE: { code: "FA_MALE", name: "Nữ" },
 };
 
 const STORE_TYPE = {
@@ -138,6 +146,7 @@ const setting = Object.freeze({
   STORE_STATUS,
   STORE_TYPE,
   WAREHOUSE_RECEIPT_DETAIL_STATUS,
+  GENDER_STATUS,
 });
 
 export default setting;
