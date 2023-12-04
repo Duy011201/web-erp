@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import { error, success } from "/src/common/sweetalert2.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Loading from "../../../components/loading/Loading";
+import { CHECK_LOGIN } from "../../service.js";
+import isEmptyNullUndefined from "../../../common/core.js";
+import setting from "../../../setting.js";
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -12,19 +15,29 @@ export default function Login() {
   });
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    if (
-      formData.email === "nguyenduy011201@gmail.com" &&
-      formData.password === "123"
-    ) {
-      success("Login Success");
-      window.location = "/dashboard";
-      return;
-    } else {
-      error("Login Failed");
+
+    if (isEmptyNullUndefined(formData.email)) {
+      error("Bạn chưa nhập email!");
       return;
     }
+
+    if (isEmptyNullUndefined(formData.password)) {
+      error("Bạn chưa nhập mật khẩu!");
+      return;
+    }
+
+    await CHECK_LOGIN(formData).then(res => {
+      setLoading(false);
+      if (res.data.data.length > 0) {
+        window.location = "/";
+        success(res.data.msg);
+      } else {
+        error("Tài khoản hoặc mật khẩu không chính xác!");
+        return;
+      }
+    });
   };
 
   const handleInputChange = e => {
@@ -59,7 +72,7 @@ export default function Login() {
                 name="email"
                 value={formData.email}
                 aria-describedby="emailHelp"
-                placeholder="Enter email"
+                placeholder="Nhập email"
                 onChange={handleInputChange}
                 required
               />
@@ -80,7 +93,7 @@ export default function Login() {
                 onChange={handleInputChange}
                 className="form-control"
                 id="inputPassword"
-                placeholder="Password"
+                placeholder="Nhập mật mật"
                 required
               />
               <FontAwesomeIcon

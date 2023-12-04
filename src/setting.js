@@ -49,6 +49,11 @@ const URL_API = {
   CREATE_WAREHOUSE_RECEIPT_DETAIL: "/warehouse-receipt-detail/create",
   DELETE_WAREHOUSE_RECEIPT_DETAIL_BY_ID: "/warehouse-receipt-detail/delete",
   UPDATE_WAREHOUSE_RECEIPT_DETAIL_BY_ID: "/warehouse-receipt-detail/update",
+
+  CHECK_LOGIN: "/auth/login",
+  REGISTER: "/auth/register",
+  CREATE_REGISTER: "/auth/create-register",
+  UPDATE_PASSWORD: "/auth/update-password",
 };
 
 const ACTION = {

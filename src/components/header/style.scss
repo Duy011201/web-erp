@@ -11,3 +11,9 @@
     user-select: none;
   }
 }
+
+@media (max-width: 992px) {
+  .navbar-collapse {
+    background-color: var(--bg-primary) !important;
+  }
+}

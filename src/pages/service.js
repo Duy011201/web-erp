@@ -133,9 +133,10 @@ export const DELETE_WAREHOUSE_RECEIPT_BY_ID = id => {
 };
 
 // Warehouse Receipt Details
-export const GET_ALL_WAREHOUSE_RECEIPT_DETAIL = (body) => {
+export const GET_ALL_WAREHOUSE_RECEIPT_DETAIL = body => {
   return axios.post(
-    setting.BASE_URL + setting.URL_API.GET_ALL_WAREHOUSE_RECEIPT_DETAIL, body
+    setting.BASE_URL + setting.URL_API.GET_ALL_WAREHOUSE_RECEIPT_DETAIL,
+    body
   );
 };
 
@@ -163,4 +164,21 @@ export const DELETE_WAREHOUSE_RECEIPT_DETAIL_BY_ID = id => {
   return axios.post(
     `${setting.BASE_URL}${setting.URL_API.DELETE_WAREHOUSE_RECEIPT_DETAIL_BY_ID}?id=${id}`
   );
+};
+
+// Auth
+export const CHECK_LOGIN = user => {
+  return axios.post(setting.BASE_URL + setting.URL_API.CHECK_LOGIN, user);
+};
+
+export const REGISTER = user => {
+  return axios.post(setting.BASE_URL + setting.URL_API.REGISTER, user);
+};
+
+export const CREATE_REGISTER = user => {
+  return axios.post(setting.BASE_URL + setting.URL_API.CREATE_REGISTER, user);
+};
+
+export const UPDATE_PASSWORD = user => {
+  return axios.post(setting.BASE_URL + setting.URL_API.UPDATE_PASSWORD, user);
 };

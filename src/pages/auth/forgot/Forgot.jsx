@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { error, success } from "/src/common/sweetalert2.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Loading from "../../../components/loading/Loading";
+import { REGISTER, UPDATE_PASSWORD } from "../../service";
+import setting from "../../../setting.js";
 
 export default function Forgot() {
   const [loading, setLoading] = useState(false);
@@ -14,20 +16,39 @@ export default function Forgot() {
 
   const [verifyCode, setVerifyCode] = useState({
     isCode: false,
-    code: "",
   });
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    if (formData.email === "nguyenduy011201@gmail.com") {
-      setVerifyCode({ ...verifyCode, isCode: !verifyCode.isCode });
-      success("Login Success");
-      // window.location = "/";
-      return;
-    } else {
-      error("Login Failed");
-      return;
-    }
+    await REGISTER(formData).then(async res => {
+      setLoading(false);
+      if (res.data.data.length === 0) {
+        error("Tài khoản không tồn tại!");
+        return;
+      } else {
+        const data = res.data.data[0];
+        if (verifyCode.isCode === false) {
+          console.log(res.data.data[0]);
+          setVerifyCode({ isCode: true });
+          return;
+        } else {
+          await UPDATE_PASSWORD({
+            id: data.maTK,
+            password: formData.password,
+          }).then(res => {
+            setLoading(false);
+            if (res.data.status === setting.STATUS_CODE.OK) {
+              window.location = "/login";
+              success(res.data.msg);
+              return;
+            } else {
+              error("Có lỗi xảy ra vui lòng thử lại sau!");
+              return;
+            }
+          });
+        }
+      }
+    });
   };
 
   const handleInputChange = e => {
@@ -62,7 +83,7 @@ export default function Forgot() {
                 name="email"
                 value={formData.email}
                 aria-describedby="emailHelp"
-                placeholder="Enter email"
+                placeholder="Nhập email"
                 onChange={handleInputChange}
                 required
               />
@@ -84,7 +105,7 @@ export default function Forgot() {
                   onChange={handleInputChange}
                   className="form-control"
                   id="inputPassword"
-                  placeholder="Password"
+                  placeholder="Nhập mật khẩu mới"
                   required
                 />
                 <FontAwesomeIcon

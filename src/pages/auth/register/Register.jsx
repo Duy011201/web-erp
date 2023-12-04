@@ -4,29 +4,55 @@ import { Link } from "react-router-dom";
 import { error, success } from "/src/common/sweetalert2.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Loading from "../../../components/loading/Loading";
+import { REGISTER, CREATE_REGISTER } from "../../service.js";
+import isEmptyNullUndefined from "../../../common/core.js";
+import setting from "../../../setting.js";
 
 export default function Register() {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    username: "",
+    rePassword: "",
   });
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    if (
-      formData.email === "nguyenduy011201@gmail.com" &&
-      formData.password === "123" &&
-      formData.username
-    ) {
-      success("Register Success");
-      window.location = "/login";
-      return;
-    } else {
-      error("Register Failed");
+
+    if (isEmptyNullUndefined(formData.email)) {
+      error("Bạn chưa nhập email!");
       return;
     }
+
+    if (isEmptyNullUndefined(formData.password)) {
+      error("Bạn chưa nhập mật khẩu!");
+      return;
+    }
+
+    if (formData.rePassword !== formData.password) {
+      error("Mật khẩu không khớp!");
+      return;
+    }
+
+    await REGISTER(formData).then(async res => {
+      setLoading(false);
+      if (res.data.data.length > 0) {
+        error("Tài khoản đã tồn tại!");
+        return;
+      } else {
+        await CREATE_REGISTER(formData).then(res => {
+          setLoading(false);
+          if (res.data.status === setting.STATUS_CODE.OK) {
+            window.location = "/login";
+            success(res.data.msg);
+            return;
+          } else {
+            error("Có lỗi xảy ra vui lòng thử lại sau!");
+            return;
+          }
+        });
+      }
+    });
   };
 
   const handleInputChange = e => {
@@ -53,23 +79,6 @@ export default function Register() {
           <h2 className="text-center">Register</h2>
           <form onSubmit={handleSubmit}>
             <div className="form-group mt-10 position-relative">
-              <label htmlFor="inputUsername">Username</label>
-              <input
-                type="text"
-                name="username"
-                value={formData.password}
-                onChange={handleInputChange}
-                className="form-control"
-                id="inputUsername"
-                placeholder="Username"
-                required
-              />
-              <FontAwesomeIcon
-                className="icon-username position-absolute"
-                icon="fas fa-user"
-              />
-            </div>
-            <div className="form-group mt-10 position-relative">
               <label htmlFor="inputEmail">Email address</label>
               <input
                 type="email"
@@ -78,7 +87,7 @@ export default function Register() {
                 name="email"
                 value={formData.email}
                 aria-describedby="emailHelp"
-                placeholder="Enter email"
+                placeholder="Nhập email"
                 onChange={handleInputChange}
                 required
               />
@@ -96,11 +105,28 @@ export default function Register() {
                 onChange={handleInputChange}
                 className="form-control"
                 id="inputPassword"
-                placeholder="Password"
+                placeholder="Nhập mật khẩu"
                 required
               />
               <FontAwesomeIcon
                 className="icon-password position-absolute"
+                icon="fas fa-lock"
+              />
+            </div>
+            <div className="form-group mt-10 position-relative">
+              <label htmlFor="inputRePassword">RePassword</label>
+              <input
+                type="text"
+                name="rePassword"
+                value={formData.rePassword}
+                onChange={handleInputChange}
+                className="form-control"
+                id="inputRePassword"
+                placeholder="Nhập lại mật khẩu"
+                required
+              />
+              <FontAwesomeIcon
+                className="icon-repassword position-absolute"
                 icon="fas fa-lock"
               />
             </div>
