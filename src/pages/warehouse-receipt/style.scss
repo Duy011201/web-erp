@@ -1,0 +1,47 @@
+.title-page {
+  border-left: 5px solid var(--bg-primary);
+}
+
+p {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.add-warehouse-receipt {
+  color: var(--bg-primary);
+}
+
+.wrap-catalog {
+  overflow-y: scroll;
+  height: 80%;
+  .catalog-item {
+    display: flex;
+    flex-direction: row;
+    min-height: 55px;
+    border-top: 1px solid #e0e0e0;
+    &-left {
+      width: 65px;
+      padding: 10px;
+      gap: 10px;
+    }
+    &-right {
+      width: calc(100% - 65px);
+      padding: 15px 10px;
+      line-height: 22px;
+      .customer-name {
+        color: #949494;
+      }
+    }
+    &:hover,
+    &.active {
+      color: #fff;
+      font-weight: bolder;
+      background-color: var(--bg-primary);
+      border-radius: 5px;
+      .customer-name {
+        font-weight: 400;
+        color: #c7c7c7;
+      }
+    }
+  }
+}

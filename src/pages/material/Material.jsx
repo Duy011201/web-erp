@@ -348,7 +348,7 @@ export default function Material() {
                 <div className="form-group mt-10 col-md-6">
                   <label htmlFor="soLuong">Số lượng</label>
                   <input
-                    type="number"
+                    type="text"
                     name="soLuong"
                     value={formData.soLuong}
                     onChange={handleInputChange}
@@ -362,7 +362,7 @@ export default function Material() {
                 <div className="form-group mt-10 col-md-6">
                   <label htmlFor="gia">Giá</label>
                   <input
-                    type="number"
+                    type="text"
                     name="gia"
                     value={formData.gia}
                     onChange={handleInputChange}

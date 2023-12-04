@@ -10,6 +10,8 @@ export default function Header() {
     localStorage.setItem("role", "admin");
     // localStorage.setItem("role", "manager");
     // localStorage.setItem("role", "employee");
+
+    localStorage.setItem("user", JSON.stringify({ id: 1 }));
     setRole(setting.ROLE_LOCAL);
   }, []);
 
@@ -122,7 +124,7 @@ export default function Header() {
                       <hr className="dropdown-divider" />
                     </li>
                     <li>
-                      <Link className="dropdown-item" to="#">
+                      <Link className="dropdown-item" to="/warehouse-receipt">
                         Nhập kho
                       </Link>
                     </li>

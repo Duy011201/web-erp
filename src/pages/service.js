@@ -98,3 +98,69 @@ export const DELETE_MATERIAL_BY_ID = id => {
     `${setting.BASE_URL}${setting.URL_API.DELETE_MATERIAL_BY_ID}?id=${id}`
   );
 };
+
+// Warehouse Receipt
+export const GET_ALL_WAREHOUSE_RECEIPT = () => {
+  return axios.post(
+    setting.BASE_URL + setting.URL_API.GET_ALL_WAREHOUSE_RECEIPT
+  );
+};
+
+export const GET_WAREHOUSE_RECEIPT_BY_ID = id => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.GET_WAREHOUSE_RECEIPT_BY_ID}?id=${id}`
+  );
+};
+
+export const UPDATE_WAREHOUSE_RECEIPT_BY_ID = updateData => {
+  return axios.post(
+    setting.BASE_URL + setting.URL_API.UPDATE_WAREHOUSE_RECEIPT_BY_ID,
+    updateData
+  );
+};
+
+export const CREATE_WAREHOUSE_RECEIPT = newData => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.CREATE_WAREHOUSE_RECEIPT}`,
+    newData
+  );
+};
+
+export const DELETE_WAREHOUSE_RECEIPT_BY_ID = id => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.DELETE_WAREHOUSE_RECEIPT_BY_ID}?id=${id}`
+  );
+};
+
+// Warehouse Receipt Details
+export const GET_ALL_WAREHOUSE_RECEIPT_DETAIL = (body) => {
+  return axios.post(
+    setting.BASE_URL + setting.URL_API.GET_ALL_WAREHOUSE_RECEIPT_DETAIL, body
+  );
+};
+
+export const GET_WAREHOUSE_RECEIPT_DETAIL_BY_ID = id => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.GET_WAREHOUSE_RECEIPT_DETAIL_BY_ID}?id=${id}`
+  );
+};
+
+export const UPDATE_WAREHOUSE_RECEIPT_DETAIL_BY_ID = updateData => {
+  return axios.post(
+    setting.BASE_URL + setting.URL_API.UPDATE_WAREHOUSE_RECEIPT_DETAIL_BY_ID,
+    updateData
+  );
+};
+
+export const CREATE_WAREHOUSE_RECEIPT_DETAIL = newData => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.CREATE_WAREHOUSE_RECEIPT_DETAIL}`,
+    newData
+  );
+};
+
+export const DELETE_WAREHOUSE_RECEIPT_DETAIL_BY_ID = id => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.DELETE_WAREHOUSE_RECEIPT_DETAIL_BY_ID}?id=${id}`
+  );
+};

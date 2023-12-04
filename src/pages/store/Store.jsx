@@ -345,7 +345,7 @@ export default function Store() {
                   </select>
                 </div>
                 <div className="col-md-6 mt-10">
-                  <label htmlFor="loaiKho">Trạng Thái</label>
+                  <label htmlFor="loaiKho">Loại kho</label>
                   <select
                     className="form-select"
                     aria-label="Default select example"

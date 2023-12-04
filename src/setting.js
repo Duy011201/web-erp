@@ -1,4 +1,5 @@
 const ROLE_LOCAL = localStorage.getItem("role");
+const USER_LOCAL = localStorage.getItem("user");
 
 const LIST_ROLE = [
   {
@@ -36,6 +37,18 @@ const URL_API = {
   CREATE_MATERIAL: "/material/create",
   DELETE_MATERIAL_BY_ID: "/material/delete",
   UPDATE_MATERIAL_BY_ID: "/material/update",
+
+  GET_ALL_WAREHOUSE_RECEIPT: "/warehouse-receipt/all",
+  GET_WAREHOUSE_RECEIPT_BY_ID: "/warehouse-receipt",
+  CREATE_WAREHOUSE_RECEIPT: "/warehouse-receipt/create",
+  DELETE_WAREHOUSE_RECEIPT_BY_ID: "/warehouse-receipt/delete",
+  UPDATE_WAREHOUSE_RECEIPT_BY_ID: "/warehouse-receipt/update",
+
+  GET_ALL_WAREHOUSE_RECEIPT_DETAIL: "/warehouse-receipt-detail/all",
+  GET_WAREHOUSE_RECEIPT_DETAIL_BY_ID: "/warehouse-receipt-detail",
+  CREATE_WAREHOUSE_RECEIPT_DETAIL: "/warehouse-receipt-detail/create",
+  DELETE_WAREHOUSE_RECEIPT_DETAIL_BY_ID: "/warehouse-receipt-detail/delete",
+  UPDATE_WAREHOUSE_RECEIPT_DETAIL_BY_ID: "/warehouse-receipt-detail/update",
 };
 
 const ACTION = {
@@ -92,6 +105,17 @@ const STORE_TYPE = {
   },
 };
 
+const WAREHOUSE_RECEIPT_DETAIL_STATUS = {
+  PRODUCT: {
+    code: "PRODUCT",
+    name: "Sản phẩm",
+  },
+  MATERIAL: {
+    code: "MATERIAL",
+    name: "Nguyên vật liệu",
+  },
+};
+
 const STATUS_CODE = {
   OK: 200,
   NOT_FOUND: 404,
@@ -100,6 +124,7 @@ const STATUS_CODE = {
 
 const setting = Object.freeze({
   ROLE_LOCAL,
+  USER_LOCAL,
   LIST_ROLE,
   BASE_URL,
   URL_API,
@@ -107,6 +132,7 @@ const setting = Object.freeze({
   STATUS_CODE,
   STORE_STATUS,
   STORE_TYPE,
+  WAREHOUSE_RECEIPT_DETAIL_STATUS,
 });
 
 export default setting;
