@@ -214,6 +214,38 @@ export const GET_ALL_EMPLOYEE = body => {
   return axios.post(setting.BASE_URL + setting.URL_API.GET_ALL_EMPLOYEE, body);
 };
 
+
+// Reward discipline
+export const UPDATE_REWARD_DISCIPLINE_BY_ID = updateData => {
+  return axios.post(
+    setting.BASE_URL + setting.URL_API.UPDATE_REWARD_DISCIPLINE_BY_ID,
+    updateData
+  );
+};
+
+export const GET_REWARD_DISCIPLINE_BY_ID = id => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.GET_REWARD_DISCIPLINE_BY_ID}?id=${id}`
+  );
+};
+
+export const CREATE_REWARD_DISCIPLINE = newData => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.CREATE_REWARD_DISCIPLINE}`,
+    newData
+  );
+};
+
+export const DELETE_REWARD_DISCIPLINE_BY_ID = id => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.DELETE_REWARD_DISCIPLINE_BY_ID}?id=${id}`
+  );
+};
+
+export const GET_ALL_REWARD_DISCIPLINE = body => {
+  return axios.post(setting.BASE_URL + setting.URL_API.GET_ALL_REWARD_DISCIPLINE, body);
+};
+
 // Position
 export const GET_ALL_POSITION = body => {
   return axios.post(setting.BASE_URL + setting.URL_API.GET_ALL_POSITION, body);

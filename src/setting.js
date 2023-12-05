@@ -58,8 +58,14 @@ const URL_API = {
   UPDATE_EMPLOYEE_BY_ID: "/employee/update",
   GET_EMPLOYEE_BY_ID: "/employee",
   CREATE_EMPLOYEE: "/employee/create",
-  DELETE_EMPLOYEE_BY_ID: "/delete",
+  DELETE_EMPLOYEE_BY_ID: "employee/delete",
   GET_ALL_EMPLOYEE: "/employee/all",
+
+  UPDATE_REWARD_DISCIPLINE_BY_ID: "/reward-discipline/update",
+  GET_REWARD_DISCIPLINE_BY_ID: "/reward-discipline",
+  CREATE_REWARD_DISCIPLINE: "/reward-discipline/create",
+  DELETE_REWARD_DISCIPLINE_BY_ID: "/reward-discipline/delete",
+  GET_ALL_REWARD_DISCIPLINE: "/reward-discipline/all",
 
   GET_ALL_POSITION: "/position/all",
 
@@ -93,10 +99,27 @@ const POSITION_TYPE = {
 
 const DEPARTMENT_TYPE = {
   HUMAN_RESOURCES: { code: "HUMAN_RESOURCES", name: "Phòng nhân sự" },
-  SALES_AND_MARKETING: { code: "SALES_AND_MARKETING", name: "Phòng kinh doanh" },
-  RESEARCH_AND_DEVELOPMENT: { code: "RESEARCH_AND_DEVELOPMENT", name: "Phòng nghiên cứu và phát triển" },
+  SALES_AND_MARKETING: {
+    code: "SALES_AND_MARKETING",
+    name: "Phòng kinh doanh",
+  },
+  RESEARCH_AND_DEVELOPMENT: {
+    code: "RESEARCH_AND_DEVELOPMENT",
+    name: "Phòng nghiên cứu và phát triển",
+  },
   LOGISTICS: { code: "LOGISTICS", name: "Phòng vận chuyển" },
-  DIGITAL_MARKETING: { code: "DIGITAL_MARKETING", name: "Phòng tiếp thị trực tuyến" },
+  DIGITAL_MARKETING: {
+    code: "DIGITAL_MARKETING",
+    name: "Phòng tiếp thị trực tuyến",
+  },
+};
+
+const REWARD_DISCIPLINE_TYPE = {
+  REWARD: { code: "REWARD", name: "Khen thưởng" },
+  DISCIPLINE: {
+    code: "DISCIPLINE",
+    name: "Kỷ luật",
+  },
 };
 
 const STORE_TYPE = {
@@ -169,7 +192,8 @@ const setting = Object.freeze({
   WAREHOUSE_RECEIPT_DETAIL_STATUS,
   GENDER_STATUS,
   DEPARTMENT_TYPE,
-  POSITION_TYPE
+  POSITION_TYPE,
+  REWARD_DISCIPLINE_TYPE,
 });
 
 export default setting;
