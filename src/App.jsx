@@ -10,6 +10,7 @@ import Product from "./pages/product/Product";
 import Material from "./pages/material/Material";
 import WarehouseReceipt from "./pages/warehouse-receipt/WarehouseReceipt";
 import Personal from "./pages/personal/Personal";
+import Employee from "./pages/employee/Employee";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/material" element={<Material />} />
         <Route path="/personal" element={<Personal />} />
         <Route path="/warehouse-receipt" element={<WarehouseReceipt />} />
+        <Route path="/employee" element={<Employee />} />
         <Route path="*" element={<NoPage />} />
       </Routes>
     </BrowserRouter>

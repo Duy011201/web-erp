@@ -183,13 +183,46 @@ export const UPDATE_PASSWORD = user => {
   return axios.post(setting.BASE_URL + setting.URL_API.UPDATE_PASSWORD, user);
 };
 
-// User
-export const UPDATE_USER_BY_ID = user => {
-  return axios.post(setting.BASE_URL + setting.URL_API.UPDATE_USER_BY_ID, user);
+// Employee
+export const UPDATE_EMPLOYEE_BY_ID = employee => {
+  return axios.post(
+    setting.BASE_URL + setting.URL_API.UPDATE_EMPLOYEE_BY_ID,
+    employee
+  );
 };
 
-export const GET_USER_BY_ID = id => {
+export const GET_EMPLOYEE_BY_ID = id => {
   return axios.post(
-    `${setting.BASE_URL}${setting.URL_API.GET_USER_BY_ID}?id=${id}`
+    `${setting.BASE_URL}${setting.URL_API.GET_EMPLOYEE_BY_ID}?id=${id}`
+  );
+};
+
+export const CREATE_EMPLOYEE = newData => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.CREATE_EMPLOYEE}`,
+    newData
+  );
+};
+
+export const DELETE_EMPLOYEE_BY_ID = id => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.DELETE_EMPLOYEE_BY_ID}?id=${id}`
+  );
+};
+
+export const GET_ALL_EMPLOYEE = body => {
+  return axios.post(setting.BASE_URL + setting.URL_API.GET_ALL_EMPLOYEE, body);
+};
+
+// Position
+export const GET_ALL_POSITION = body => {
+  return axios.post(setting.BASE_URL + setting.URL_API.GET_ALL_POSITION, body);
+};
+
+// Department
+export const GET_ALL_DEPARTMENT = body => {
+  return axios.post(
+    setting.BASE_URL + setting.URL_API.GET_ALL_DEPARTMENT,
+    body
   );
 };

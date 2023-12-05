@@ -55,8 +55,15 @@ const URL_API = {
   CREATE_REGISTER: "/auth/create-register",
   UPDATE_PASSWORD: "/auth/update-password",
 
-  UPDATE_USER_BY_ID: "/user/update",
-  GET_USER_BY_ID: "/user",
+  UPDATE_EMPLOYEE_BY_ID: "/employee/update",
+  GET_EMPLOYEE_BY_ID: "/employee",
+  CREATE_EMPLOYEE: "/employee/create",
+  DELETE_EMPLOYEE_BY_ID: "/delete",
+  GET_ALL_EMPLOYEE: "/employee/all",
+
+  GET_ALL_POSITION: "/position/all",
+
+  GET_ALL_DEPARTMENT: "/department/all",
 };
 
 const ACTION = {
@@ -76,6 +83,20 @@ const STORE_STATUS = {
 const GENDER_STATUS = {
   MALE: { code: "MALE", name: "Nam" },
   FA_MALE: { code: "FA_MALE", name: "Nữ" },
+};
+
+const POSITION_TYPE = {
+  MANAGER: { code: "MANAGER", name: "Quản lý" },
+  EMPLOYEE: { code: "EMPLOYEE", name: "Nhân viên" },
+  ADMIN: { code: "ADMIN", name: "Admin" },
+};
+
+const DEPARTMENT_TYPE = {
+  HUMAN_RESOURCES: { code: "HUMAN_RESOURCES", name: "Phòng nhân sự" },
+  SALES_AND_MARKETING: { code: "SALES_AND_MARKETING", name: "Phòng kinh doanh" },
+  RESEARCH_AND_DEVELOPMENT: { code: "RESEARCH_AND_DEVELOPMENT", name: "Phòng nghiên cứu và phát triển" },
+  LOGISTICS: { code: "LOGISTICS", name: "Phòng vận chuyển" },
+  DIGITAL_MARKETING: { code: "DIGITAL_MARKETING", name: "Phòng tiếp thị trực tuyến" },
 };
 
 const STORE_TYPE = {
@@ -147,6 +168,8 @@ const setting = Object.freeze({
   STORE_TYPE,
   WAREHOUSE_RECEIPT_DETAIL_STATUS,
   GENDER_STATUS,
+  DEPARTMENT_TYPE,
+  POSITION_TYPE
 });
 
 export default setting;

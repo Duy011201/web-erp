@@ -15,7 +15,7 @@ import Footer from "../../components/footer/Footer.jsx";
 import Loading from "../../components/loading/Loading.jsx";
 
 import "./style.scss";
-import { GET_USER_BY_ID, UPDATE_USER_BY_ID } from "../service.js";
+import { GET_EMPLOYEE_BY_ID, UPDATE_EMPLOYEE_BY_ID } from "../service.js";
 import setting from "../../setting.js";
 
 export default function Personal() {
@@ -74,7 +74,7 @@ export default function Personal() {
     }
 
     setLoading(true);
-    await UPDATE_USER_BY_ID(formData).then(res => {
+    await UPDATE_EMPLOYEE_BY_ID(formData).then(res => {
       setLoading(false);
       if (res.status === setting.STATUS_CODE.OK) {
         success(res.data.msg);
@@ -93,10 +93,10 @@ export default function Personal() {
     }
   };
 
-  async function getUserByID() {
+  async function getEmployeeByID() {
     try {
       setLoading(true);
-      await GET_USER_BY_ID(JSON.parse(setting.USER_LOCAL).id).then(res => {
+      await GET_EMPLOYEE_BY_ID(JSON.parse(setting.USER_LOCAL).id).then(res => {
         setLoading(false);
         if (res.status === setting.STATUS_CODE.OK) {
           setFormData(res.data.data[0]);
@@ -112,7 +112,7 @@ export default function Personal() {
     setLoading(true);
     handleDialog(setting.ACTION.OPEN, "");
     setTimeout(() => {
-      getUserByID();
+      getEmployeeByID();
     }, 300);
   }, []);
 

@@ -64,7 +64,7 @@ export default function Header() {
                   </Link>
                   <ul className="dropdown-menu">
                     <li>
-                      <Link className="dropdown-item" to="/invoice">
+                      <Link className="dropdown-item" to="/employee">
                         Hồ sơ nhân viên
                       </Link>
                     </li>
