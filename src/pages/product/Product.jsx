@@ -8,7 +8,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import dayjs from "dayjs";
 import { error, success, confirmDialog } from "../../common/sweetalert2.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import isEmptyNullUndefined from "../../common/core.js";
+import { isEmptyNullUndefined, isNumber } from "../../common/core.js";
 
 import Header from "../../components/header/Header.jsx";
 import Footer from "../../components/footer/Footer.jsx";
@@ -108,18 +108,18 @@ export default function Product() {
       return;
     }
 
-    if (isEmptyNullUndefined(formData.soLuong)) {
-      error("Bạn chưa nhập số lượng sản phẩm!");
+    if (isNumber(formData.soLuong)) {
+      error("Sai định dạng số lượng sản phẩm!");
       return;
     }
 
-    if (isEmptyNullUndefined(formData.gia)) {
-      error("Bạn chưa nhập giá sản phẩm!");
+    if (isNumber(formData.gia)) {
+      error("Sai định dạng giá sản phẩm!");
       return;
     }
 
     if (isEmptyNullUndefined(formData.maKho)) {
-      error("Bạn chưa nhập mã kho!");
+      error("Bạn chưa chọn mã kho!");
       return;
     }
 
@@ -154,13 +154,13 @@ export default function Product() {
       return;
     }
 
-    if (isEmptyNullUndefined(formData.soLuong)) {
-      error("Bạn chưa nhập số lượng sản phẩm!");
+    if (isNumber(formData.soLuong)) {
+      error("Sai định dạng số lượng sản phẩm!");
       return;
     }
 
-    if (isEmptyNullUndefined(formData.gia)) {
-      error("Bạn chưa nhập giá sản phẩm!");
+    if (isNumber(formData.gia)) {
+      error("Sai định dạng giá sản phẩm!");
       return;
     }
 

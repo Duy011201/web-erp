@@ -50,6 +50,18 @@ const URL_API = {
   DELETE_WAREHOUSE_RECEIPT_DETAIL_BY_ID: "/warehouse-receipt-detail/delete",
   UPDATE_WAREHOUSE_RECEIPT_DETAIL_BY_ID: "/warehouse-receipt-detail/update",
 
+  GET_ALL_WAREHOUSE_EXPORT: "/warehouse-export/all",
+  GET_WAREHOUSE_EXPORT_BY_ID: "/warehouse-export",
+  CREATE_WAREHOUSE_EXPORT: "/warehouse-export/create",
+  DELETE_WAREHOUSE_EXPORT_BY_ID: "/warehouse-export/delete",
+  UPDATE_WAREHOUSE_EXPORT_BY_ID: "/warehouse-export/update",
+
+  GET_ALL_WAREHOUSE_EXPORT_DETAIL: "/warehouse-export-detail/all",
+  GET_WAREHOUSE_EXPORT_DETAIL_BY_ID: "/warehouse-export-detail",
+  CREATE_WAREHOUSE_EXPORT_DETAIL: "/warehouse-export-detail/create",
+  DELETE_WAREHOUSE_EXPORT_DETAIL_BY_ID: "/warehouse-export-detail/delete",
+  UPDATE_WAREHOUSE_EXPORT_DETAIL_BY_ID: "/warehouse-export-detail/update",
+
   CHECK_LOGIN: "/auth/login",
   REGISTER: "/auth/register",
   CREATE_REGISTER: "/auth/create-register",

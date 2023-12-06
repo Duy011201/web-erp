@@ -8,7 +8,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import dayjs from "dayjs";
 import { error, success, confirmDialog } from "../../common/sweetalert2.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import isEmptyNullUndefined from "../../common/core.js";
+import { isEmptyNullUndefined, isNumber } from "../../common/core.js";
 
 import Header from "../../components/header/Header.jsx";
 import Footer from "../../components/footer/Footer.jsx";
@@ -58,8 +58,8 @@ export default function Employee() {
     { field: "ngaySinh", headerName: "Ngày sinh", width: 150 },
     { field: "soCCCD", headerName: "Số CCCD", width: 150 },
     { field: "diaChi", headerName: "Địa chỉ", width: 150 },
-    { field: "maPhongBan", headerName: "Mã phòng ban", width: 150 },
-    { field: "maChucVu", headerName: "Mã chức vụ", width: 150 },
+    { field: "tenPhongBan", headerName: "Tên phòng ban", width: 200 },
+    { field: "tenChucVu", headerName: "Tên chức vụ", width: 150 },
     {
       field: "",
       headerName: "Thao tác",
@@ -122,12 +122,12 @@ export default function Employee() {
       return;
     }
 
-    if (isEmptyNullUndefined(formData.maPhongBan)) {
+    if (isNumber(formData.maPhongBan)) {
       error("Bạn chưa chọn phòng ban!");
       return;
     }
 
-    if (isEmptyNullUndefined(formData.maChucVu)) {
+    if (isNumber(formData.maChucVu)) {
       error("Bạn chưa chọn chức vụ!");
       return;
     }
@@ -172,12 +172,12 @@ export default function Employee() {
       return;
     }
 
-    if (isEmptyNullUndefined(formData.maPhongBan)) {
+    if (isNumber(formData.maPhongBan)) {
       error("Bạn chưa chọn phòng ban!");
       return;
     }
 
-    if (isEmptyNullUndefined(formData.maChucVu)) {
+    if (isNumber(formData.maChucVu)) {
       error("Bạn chưa chọn chức vụ!");
       return;
     }

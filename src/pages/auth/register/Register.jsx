@@ -5,7 +5,7 @@ import { error, success } from "/src/common/sweetalert2.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Loading from "../../../components/loading/Loading";
 import { REGISTER, CREATE_REGISTER } from "../../service.js";
-import isEmptyNullUndefined from "../../../common/core.js";
+import { isEmptyNullUndefined } from "../../../common/core.js";
 import setting from "../../../setting.js";
 
 export default function Register() {

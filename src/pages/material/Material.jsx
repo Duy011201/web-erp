@@ -8,7 +8,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import dayjs from "dayjs";
 import { error, success, confirmDialog } from "../../common/sweetalert2.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import isEmptyNullUndefined from "../../common/core.js";
+import { isEmptyNullUndefined, isNumber } from "../../common/core.js";
 
 import Header from "../../components/header/Header.jsx";
 import Footer from "../../components/footer/Footer.jsx";
@@ -101,17 +101,17 @@ export default function Material() {
       return;
     }
 
-    if (isEmptyNullUndefined(formData.soLuong)) {
-      error("Bạn chưa nhập số lượng nguyên vật liệu!");
+    if (isNumber(formData.soLuong)) {
+      error("Sai định dạng nguyên vật liệu!");
       return;
     }
 
     if (isEmptyNullUndefined(formData.gia)) {
-      error("Bạn chưa nhập giá nguyên vật liệu!");
+      error("Sai định dạng giá nguyên vật liệu!");
       return;
     }
 
-    if (isEmptyNullUndefined(formData.maKho)) {
+    if (isNumber(formData.maKho)) {
       error("Bạn chưa nhập mã kho!");
       return;
     }
@@ -142,17 +142,17 @@ export default function Material() {
       return;
     }
 
-    if (isEmptyNullUndefined(formData.soLuong)) {
-      error("Bạn chưa nhập số lượng nguyên vật liệu!");
+    if (isNumber(formData.soLuong)) {
+      error("Sai định dạng nguyên vật liệu!");
       return;
     }
 
     if (isEmptyNullUndefined(formData.gia)) {
-      error("Bạn chưa nhập giá nguyên vật liệu!");
+      error("Sai định dạng giá nguyên vật liệu!");
       return;
     }
 
-    if (isEmptyNullUndefined(formData.maKho)) {
+    if (isNumber(formData.maKho)) {
       error("Bạn chưa nhập mã kho!");
       return;
     }

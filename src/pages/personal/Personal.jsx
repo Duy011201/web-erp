@@ -8,7 +8,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import dayjs from "dayjs";
 import { error, success, confirmDialog } from "../../common/sweetalert2.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import isEmptyNullUndefined from "../../common/core.js";
+import { isEmptyNullUndefined, isNumber } from "../../common/core.js";
 
 import Header from "../../components/header/Header.jsx";
 import Footer from "../../components/footer/Footer.jsx";
@@ -58,8 +58,8 @@ export default function Personal() {
       return;
     }
 
-    if (isEmptyNullUndefined(formData.soCCCD)) {
-      error("Bạn chưa nhập số CCCD!");
+    if (isNumber(formData.soCCCD)) {
+      error("Sai định dạng số CCCD!");
       return;
     }
 

@@ -8,7 +8,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import dayjs from "dayjs";
 import { error, success, confirmDialog } from "../../common/sweetalert2.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import isEmptyNullUndefined from "../../common/core.js";
+import { isEmptyNullUndefined, isNumber } from "../../common/core.js";
 
 import Header from "../../components/header/Header.jsx";
 import Footer from "../../components/footer/Footer.jsx";
@@ -25,7 +25,11 @@ import {
   UPDATE_WAREHOUSE_RECEIPT_DETAIL_BY_ID,
   CREATE_WAREHOUSE_RECEIPT_DETAIL,
   GET_ALL_PRODUCT,
+  GET_PRODUCT_BY_ID,
+  GET_MATERIAL_BY_ID,
   GET_ALL_MATERIAL,
+  UPDATE_MATERIAL_BY_ID,
+  UPDATE_PRODUCT_BY_ID,
 } from "../service.js";
 import setting from "../../setting.js";
 
@@ -66,7 +70,6 @@ export default function WarehouseReceipt() {
   };
 
   const changeWarehouseReceiptDetail = e => {
-    console.log(e.target);
     const { name, value } = e.target;
     setWarehouseReceiptDetail(prevData => ({
       ...prevData,
@@ -76,16 +79,17 @@ export default function WarehouseReceipt() {
 
   let indexWarehouseReceipt = 0;
 
-  const handleIsSPOrNVL = () => {
-    setIsSPOrNVL(!isSPOrNVL);
+  const handleIsSPOrNVL = code => {
+    code === setting.WAREHOUSE_RECEIPT_DETAIL_STATUS.PRODUCT.code
+      ? setIsSPOrNVL(true)
+      : setIsSPOrNVL(false);
   };
 
   const columns = [
-    { field: "id", headerName: "id", width: 100 },
     { field: "maPN", headerName: "Mã phiếu nhập", width: 150 },
     { field: "maSP", headerName: "Mã sản phẩm", width: 150 },
     { field: "maNVL", headerName: "Mã nguyên vật liệu", width: 150 },
-    { field: "soLuong", headerName: "Số lượng", width: 150 },
+    { field: "soLuong", headerName: "Số lượng", width: 80 },
     { field: "ghiChu", headerName: "Ghi chú", width: 150 },
     {
       field: "",
@@ -164,7 +168,7 @@ export default function WarehouseReceipt() {
         return;
       }
 
-      if (isSPOrNVL) {
+      if (isSPOrNVL === true) {
         if (isEmptyNullUndefined(warehouseReceiptDetail.maSP)) {
           error("Bạn chưa chọn mã sản phẩm!");
           return;
@@ -183,13 +187,78 @@ export default function WarehouseReceipt() {
 
       setLoading(true);
       await UPDATE_WAREHOUSE_RECEIPT_DETAIL_BY_ID(warehouseReceiptDetail).then(
-        res => {
+        async res => {
           setLoading(false);
           if (res.status === setting.STATUS_CODE.OK) {
-            success(res.data.msg);
-            getAllMaterial();
-            getAllProduct();
-            getAllWarehouseReceipt();
+            if (isSPOrNVL === false) {
+              await GET_MATERIAL_BY_ID(warehouseReceiptDetail.maNVL).then(
+                async res => {
+                  if (res.status === setting.STATUS_CODE.OK) {
+                    let data = res.data.data[0];
+                    data.soLuong = parseInt(data.soLuong);
+                    warehouseReceiptDetail.soLuong = parseInt(
+                      warehouseReceiptDetail.soLuong
+                    );
+                    if (warehouseReceiptDetail.soLuong > data.soLuong) {
+                      data.soLuong =
+                        warehouseReceiptDetail.soLuong -
+                        data.soLuong +
+                        data.soLuong;
+                    } else if (warehouseReceiptDetail.soLuong < data.soLuong) {
+                      data.soLuong =
+                        data.soLuong -
+                        (data.soLuong - warehouseReceiptDetail.soLuong);
+                    }
+                    data.soLuong = parseInt(data.soLuong);
+                    await UPDATE_MATERIAL_BY_ID(data).then(res => {
+                      setLoading(false);
+                      if (res.status === setting.STATUS_CODE.OK) {
+                        success(res.data.msg);
+                      } else {
+                        error(res.data.msg);
+                      }
+                    });
+                  }
+                }
+              );
+            }
+
+            if (isSPOrNVL === true) {
+              await GET_PRODUCT_BY_ID(warehouseReceiptDetail.sp).then(
+                async res => {
+                  if (res.status === setting.STATUS_CODE.OK) {
+                    let data = res.data.data[0];
+                    data.soLuong = parseInt(data.soLuong);
+                    warehouseReceiptDetail.soLuong = parseInt(
+                      warehouseReceiptDetail.soLuong
+                    );
+                    if (warehouseReceiptDetail.soLuong > data.soLuong) {
+                      data.soLuong =
+                        warehouseReceiptDetail.soLuong -
+                        data.soLuong +
+                        data.soLuong;
+                    } else if (warehouseReceiptDetail.soLuong < data.soLuong) {
+                      data.soLuong =
+                        data.soLuong -
+                        (data.soLuong - warehouseReceiptDetail.soLuong);
+                    }
+                    data.soLuong = parseInt(data.soLuong);
+                    await UPDATE_PRODUCT_BY_ID(data).then(res => {
+                      setLoading(false);
+                      if (res.status === setting.STATUS_CODE.OK) {
+                        success(res.data.msg);
+                      } else {
+                        error(res.data.msg);
+                      }
+                    });
+                  }
+                }
+              );
+            }
+
+            await getAllMaterial();
+            await getAllProduct();
+            await getAllWarehouseReceipt();
           } else {
             error(res.data.msg);
           }
@@ -224,38 +293,82 @@ export default function WarehouseReceipt() {
         }
       });
     } else {
-      setOpen(false);
-
       if (isSPOrNVL) {
-        if (isEmptyNullUndefined(warehouseReceiptDetail.maSP)) {
+        if (isNumber(warehouseReceiptDetail.maSP)) {
           error("Bạn chưa chọn mã sản phẩm!");
           return;
         }
       } else {
-        if (isEmptyNullUndefined(warehouseReceiptDetail.maNVL)) {
+        if (isNumber(warehouseReceiptDetail.maNVL)) {
           error("Bạn chưa chọn mã nguyên vật liệu!");
           return;
         }
       }
 
-      if (isEmptyNullUndefined(warehouseReceiptDetail.maPN)) {
+      if (isNumber(warehouseReceiptDetail.maPN)) {
         error("Bạn chưa chọn mã phiếu nhập!");
         return;
       }
 
-      if (isEmptyNullUndefined(warehouseReceiptDetail.soLuong)) {
-        error("Bạn chưa số lượng!");
+      if (isNumber(warehouseReceiptDetail.soLuong)) {
+        error("Bạn nhập sai định dạng số lượng!");
         return;
       }
 
       setLoading(true);
+      setOpen(false);
 
       await CREATE_WAREHOUSE_RECEIPT_DETAIL(warehouseReceiptDetail).then(
-        res => {
+        async res => {
           setLoading(false);
           if (res.status === setting.STATUS_CODE.OK) {
-            success(res.data.msg);
-            getAllWarehouseReceiptDetail(
+            if (isSPOrNVL === false) {
+              await GET_MATERIAL_BY_ID(warehouseReceiptDetail.maNVL).then(
+                async res => {
+                  if (res.status === setting.STATUS_CODE.OK) {
+                    let data = res.data.data[0];
+                    data.soLuong = parseInt(data.soLuong);
+                    data.soLuong =
+                      data.soLuong + warehouseReceiptDetail.soLuong;
+                    data.soLuong = parseInt(data.soLuong);
+                    await UPDATE_MATERIAL_BY_ID(data).then(res => {
+                      setLoading(false);
+                      if (res.status === setting.STATUS_CODE.OK) {
+                        success(res.data.msg);
+                      } else {
+                        error(res.data.msg);
+                      }
+                    });
+                  }
+                }
+              );
+            }
+
+            if (isSPOrNVL === true) {
+              await GET_PRODUCT_BY_ID(warehouseReceiptDetail.maSP).then(
+                async res => {
+                  if (res.status === setting.STATUS_CODE.OK) {
+                    let data = res.data.data[0];
+                    data.soLuong = parseInt(data.soLuong);
+                    data.soLuong =
+                      data.soLuong + warehouseReceiptDetail.soLuong;
+                    data.soLuong = parseInt(data.soLuong);
+                    await UPDATE_PRODUCT_BY_ID(data).then(res => {
+                      setLoading(false);
+                      if (res.status === setting.STATUS_CODE.OK) {
+                        success(res.data.msg);
+                      } else {
+                        error(res.data.msg);
+                      }
+                    });
+                  }
+                }
+              );
+            }
+
+            await getAllMaterial();
+            await getAllProduct();
+            await getAllWarehouseReceiptDetail(
               listWarehouseReceipt[indexWarehouseReceipt].id
             );
           } else {
@@ -326,15 +439,81 @@ export default function WarehouseReceipt() {
           ? confirmDialog("Bạn muốn xóa phiếu này!").then(async result => {
               if (result.value) {
                 setLoading(true);
-                await DELETE_WAREHOUSE_RECEIPT_BY_ID(data.id).then(res => {
-                  setLoading(false);
-                  if (res.status === setting.STATUS_CODE.OK) {
-                    success(res.data.msg);
-                    getAllWarehouseReceipt();
-                  } else {
-                    error(res.data.msg);
-                  }
-                });
+                await getAllWarehouseReceiptDetail(
+                  listWarehouseReceipt[indexWarehouseReceipt].id
+                );
+                for (let i = 0; i < listWarehouseReceiptDetail.length; i++) {
+                  await DELETE_WAREHOUSE_RECEIPT_DETAIL_BY_ID(
+                    listWarehouseReceiptDetail[i].id
+                  ).then(async res => {
+                    if (res.status === setting.STATUS_CODE.OK) {
+                      if (listWarehouseReceiptDetail[i].maNVL > 0) {
+                        await GET_MATERIAL_BY_ID(
+                          listWarehouseReceiptDetail[i].maNVL
+                        ).then(async res => {
+                          if (res.status === setting.STATUS_CODE.OK) {
+                            let data = res.data.data[0];
+                            data.soLuong = parseInt(data.soLuong);
+                            data.soLuong =
+                              data.soLuong -
+                              listWarehouseReceiptDetail[i].soLuong;
+                            data.soLuong = parseInt(data.soLuong);
+                            await UPDATE_MATERIAL_BY_ID(data).then(
+                              async res => {
+                                setLoading(false);
+                                if (res.status === setting.STATUS_CODE.OK) {
+                                } else {
+                                  error(res.data.msg);
+                                }
+                              }
+                            );
+                          }
+                        });
+                      }
+
+                      if (listWarehouseReceiptDetail[i].maSP > 0) {
+                        await GET_PRODUCT_BY_ID(
+                          listWarehouseReceiptDetail[i].maSP
+                        ).then(async res => {
+                          setLoading(false);
+                          if (res.status === setting.STATUS_CODE.OK) {
+                            let data = res.data.data[0];
+                            data.soLuong = parseInt(data.soLuong);
+                            data.soLuong =
+                              data.soLuong -
+                              listWarehouseReceiptDetail[i].soLuong;
+                            data.soLuong = parseInt(data.soLuong);
+                            setTimeout(() => {
+                              UPDATE_PRODUCT_BY_ID(data).then(async res => {
+                                setLoading(false);
+                                if (res.status === setting.STATUS_CODE.OK) {
+                                } else {
+                                  error(res.data.msg);
+                                }
+                              });
+                            }, 200);
+                          }
+                        });
+                      }
+                    }
+                  });
+                }
+
+                setTimeout(() => {
+                  DELETE_WAREHOUSE_RECEIPT_BY_ID(data.id).then(async res => {
+                    if (res.status === setting.STATUS_CODE.OK) {
+                      success(res.data.msg);
+                      await getAllMaterial();
+                      await getAllProduct();
+                      await getAllWarehouseReceipt();
+                      await getAllWarehouseReceiptDetail(
+                        listWarehouseReceipt[indexWarehouseReceipt].id
+                      );
+                    } else {
+                      error(res.data.msg);
+                    }
+                  });
+                }, 500);
               }
             })
           : confirmDialog("Bạn muốn xóa chi tiết phiếu này!").then(
@@ -342,11 +521,82 @@ export default function WarehouseReceipt() {
                 if (result.value) {
                   setLoading(true);
                   await DELETE_WAREHOUSE_RECEIPT_DETAIL_BY_ID(data.id).then(
-                    res => {
-                      setLoading(false);
+                    async res => {
                       if (res.status === setting.STATUS_CODE.OK) {
-                        success(res.data.msg);
-                        getAllWarehouseReceiptDetail(
+                        if (isSPOrNVL === false) {
+                          await GET_MATERIAL_BY_ID(
+                            warehouseReceiptDetail.maNVL
+                          ).then(async res => {
+                            if (res.status === setting.STATUS_CODE.OK) {
+                              let data = res.data.data[0];
+                              data.soLuong = parseInt(data.soLuong);
+                              if (
+                                warehouseReceiptDetail.soLuong > data.soLuong
+                              ) {
+                                data.soLuong =
+                                  warehouseReceiptDetail.soLuong -
+                                  data.soLuong +
+                                  data.soLuong;
+                              } else if (
+                                warehouseReceiptDetail.soLuong < data.soLuong
+                              ) {
+                                data.soLuong =
+                                  data.soLuong -
+                                  (data.soLuong -
+                                    warehouseReceiptDetail.soLuong);
+                              }
+                              data.soLuong = parseInt(data.soLuong);
+                              await UPDATE_MATERIAL_BY_ID(data).then(res => {
+                                setLoading(false);
+                                if (res.status === setting.STATUS_CODE.OK) {
+                                  success(res.data.msg);
+                                } else {
+                                  error(res.data.msg);
+                                }
+                              });
+                            }
+                          });
+                        }
+
+                        if (isSPOrNVL === true) {
+                          await GET_PRODUCT_BY_ID(
+                            warehouseReceiptDetail.maSP
+                          ).then(async res => {
+                            setLoading(false);
+                            if (res.status === setting.STATUS_CODE.OK) {
+                              let data = res.data.data[0];
+                              data.soLuong = parseInt(data.soLuong);
+                              if (
+                                warehouseReceiptDetail.soLuong > data.soLuong
+                              ) {
+                                data.soLuong =
+                                  warehouseReceiptDetail.soLuong -
+                                  data.soLuong +
+                                  data.soLuong;
+                              } else if (
+                                warehouseReceiptDetail.soLuong < data.soLuong
+                              ) {
+                                data.soLuong =
+                                  data.soLuong -
+                                  (data.soLuong -
+                                    warehouseReceiptDetail.soLuong);
+                              }
+                              data.soLuong = parseInt(data.soLuong);
+                              await UPDATE_PRODUCT_BY_ID(data).then(res => {
+                                setLoading(false);
+                                if (res.status === setting.STATUS_CODE.OK) {
+                                  success(res.data.msg);
+                                } else {
+                                  error(res.data.msg);
+                                }
+                              });
+                            }
+                          });
+                        }
+
+                        await getAllMaterial();
+                        await getAllProduct();
+                        await getAllWarehouseReceiptDetail(
                           listWarehouseReceipt[indexWarehouseReceipt].id
                         );
                       } else {
@@ -436,21 +686,20 @@ export default function WarehouseReceipt() {
   };
 
   useEffect(() => {
-    setUser(setting.USER_LOCAL);
-    getAllProduct();
-    getAllMaterial();
-    getAllWarehouseReceipt();
-
-    // setLoading(true);
-    // setTimeout(() => {
-    //   setUser(setting.USER_LOCAL);
-    //   getAllStore();
-    //   getAllProduct();
-    // }, 500);
+    setLoading(true);
+    setTimeout(() => {
+      setUser(setting.USER_LOCAL);
+      getAllProduct();
+      getAllMaterial();
+      getAllWarehouseReceipt();
+    }, 500);
   }, []);
 
   const setIndexWarehouseReceipt = index => {
     indexWarehouseReceipt = index;
+
+    console.log();
+
     if (listWarehouseReceipt.length > 0) {
       setWarehouseReceiptDetail({
         id: "",
@@ -633,9 +882,8 @@ export default function WarehouseReceipt() {
                       <select
                         className="form-select"
                         aria-label="Default select example"
-                        value="Sản phẩm"
-                        onChange={handleIsSPOrNVL}
                         name="isSPOrNVL"
+                        onChange={e => handleIsSPOrNVL(e.target.value)}
                       >
                         {Object.values(
                           setting.WAREHOUSE_RECEIPT_DETAIL_STATUS
@@ -678,7 +926,7 @@ export default function WarehouseReceipt() {
                           onChange={changeWarehouseReceiptDetail}
                           name="maNVL"
                         >
-                          <option value="">Chọn loại kho</option>
+                          <option value="">Chọn nguyên vật liệu</option>
                           {listMaterial.map(material => (
                             <option
                               key={material.id}

@@ -246,6 +246,74 @@ export const GET_ALL_REWARD_DISCIPLINE = body => {
   return axios.post(setting.BASE_URL + setting.URL_API.GET_ALL_REWARD_DISCIPLINE, body);
 };
 
+// Warehouse Export
+
+export const GET_ALL_WAREHOUSE_EXPORT = () => {
+  return axios.post(
+    setting.BASE_URL + setting.URL_API.GET_ALL_WAREHOUSE_EXPORT
+  );
+};
+
+export const GET_WAREHOUSE_EXPORT_BY_ID = id => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.GET_WAREHOUSE_EXPORT_BY_ID}?id=${id}`
+  );
+};
+
+export const UPDATE_WAREHOUSE_EXPORT_BY_ID = updateData => {
+  return axios.post(
+    setting.BASE_URL + setting.URL_API.UPDATE_WAREHOUSE_EXPORT_BY_ID,
+    updateData
+  );
+};
+
+export const CREATE_WAREHOUSE_EXPORT = newData => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.CREATE_WAREHOUSE_EXPORT}`,
+    newData
+  );
+};
+
+export const DELETE_WAREHOUSE_EXPORT_BY_ID = id => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.DELETE_WAREHOUSE_EXPORT_BY_ID}?id=${id}`
+  );
+};
+
+// Warehouse EXPORT Details
+export const GET_ALL_WAREHOUSE_EXPORT_DETAIL = body => {
+  return axios.post(
+    setting.BASE_URL + setting.URL_API.GET_ALL_WAREHOUSE_EXPORT_DETAIL,
+    body
+  );
+};
+
+export const GET_WAREHOUSE_EXPORT_DETAIL_BY_ID = id => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.GET_WAREHOUSE_EXPORT_DETAIL_BY_ID}?id=${id}`
+  );
+};
+
+export const UPDATE_WAREHOUSE_EXPORT_DETAIL_BY_ID = updateData => {
+  return axios.post(
+    setting.BASE_URL + setting.URL_API.UPDATE_WAREHOUSE_EXPORT_DETAIL_BY_ID,
+    updateData
+  );
+};
+
+export const CREATE_WAREHOUSE_EXPORT_DETAIL = newData => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.CREATE_WAREHOUSE_EXPORT_DETAIL}`,
+    newData
+  );
+};
+
+export const DELETE_WAREHOUSE_EXPORT_DETAIL_BY_ID = id => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.DELETE_WAREHOUSE_EXPORT_DETAIL_BY_ID}?id=${id}`
+  );
+};
+
 // Position
 export const GET_ALL_POSITION = body => {
   return axios.post(setting.BASE_URL + setting.URL_API.GET_ALL_POSITION, body);

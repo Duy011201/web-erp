@@ -12,6 +12,7 @@ import WarehouseReceipt from "./pages/warehouse-receipt/WarehouseReceipt";
 import Personal from "./pages/personal/Personal";
 import Employee from "./pages/employee/Employee";
 import RewardDiscipline from "./pages/reward-discipline/RewardDiscipline";
+// import WarehouseExport from "./pages/warehouse-export/WarehouseExport";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/material" element={<Material />} />
         <Route path="/personal" element={<Personal />} />
         <Route path="/warehouse-receipt" element={<WarehouseReceipt />} />
+        {/* <Route path="/warehouse-export" element={<WarehouseExport />} /> */}
         <Route path="/employee" element={<Employee />} />
         <Route path="/reward-discipline" element={<RewardDiscipline />} />
         <Route path="*" element={<NoPage />} />

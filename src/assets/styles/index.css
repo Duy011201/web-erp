@@ -28,6 +28,10 @@
   border: 1px solid var(--bg-primary) !important;
 }
 
+.css-zw3mfo-MuiModal-root-MuiDialog-root {
+  z-index: 1 !important;
+}
+
 /*1. RESET AND TYPHOGRAPHY*/
 html {
   font-family: sans-serif;
