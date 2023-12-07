@@ -328,6 +328,9 @@ export default function WarehouseReceipt() {
                   if (res.status === setting.STATUS_CODE.OK) {
                     let data = res.data.data[0];
                     data.soLuong = parseInt(data.soLuong);
+                    warehouseReceiptDetail.soLuong = parseInt(
+                      warehouseReceiptDetail.soLuong
+                    );
                     data.soLuong =
                       data.soLuong + warehouseReceiptDetail.soLuong;
                     data.soLuong = parseInt(data.soLuong);
@@ -350,6 +353,9 @@ export default function WarehouseReceipt() {
                   if (res.status === setting.STATUS_CODE.OK) {
                     let data = res.data.data[0];
                     data.soLuong = parseInt(data.soLuong);
+                    warehouseReceiptDetail.soLuong = parseInt(
+                      warehouseReceiptDetail.soLuong
+                    );
                     data.soLuong =
                       data.soLuong + warehouseReceiptDetail.soLuong;
                     data.soLuong = parseInt(data.soLuong);
@@ -454,6 +460,9 @@ export default function WarehouseReceipt() {
                           if (res.status === setting.STATUS_CODE.OK) {
                             let data = res.data.data[0];
                             data.soLuong = parseInt(data.soLuong);
+                            listWarehouseReceiptDetail[i].soLuong = parseInt(
+                              listWarehouseReceiptDetail[i]
+                            );
                             data.soLuong =
                               data.soLuong -
                               listWarehouseReceiptDetail[i].soLuong;
@@ -479,6 +488,9 @@ export default function WarehouseReceipt() {
                           if (res.status === setting.STATUS_CODE.OK) {
                             let data = res.data.data[0];
                             data.soLuong = parseInt(data.soLuong);
+                            listWarehouseReceiptDetail[i].soLuong = parseInt(
+                              listWarehouseReceiptDetail[i]
+                            );
                             data.soLuong =
                               data.soLuong -
                               listWarehouseReceiptDetail[i].soLuong;
@@ -530,6 +542,9 @@ export default function WarehouseReceipt() {
                             if (res.status === setting.STATUS_CODE.OK) {
                               let data = res.data.data[0];
                               data.soLuong = parseInt(data.soLuong);
+                              warehouseReceiptDetail.soLuong = parseInt(
+                                warehouseReceiptDetail.soLuong
+                              );
                               if (
                                 warehouseReceiptDetail.soLuong > data.soLuong
                               ) {
@@ -566,6 +581,9 @@ export default function WarehouseReceipt() {
                             if (res.status === setting.STATUS_CODE.OK) {
                               let data = res.data.data[0];
                               data.soLuong = parseInt(data.soLuong);
+                              warehouseReceiptDetail.soLuong = parseInt(
+                                warehouseReceiptDetail.soLuong
+                              );
                               if (
                                 warehouseReceiptDetail.soLuong > data.soLuong
                               ) {
@@ -942,7 +960,7 @@ export default function WarehouseReceipt() {
                     <div className="form-group mt-10 col-md-6">
                       <label htmlFor="soLuong">Số lượng</label>
                       <input
-                        type="text"
+                        type="number"
                         className="form-control"
                         name="soLuong"
                         value={warehouseReceiptDetail.soLuong}
