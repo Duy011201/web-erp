@@ -461,7 +461,7 @@ export default function WarehouseReceipt() {
                             let data = res.data.data[0];
                             data.soLuong = parseInt(data.soLuong);
                             listWarehouseReceiptDetail[i].soLuong = parseInt(
-                              listWarehouseReceiptDetail[i]
+                              listWarehouseReceiptDetail[i].soLuong
                             );
                             data.soLuong =
                               data.soLuong -
@@ -489,7 +489,7 @@ export default function WarehouseReceipt() {
                             let data = res.data.data[0];
                             data.soLuong = parseInt(data.soLuong);
                             listWarehouseReceiptDetail[i].soLuong = parseInt(
-                              listWarehouseReceiptDetail[i]
+                              listWarehouseReceiptDetail[i].soLuong
                             );
                             data.soLuong =
                               data.soLuong -
