@@ -4,11 +4,14 @@ import {
   faEnvelope,
   faLock,
   faUser,
+  faUsers,
   faCartShopping,
   faArrowRotateLeft,
   faPlus,
   faPencil,
   faTrash,
+  faCircleUser,
+  faWarehouse,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -16,9 +19,12 @@ library.add(
   faEnvelope,
   faLock,
   faUser,
+  faUsers,
   faCartShopping,
   faArrowRotateLeft,
   faPlus,
   faPencil,
-  faTrash
+  faTrash,
+  faCircleUser,
+  faWarehouse
 );
