@@ -16,14 +16,14 @@ import Loading from "../../components/loading/Loading.jsx";
 
 import "./style.scss";
 import {
-  GET_ALL_WAREHOUSE_RECEIPT,
-  DELETE_WAREHOUSE_RECEIPT_BY_ID,
-  UPDATE_WAREHOUSE_RECEIPT_BY_ID,
-  CREATE_WAREHOUSE_RECEIPT,
-  GET_ALL_WAREHOUSE_RECEIPT_DETAIL,
-  DELETE_WAREHOUSE_RECEIPT_DETAIL_BY_ID,
-  UPDATE_WAREHOUSE_RECEIPT_DETAIL_BY_ID,
-  CREATE_WAREHOUSE_RECEIPT_DETAIL,
+  GET_ALL_WAREHOUSE_EXPORT,
+  DELETE_WAREHOUSE_EXPORT_BY_ID,
+  UPDATE_WAREHOUSE_EXPORT_BY_ID,
+  CREATE_WAREHOUSE_EXPORT,
+  GET_ALL_WAREHOUSE_EXPORT_DETAIL,
+  DELETE_WAREHOUSE_EXPORT_DETAIL_BY_ID,
+  UPDATE_WAREHOUSE_EXPORT_DETAIL_BY_ID,
+  CREATE_WAREHOUSE_EXPORT_DETAIL,
   GET_ALL_PRODUCT,
   GET_PRODUCT_BY_ID,
   GET_MATERIAL_BY_ID,
@@ -33,12 +33,12 @@ import {
 } from "../service.js";
 import setting from "../../setting.js";
 
-export default function WarehouseReceipt() {
+export default function WarehouseExport() {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(false);
   const [isConvert, setIsConvert] = useState(true);
-  const [listWarehouseReceipt, setListWarehouseReceipt] = useState([]);
-  const [listWarehouseReceiptDetail, setListWarehouseReceiptDetail] = useState(
+  const [listWarehouseExport, setListWarehouseExport] = useState([]);
+  const [listWarehouseExportDetail, setListWarehouseExportDetail] = useState(
     []
   );
   const [listProduct, setListProduct] = useState([]);
@@ -46,40 +46,40 @@ export default function WarehouseReceipt() {
   const [open, setOpen] = React.useState(false);
   const [action, setAction] = React.useState("");
   const [isSPOrNVL, setIsSPOrNVL] = React.useState(true);
-  const [countInitWarehouseReceipt, setCountInitWarehouseExport] =
+  const [countInitWarehouseExport, setCountInitWarehouseExport] =
     React.useState(0);
-  const [warehouseReceipt, setWarehouseReceipt] = useState({
+  const [warehouseExport, setWarehouseExport] = useState({
     id: "",
     maNV: JSON.parse(setting.USER_LOCAL).id,
     loaiHang: "",
     ghiChu: "",
   });
-  const [warehouseReceiptDetail, setWarehouseReceiptDetail] = useState({
+  const [warehouseExportDetail, setWarehouseExportDetail] = useState({
     id: "",
-    maPN: 0,
+    maPX: 0,
     maSP: 0,
     maNVL: 0,
     soLuong: 0,
     ghiChu: "",
   });
 
-  const changeWarehouseReceipt = e => {
+  const changeWarehouseExport = e => {
     const { name, value } = e.target;
-    setWarehouseReceipt(prevData => ({
+    setWarehouseExport(prevData => ({
       ...prevData,
       [name]: value,
     }));
   };
 
-  const changeWarehouseReceiptDetail = e => {
+  const changeWarehouseExportDetail = e => {
     const { name, value } = e.target;
-    setWarehouseReceiptDetail(prevData => ({
+    setWarehouseExportDetail(prevData => ({
       ...prevData,
       [name]: value,
     }));
   };
 
-  let indexWarehouseReceipt = 0;
+  let indexWarehouseExport = 0;
 
   const handleIsSPOrNVL = code => {
     code === setting.WAREHOUSE_RECEIPT_DETAIL_STATUS.PRODUCT.code
@@ -88,7 +88,7 @@ export default function WarehouseReceipt() {
   };
 
   const columns = [
-    { field: "maPN", headerName: "Mã phiếu nhập", width: 150 },
+    { field: "maPX", headerName: "Mã phiếu xuất", width: 150 },
     { field: "maSP", headerName: "Mã sản phẩm", width: 150 },
     { field: "maNVL", headerName: "Mã nguyên vật liệu", width: 150 },
     { field: "soLuong", headerName: "Số lượng", width: 80 },
@@ -141,146 +141,168 @@ export default function WarehouseReceipt() {
     if (isConvert) {
       setOpen(false);
 
-      if (isEmptyNullUndefined(warehouseReceipt.maNV)) {
+      if (isEmptyNullUndefined(warehouseExport.maNV)) {
         error("Bạn chưa nhập mã nhân viên!");
         return;
       }
 
-      if (isEmptyNullUndefined(warehouseReceipt.loaiHang)) {
+      if (isEmptyNullUndefined(warehouseExport.loaiHang)) {
         error("Bạn chưa nhập loại hàng!");
         return;
       }
 
       setLoading(true);
-      await UPDATE_WAREHOUSE_RECEIPT_BY_ID(warehouseReceipt).then(res => {
+      await UPDATE_WAREHOUSE_EXPORT_BY_ID(warehouseExport).then(res => {
         setLoading(false);
         if (res.status === setting.STATUS_CODE.OK) {
           success(res.data.msg);
           getAllMaterial();
           getAllProduct();
-          getAllWarehouseReceipt();
+          getAllWarehouseExport();
         } else {
           error(res.data.msg);
         }
       });
     } else {
       setOpen(false);
-      if (isEmptyNullUndefined(warehouseReceiptDetail.maPN)) {
-        error("Bạn chưa nhập mã phiếu nhập!");
+      if (isNumber(listWarehouseExport[indexWarehouseExport].id)) {
+        error("Bạn chưa chọn mã phiếu xuất!");
         return;
       }
 
       if (isSPOrNVL === true) {
-        if (isEmptyNullUndefined(warehouseReceiptDetail.maSP)) {
+        if (isEmptyNullUndefined(warehouseExportDetail.maSP)) {
           error("Bạn chưa chọn mã sản phẩm!");
           return;
         }
       } else {
-        if (isEmptyNullUndefined(warehouseReceiptDetail.maNVL)) {
+        if (isEmptyNullUndefined(warehouseExportDetail.maNVL)) {
           error("Bạn chưa chọn mã nguyên vật liệu!");
           return;
         }
       }
 
-      if (isEmptyNullUndefined(warehouseReceiptDetail.soLuong)) {
+      if (isEmptyNullUndefined(warehouseExportDetail.soLuong)) {
         error("Bạn chưa nhập số lượng sản phẩm!");
         return;
       }
 
       setLoading(true);
-      await UPDATE_WAREHOUSE_RECEIPT_DETAIL_BY_ID(warehouseReceiptDetail).then(
+      await UPDATE_WAREHOUSE_EXPORT_DETAIL_BY_ID(warehouseExportDetail).then(
         async res => {
           setLoading(false);
           if (res.status === setting.STATUS_CODE.OK) {
             if (isSPOrNVL === false) {
-              await GET_MATERIAL_BY_ID(warehouseReceiptDetail.maNVL).then(
+              await GET_MATERIAL_BY_ID(warehouseExportDetail.maNVL).then(
                 async res => {
                   if (res.status === setting.STATUS_CODE.OK) {
                     let data = res.data.data[0];
                     data.soLuong = parseInt(data.soLuong);
-                    warehouseReceiptDetail.soLuong = parseInt(
-                      warehouseReceiptDetail.soLuong
+                    warehouseExportDetail.soLuong = parseInt(
+                      warehouseExportDetail.soLuong
                     );
-                    if (warehouseReceiptDetail.soLuong < data.soLuong) {
-                      let countResult = 0;
-                      if (
-                        countInitWarehouseReceipt >
-                        warehouseReceiptDetail.soLuong
-                      ) {
-                        countResult =
-                          countInitWarehouseReceipt -
-                          warehouseReceiptDetail.soLuong;
-                        data.soLuong -= countResult;
-                      } else if (
-                        countInitWarehouseReceipt <
-                        warehouseReceiptDetail.soLuong
-                      ) {
-                        countResult =
-                          warehouseReceiptDetail.soLuong -
-                          countInitWarehouseReceipt;
-                        data.soLuong -= countResult;
+
+                    if (
+                      parseInt(warehouseExportDetail.soLuong) <
+                      parseInt(data.soLuong)
+                    ) {
+                      if (warehouseExportDetail.soLuong < data.soLuong) {
+                        let countResult = 0;
+                        if (
+                          countInitWarehouseExport >
+                          warehouseExportDetail.soLuong
+                        ) {
+                          countResult =
+                            countInitWarehouseExport -
+                            warehouseExportDetail.soLuong;
+                          data.soLuong -= countResult;
+                        } else if (
+                          countInitWarehouseExport <
+                          warehouseExportDetail.soLuong
+                        ) {
+                          countResult =
+                            warehouseExportDetail.soLuong -
+                            countInitWarehouseExport;
+                          data.soLuong -= countResult;
+                        } else {
+                          data.soLuong = data.soLuong;
+                        }
                       } else {
-                        data.soLuong = data.soLuong;
+                        data.soLuong = 0;
                       }
+                      data.soLuong = parseInt(data.soLuong);
+                      await UPDATE_MATERIAL_BY_ID(data).then(res => {
+                        setLoading(false);
+                        if (res.status === setting.STATUS_CODE.OK) {
+                          success(res.data.msg);
+                        } else {
+                          error(res.data.msg);
+                        }
+                      });
                     } else {
-                      data.soLuong = 0;
+                      error(
+                        "Số lượng xuất lớn hơn số lượng nguyên vật liệu trong kho"
+                      );
+                      return;
                     }
-                    data.soLuong = parseInt(data.soLuong);
-                    await UPDATE_MATERIAL_BY_ID(data).then(res => {
-                      setLoading(false);
-                      if (res.status === setting.STATUS_CODE.OK) {
-                        success(res.data.msg);
-                      } else {
-                        error(res.data.msg);
-                      }
-                    });
                   }
                 }
               );
             }
 
             if (isSPOrNVL === true) {
-              await GET_PRODUCT_BY_ID(warehouseReceiptDetail.sp).then(
+              await GET_PRODUCT_BY_ID(warehouseExportDetail.sp).then(
                 async res => {
                   if (res.status === setting.STATUS_CODE.OK) {
                     let data = res.data.data[0];
                     data.soLuong = parseInt(data.soLuong);
-                    warehouseReceiptDetail.soLuong = parseInt(
-                      warehouseReceiptDetail.soLuong
+                    warehouseExportDetail.soLuong = parseInt(
+                      warehouseExportDetail.soLuong
                     );
-                    if (warehouseReceiptDetail.soLuong < data.soLuong) {
-                      let countResult = 0;
-                      if (
-                        countInitWarehouseReceipt >
-                        warehouseReceiptDetail.soLuong
-                      ) {
-                        countResult =
-                          countInitWarehouseReceipt -
-                          warehouseReceiptDetail.soLuong;
-                        data.soLuong -= countResult;
-                      } else if (
-                        countInitWarehouseReceipt <
-                        warehouseReceiptDetail.soLuong
-                      ) {
-                        countResult =
-                          warehouseReceiptDetail.soLuong -
-                          countInitWarehouseReceipt;
-                        data.soLuong -= countResult;
+
+                    if (
+                      parseInt(warehouseExportDetail.soLuong) <
+                      parseInt(data.soLuong)
+                    ) {
+                      if (warehouseExportDetail.soLuong < data.soLuong) {
+                        let countResult = 0;
+                        if (
+                          countInitWarehouseExport >
+                          warehouseExportDetail.soLuong
+                        ) {
+                          countResult =
+                            countInitWarehouseExport -
+                            warehouseExportDetail.soLuong;
+                          data.soLuong -= countResult;
+                        } else if (
+                          countInitWarehouseExport <
+                          warehouseExportDetail.soLuong
+                        ) {
+                          countResult =
+                            warehouseExportDetail.soLuong -
+                            countInitWarehouseExport;
+                          data.soLuong -= countResult;
+                        } else {
+                          data.soLuong = data.soLuong;
+                        }
                       } else {
-                        data.soLuong = data.soLuong;
+                        data.soLuong = 0;
                       }
+                      data.soLuong = parseInt(data.soLuong);
+                      await UPDATE_PRODUCT_BY_ID(data).then(res => {
+                        setLoading(false);
+                        if (res.status === setting.STATUS_CODE.OK) {
+                          success(res.data.msg);
+                        } else {
+                          error(res.data.msg);
+                        }
+                      });
                     } else {
-                      data.soLuong = 0;
+                      error(
+                        "Số lượng xuất lớn hơn số lượng sản phẩm trong kho"
+                      );
+                      return;
                     }
-                    data.soLuong = parseInt(data.soLuong);
-                    await UPDATE_PRODUCT_BY_ID(data).then(res => {
-                      setLoading(false);
-                      if (res.status === setting.STATUS_CODE.OK) {
-                        success(res.data.msg);
-                      } else {
-                        error(res.data.msg);
-                      }
-                    });
                   }
                 }
               );
@@ -288,7 +310,7 @@ export default function WarehouseReceipt() {
 
             await getAllMaterial();
             await getAllProduct();
-            await getAllWarehouseReceipt();
+            await getAllWarehouseExport();
           } else {
             error(res.data.msg);
           }
@@ -301,7 +323,7 @@ export default function WarehouseReceipt() {
     if (isConvert) {
       setOpen(false);
 
-      if (isEmptyNullUndefined(warehouseReceipt.loaiHang)) {
+      if (isEmptyNullUndefined(warehouseExport.loaiHang)) {
         error("Bạn chưa nhập loại hàng!");
         return;
       }
@@ -309,38 +331,38 @@ export default function WarehouseReceipt() {
 
       let payload = {
         maNV: JSON.parse(setting.USER_LOCAL).id,
-        loaiHang: warehouseReceipt.loaiHang,
-        ghiChu: warehouseReceipt.ghiChu,
+        loaiHang: warehouseExport.loaiHang,
+        ghiChu: warehouseExport.ghiChu,
       };
 
-      await CREATE_WAREHOUSE_RECEIPT(payload).then(res => {
+      await CREATE_WAREHOUSE_EXPORT(payload).then(res => {
         setLoading(false);
         if (res.status === setting.STATUS_CODE.OK) {
           success(res.data.msg);
-          getAllWarehouseReceipt();
+          getAllWarehouseExport();
         } else {
           error(res.data.msg);
         }
       });
     } else {
       if (isSPOrNVL) {
-        if (isNumber(warehouseReceiptDetail.maSP)) {
+        if (isNumber(warehouseExportDetail.maSP)) {
           error("Bạn chưa chọn mã sản phẩm!");
           return;
         }
       } else {
-        if (isNumber(warehouseReceiptDetail.maNVL)) {
+        if (isNumber(warehouseExportDetail.maNVL)) {
           error("Bạn chưa chọn mã nguyên vật liệu!");
           return;
         }
       }
 
-      if (isNumber(listWarehouseReceipt[indexWarehouseReceipt].id)) {
-        error("Bạn chưa chọn mã phiếu nhập!");
+      if (isNumber(listWarehouseExport[indexWarehouseExport].id)) {
+        error("Bạn chưa chọn mã phiếu xuất!");
         return;
       }
 
-      if (isNumber(warehouseReceiptDetail.soLuong)) {
+      if (isNumber(warehouseExportDetail.soLuong)) {
         error("Bạn nhập sai định dạng số lượng!");
         return;
       }
@@ -350,59 +372,76 @@ export default function WarehouseReceipt() {
 
       let payload = {
         id: "",
-        maPN: listWarehouseReceipt[indexWarehouseReceipt].id,
-        maSP: parseInt(warehouseReceiptDetail.maSP),
-        maNVL: parseInt(warehouseReceiptDetail.maNVL),
-        soLuong: parseInt(warehouseReceiptDetail.soLuong),
+        maPX: listWarehouseExport[indexWarehouseExport].id,
+        maSP: parseInt(warehouseExportDetail.maSP),
+        maNVL: parseInt(warehouseExportDetail.maNVL),
+        soLuong: parseInt(warehouseExportDetail.soLuong),
         ghiChu: "",
       };
 
-      await CREATE_WAREHOUSE_RECEIPT_DETAIL(payload).then(async res => {
+      await CREATE_WAREHOUSE_EXPORT_DETAIL(payload).then(async res => {
         setLoading(false);
         if (res.status === setting.STATUS_CODE.OK) {
           if (isSPOrNVL === false) {
-            await GET_MATERIAL_BY_ID(warehouseReceiptDetail.maNVL).then(
+            await GET_MATERIAL_BY_ID(warehouseExportDetail.maNVL).then(
               async res => {
                 if (res.status === setting.STATUS_CODE.OK) {
                   let data = res.data.data[0];
-                  data.soLuong = parseInt(data.soLuong);
-                  warehouseReceiptDetail.soLuong = parseInt(
-                    warehouseReceiptDetail.soLuong
-                  );
-                  data.soLuong = data.soLuong + warehouseReceiptDetail.soLuong;
-                  data.soLuong = parseInt(data.soLuong);
-                  await UPDATE_MATERIAL_BY_ID(data).then(res => {
-                    setLoading(false);
-                    if (res.status === setting.STATUS_CODE.OK) {
-                      success(res.data.msg);
-                    } else {
-                      error(res.data.msg);
-                    }
-                  });
+                  if (
+                    parseInt(data.soLuong) <
+                    parseInt(warehouseExportDetail.soLuong)
+                  ) {
+                    data.soLuong = parseInt(data.soLuong);
+                    warehouseExportDetail.soLuong = parseInt(
+                      warehouseExportDetail.soLuong
+                    );
+                    data.soLuong = data.soLuong - warehouseExportDetail.soLuong;
+                    data.soLuong = parseInt(data.soLuong);
+                    await UPDATE_MATERIAL_BY_ID(data).then(res => {
+                      setLoading(false);
+                      if (res.status === setting.STATUS_CODE.OK) {
+                        success(res.data.msg);
+                      } else {
+                        error(res.data.msg);
+                      }
+                    });
+                  } else {
+                    error(
+                      "Số lượng xuất lớn hơn số lượng nguyên vật liệu trong kho"
+                    );
+                    return;
+                  }
                 }
               }
             );
           }
 
           if (isSPOrNVL === true) {
-            await GET_PRODUCT_BY_ID(warehouseReceiptDetail.maSP).then(
+            await GET_PRODUCT_BY_ID(warehouseExportDetail.maSP).then(
               async res => {
                 if (res.status === setting.STATUS_CODE.OK) {
                   let data = res.data.data[0];
                   data.soLuong = parseInt(data.soLuong);
-                  warehouseReceiptDetail.soLuong = parseInt(
-                    warehouseReceiptDetail.soLuong
+                  warehouseExportDetail.soLuong = parseInt(
+                    warehouseExportDetail.soLuong
                   );
-                  data.soLuong = data.soLuong + warehouseReceiptDetail.soLuong;
-                  data.soLuong = parseInt(data.soLuong);
-                  await UPDATE_PRODUCT_BY_ID(data).then(res => {
-                    setLoading(false);
-                    if (res.status === setting.STATUS_CODE.OK) {
-                      success(res.data.msg);
-                    } else {
-                      error(res.data.msg);
-                    }
-                  });
+                  if (data.soLuong < warehouseExportDetail.soLuong) {
+                    data.soLuong = data.soLuong - warehouseExportDetail.soLuong;
+                    data.soLuong = parseInt(data.soLuong);
+                    await UPDATE_PRODUCT_BY_ID(data).then(res => {
+                      setLoading(false);
+                      if (res.status === setting.STATUS_CODE.OK) {
+                        success(res.data.msg);
+                      } else {
+                        error(res.data.msg);
+                      }
+                    });
+                  } else {
+                    error(
+                      "Số lượng xuất lớn hơn số lượng nguyên vật liệu trong kho"
+                    );
+                    return;
+                  }
                 }
               }
             );
@@ -410,8 +449,8 @@ export default function WarehouseReceipt() {
 
           await getAllMaterial();
           await getAllProduct();
-          await getAllWarehouseReceiptDetail(
-            listWarehouseReceipt[indexWarehouseReceipt].id
+          await getAllWarehouseExportDetail(
+            listWarehouseExport[indexWarehouseExport].id
           );
         } else {
           error(res.data.msg);
@@ -425,7 +464,7 @@ export default function WarehouseReceipt() {
       case setting.ACTION.ADD:
         if (status === setting.ACTION.OPEN) {
           if (isConvert) {
-            setWarehouseReceipt({
+            setWarehouseExport({
               id: "",
               maNV: "",
               loaiHang: "",
@@ -433,9 +472,9 @@ export default function WarehouseReceipt() {
             });
             setIsConvert(true);
           } else {
-            setWarehouseReceiptDetail({
+            setWarehouseExportDetail({
               id: "",
-              maPN: listWarehouseReceipt[indexWarehouseReceipt].id,
+              maPN: listWarehouseExport[indexWarehouseExport].id,
               maSP: 0,
               maNVL: 0,
               soLuong: 0,
@@ -448,26 +487,27 @@ export default function WarehouseReceipt() {
       case setting.ACTION.UPDATE:
         if (isConvert) {
           if (status === setting.ACTION.OPEN) {
-            setWarehouseReceipt(data.row);
+            setWarehouseExport(data.row);
             setIsConvert(true);
             setCountInitWarehouseExport(data.row.soLuong);
           } else {
-            setWarehouseReceipt({
+            setWarehouseExport({
               id: "",
               maNV: "",
               loaiHang: "",
               ghiChu: "",
             });
+            setIsConvert(true);
           }
         } else {
           if (status === setting.ACTION.OPEN) {
-            setWarehouseReceiptDetail(data.row);
+            setWarehouseExportDetail(data.row);
             setIsConvert(false);
             setCountInitWarehouseExport(data.row.soLuong);
           } else {
-            setWarehouseReceiptDetail({
+            setWarehouseExportDetail({
               id: "",
-              maPN: listWarehouseReceipt[indexWarehouseReceipt].id,
+              maPN: listWarehouseExport[indexWarehouseExport].id,
               maSP: 0,
               maNVL: 0,
               soLuong: 0,
@@ -482,27 +522,27 @@ export default function WarehouseReceipt() {
           ? confirmDialog("Bạn muốn xóa phiếu này!").then(async result => {
               if (result.value) {
                 setLoading(true);
-                await getAllWarehouseReceiptDetail(
-                  listWarehouseReceipt[indexWarehouseReceipt].id
+                await getAllWarehouseExportDetail(
+                  listWarehouseExport[indexWarehouseExport].id
                 );
-                for (let i = 0; i < listWarehouseReceiptDetail.length; i++) {
-                  await DELETE_WAREHOUSE_RECEIPT_DETAIL_BY_ID(
-                    listWarehouseReceiptDetail[i].id
+                for (let i = 0; i < listWarehouseExportDetail.length; i++) {
+                  await DELETE_WAREHOUSE_EXPORT_DETAIL_BY_ID(
+                    listWarehouseExportDetail[i].id
                   ).then(async res => {
                     if (res.status === setting.STATUS_CODE.OK) {
-                      if (listWarehouseReceiptDetail[i].maNVL > 0) {
+                      if (listWarehouseExportDetail[i].maNVL > 0) {
                         await GET_MATERIAL_BY_ID(
-                          listWarehouseReceiptDetail[i].maNVL
+                          listWarehouseExportDetail[i].maNVL
                         ).then(async res => {
                           if (res.status === setting.STATUS_CODE.OK) {
                             let data = res.data.data[0];
                             data.soLuong = parseInt(data.soLuong);
-                            listWarehouseReceiptDetail[i].soLuong = parseInt(
-                              listWarehouseReceiptDetail[i].soLuong
+                            listWarehouseExportDetail[i].soLuong = parseInt(
+                              listWarehouseExportDetail[i].soLuong
                             );
                             data.soLuong =
-                              data.soLuong -
-                              listWarehouseReceiptDetail[i].soLuong;
+                              data.soLuong +
+                              listWarehouseExportDetail[i].soLuong;
                             data.soLuong = parseInt(data.soLuong);
                             await UPDATE_MATERIAL_BY_ID(data).then(
                               async res => {
@@ -517,20 +557,20 @@ export default function WarehouseReceipt() {
                         });
                       }
 
-                      if (listWarehouseReceiptDetail[i].maSP > 0) {
+                      if (listWarehouseExportDetail[i].maSP > 0) {
                         await GET_PRODUCT_BY_ID(
-                          listWarehouseReceiptDetail[i].maSP
+                          listWarehouseExportDetail[i].maSP
                         ).then(async res => {
                           setLoading(false);
                           if (res.status === setting.STATUS_CODE.OK) {
                             let data = res.data.data[0];
                             data.soLuong = parseInt(data.soLuong);
-                            listWarehouseReceiptDetail[i].soLuong = parseInt(
-                              listWarehouseReceiptDetail[i].soLuong
+                            listWarehouseExportDetail[i].soLuong = parseInt(
+                              listWarehouseExportDetail[i].soLuong
                             );
                             data.soLuong =
-                              data.soLuong -
-                              listWarehouseReceiptDetail[i].soLuong;
+                              data.soLuong +
+                              listWarehouseExportDetail[i].soLuong;
                             data.soLuong = parseInt(data.soLuong);
                             setTimeout(() => {
                               UPDATE_PRODUCT_BY_ID(data).then(async res => {
@@ -549,14 +589,14 @@ export default function WarehouseReceipt() {
                 }
 
                 setTimeout(() => {
-                  DELETE_WAREHOUSE_RECEIPT_BY_ID(data.id).then(async res => {
+                  DELETE_WAREHOUSE_EXPORT_BY_ID(data.id).then(async res => {
                     if (res.status === setting.STATUS_CODE.OK) {
                       success(res.data.msg);
                       await getAllMaterial();
                       await getAllProduct();
-                      await getAllWarehouseReceipt();
-                      await getAllWarehouseReceiptDetail(
-                        listWarehouseReceipt[indexWarehouseReceipt].id
+                      await getAllWarehouseExport();
+                      await getAllWarehouseExportDetail(
+                        listWarehouseExport[indexWarehouseExport].id
                       );
                     } else {
                       error(res.data.msg);
@@ -569,34 +609,21 @@ export default function WarehouseReceipt() {
               async result => {
                 if (result.value) {
                   setLoading(true);
-                  await DELETE_WAREHOUSE_RECEIPT_DETAIL_BY_ID(data.id).then(
+                  await DELETE_WAREHOUSE_EXPORT_DETAIL_BY_ID(data.id).then(
                     async res => {
                       if (res.status === setting.STATUS_CODE.OK) {
                         if (isSPOrNVL === false) {
                           await GET_MATERIAL_BY_ID(
-                            warehouseReceiptDetail.maNVL
+                            warehouseExportDetail.maNVL
                           ).then(async res => {
                             if (res.status === setting.STATUS_CODE.OK) {
                               let data = res.data.data[0];
                               data.soLuong = parseInt(data.soLuong);
-                              warehouseReceiptDetail.soLuong = parseInt(
-                                warehouseReceiptDetail.soLuong
+                              warehouseExportDetail.soLuong = parseInt(
+                                warehouseExportDetail.soLuong
                               );
-                              if (
-                                warehouseReceiptDetail.soLuong > data.soLuong
-                              ) {
-                                data.soLuong =
-                                  warehouseReceiptDetail.soLuong -
-                                  data.soLuong +
-                                  data.soLuong;
-                              } else if (
-                                warehouseReceiptDetail.soLuong < data.soLuong
-                              ) {
-                                data.soLuong =
-                                  data.soLuong -
-                                  (data.soLuong -
-                                    warehouseReceiptDetail.soLuong);
-                              }
+                              data.soLuong =
+                                data.soLuong + warehouseExportDetail.soLuong;
                               data.soLuong = parseInt(data.soLuong);
                               await UPDATE_MATERIAL_BY_ID(data).then(res => {
                                 setLoading(false);
@@ -612,30 +639,17 @@ export default function WarehouseReceipt() {
 
                         if (isSPOrNVL === true) {
                           await GET_PRODUCT_BY_ID(
-                            warehouseReceiptDetail.maSP
+                            warehouseExportDetail.maSP
                           ).then(async res => {
                             setLoading(false);
                             if (res.status === setting.STATUS_CODE.OK) {
                               let data = res.data.data[0];
                               data.soLuong = parseInt(data.soLuong);
-                              warehouseReceiptDetail.soLuong = parseInt(
-                                warehouseReceiptDetail.soLuong
+                              warehouseExportDetail.soLuong = parseInt(
+                                warehouseExportDetail.soLuong
                               );
-                              if (
-                                warehouseReceiptDetail.soLuong > data.soLuong
-                              ) {
-                                data.soLuong =
-                                  warehouseReceiptDetail.soLuong -
-                                  data.soLuong +
-                                  data.soLuong;
-                              } else if (
-                                warehouseReceiptDetail.soLuong < data.soLuong
-                              ) {
-                                data.soLuong =
-                                  data.soLuong -
-                                  (data.soLuong -
-                                    warehouseReceiptDetail.soLuong);
-                              }
+                              data.soLuong =
+                                data.soLuong + warehouseExportDetail.soLuong;
                               data.soLuong = parseInt(data.soLuong);
                               await UPDATE_PRODUCT_BY_ID(data).then(res => {
                                 setLoading(false);
@@ -651,8 +665,8 @@ export default function WarehouseReceipt() {
 
                         await getAllMaterial();
                         await getAllProduct();
-                        await getAllWarehouseReceiptDetail(
-                          listWarehouseReceipt[indexWarehouseReceipt].id
+                        await getAllWarehouseExportDetail(
+                          listWarehouseExport[indexWarehouseExport].id
                         );
                       } else {
                         error(res.data.msg);
@@ -668,17 +682,17 @@ export default function WarehouseReceipt() {
     setOpen(status);
   };
 
-  const getAllWarehouseReceipt = async () => {
+  const getAllWarehouseExport = async () => {
     try {
       setLoading(true);
-      let listWarehouseReceipt;
-      await GET_ALL_WAREHOUSE_RECEIPT().then(async res => {
+      let listWarehouseExport;
+      await GET_ALL_WAREHOUSE_EXPORT().then(async res => {
         setLoading(false);
         if (res.status === setting.STATUS_CODE.OK) {
-          listWarehouseReceipt = res.data.data;
-          setListWarehouseReceipt(listWarehouseReceipt);
-          indexWarehouseReceipt = 0;
-          getAllWarehouseReceiptDetail(listWarehouseReceipt[0].id);
+          listWarehouseExport = res.data.data;
+          setListWarehouseExport(listWarehouseExport);
+          indexWarehouseExport = 0;
+          getAllWarehouseExportDetail(listWarehouseExport[0].id);
         }
       });
     } catch (error) {
@@ -687,16 +701,16 @@ export default function WarehouseReceipt() {
     }
   };
 
-  const getAllWarehouseReceiptDetail = async id => {
+  const getAllWarehouseExportDetail = async id => {
     try {
       setLoading(true);
-      let listWarehouseReceiptDetail;
-      await GET_ALL_WAREHOUSE_RECEIPT_DETAIL({ warehouseReceiptID: id }).then(
+      let listWarehouseExportDetail;
+      await GET_ALL_WAREHOUSE_EXPORT_DETAIL({ warehouseExportID: id }).then(
         res => {
           setLoading(false);
           if (res.status === setting.STATUS_CODE.OK) {
-            listWarehouseReceiptDetail = res.data.data;
-            setListWarehouseReceiptDetail(listWarehouseReceiptDetail);
+            listWarehouseExportDetail = res.data.data;
+            setListWarehouseExportDetail(listWarehouseExportDetail);
           }
         }
       );
@@ -746,27 +760,25 @@ export default function WarehouseReceipt() {
       setUser(setting.USER_LOCAL);
       getAllProduct();
       getAllMaterial();
-      getAllWarehouseReceipt();
+      getAllWarehouseExport();
     }, 500);
   }, []);
 
-  const setIndexWarehouseReceipt = index => {
-    indexWarehouseReceipt = index;
+  const setIndexWarehouseExport = index => {
+    indexWarehouseExport = index;
 
     console.log();
 
-    if (listWarehouseReceipt.length > 0) {
-      setWarehouseReceiptDetail({
+    if (listWarehouseExport.length > 0) {
+      setWarehouseExportDetail({
         id: "",
-        maPN: listWarehouseReceipt[indexWarehouseReceipt].id,
+        maPN: listWarehouseExport[indexWarehouseExport].id,
         maSP: 0,
         maNVL: 0,
         soLuong: 0,
         ghiChu: "",
       });
-      getAllWarehouseReceiptDetail(
-        listWarehouseReceipt[indexWarehouseReceipt].id
-      );
+      getAllWarehouseExportDetail(listWarehouseExport[indexWarehouseExport].id);
     }
   };
 
@@ -787,7 +799,7 @@ export default function WarehouseReceipt() {
                 }}
               >
                 <div className="d-flex align-items-center pt-10 pb-10">
-                  <span className="fw-700 font-20">Phiếu nhập</span>
+                  <span className="fw-700 font-20">Phiếu xuất</span>
                   <FontAwesomeIcon
                     className="icon-add ml-5 add-warehouse-receipt font-20"
                     icon="fas fa-plus"
@@ -802,17 +814,17 @@ export default function WarehouseReceipt() {
                   />
                 </div>
                 <div className="wrap-catalog">
-                  {listWarehouseReceipt.map((item, i) => (
+                  {listWarehouseExport.map((item, i) => (
                     <div
                       key={i}
                       className={`clb bdbt1px${
                         (i + 1) % 2 === 0 ? " odd" : ""
                       }`}
-                      onClick={() => setIndexWarehouseReceipt(i)}
+                      onClick={() => setIndexWarehouseExport(i)}
                     >
                       <div
                         className={`catalog-item pdl10 clb font14 pdr5 ${
-                          i === indexWarehouseReceipt ? " active" : ""
+                          i === indexWarehouseExport ? " active" : ""
                         }`}
                       >
                         <div className="catalog-item-left d-flex align-items-center">
@@ -855,7 +867,7 @@ export default function WarehouseReceipt() {
 
               <div className="col-md-9">
                 <div className="d-flex  align-items-center pt-10 pb-10">
-                  <span className="fw-700 font-20">Chi tiết phiếu nhập</span>
+                  <span className="fw-700 font-20">Chi tiết phiếu xuất</span>
                   <FontAwesomeIcon
                     className="icon-add ml-5 add-warehouse-receipt font-20"
                     icon="fas fa-plus"
@@ -871,7 +883,7 @@ export default function WarehouseReceipt() {
                 </div>
                 <div className="mt-10" style={{ height: 550, width: "100%" }}>
                   <DataGrid
-                    rows={listWarehouseReceiptDetail}
+                    rows={listWarehouseExportDetail}
                     columns={columns}
                     initialState={{
                       pagination: {
@@ -897,7 +909,7 @@ export default function WarehouseReceipt() {
                   : action === setting.ACTION.UPDATE
                   ? "Sửa"
                   : "Xóa"
-              } ${isConvert ? "phiếu nhập" : "chi tiết phiếu nhập"}`}
+              } ${isConvert ? "phiếu xuất" : "chi tiết phiếu xuất"}`}
             </DialogTitle>
             <DialogContent>
               {isConvert ? (
@@ -909,9 +921,9 @@ export default function WarehouseReceipt() {
                         type="text"
                         className="form-control"
                         name="loaiHang"
-                        value={warehouseReceipt.loaiHang}
+                        value={warehouseExport.loaiHang}
                         placeholder="Nhập tên loại hàng"
-                        onChange={changeWarehouseReceipt}
+                        onChange={changeWarehouseExport}
                         required
                       />
                     </div>
@@ -920,8 +932,8 @@ export default function WarehouseReceipt() {
                       <input
                         type="text"
                         name="ghiChu"
-                        value={warehouseReceipt.ghiChu}
-                        onChange={changeWarehouseReceipt}
+                        value={warehouseExport.ghiChu}
+                        onChange={changeWarehouseExport}
                         className="form-control"
                         placeholder="Nhập ghi chú"
                         required
@@ -955,8 +967,8 @@ export default function WarehouseReceipt() {
                         <select
                           className="form-select"
                           aria-label="Default select example"
-                          value={warehouseReceiptDetail.maSP}
-                          onChange={changeWarehouseReceiptDetail}
+                          value={warehouseExportDetail.maSP}
+                          onChange={changeWarehouseExportDetail}
                           name="maSP"
                         >
                           <option value="">Chọn sản phẩm</option>
@@ -977,8 +989,8 @@ export default function WarehouseReceipt() {
                         <select
                           className="form-select"
                           aria-label="Default select example"
-                          value={warehouseReceiptDetail.maNVL}
-                          onChange={changeWarehouseReceiptDetail}
+                          value={warehouseExportDetail.maNVL}
+                          onChange={changeWarehouseExportDetail}
                           name="maNVL"
                         >
                           <option value="">Chọn nguyên vật liệu</option>
@@ -1000,9 +1012,9 @@ export default function WarehouseReceipt() {
                         type="number"
                         className="form-control"
                         name="soLuong"
-                        value={warehouseReceiptDetail.soLuong}
+                        value={warehouseExportDetail.soLuong}
                         placeholder="Nhập số lượng"
-                        onChange={changeWarehouseReceiptDetail}
+                        onChange={changeWarehouseExportDetail}
                         required
                       />
                     </div>
@@ -1011,8 +1023,8 @@ export default function WarehouseReceipt() {
                       <input
                         type="text"
                         name="ghiChu"
-                        value={warehouseReceiptDetail.ghiChu}
-                        onChange={changeWarehouseReceiptDetail}
+                        value={warehouseExportDetail.ghiChu}
+                        onChange={changeWarehouseExportDetail}
                         className="form-control"
                         placeholder="Nhập ghi chú"
                         required

@@ -134,7 +134,7 @@ export default function Header() {
                     </li>
 
                     <li>
-                      <Link className="dropdown-item" to="#">
+                      <Link className="dropdown-item" to="/warehouse-export">
                         Xuất kho
                       </Link>
                     </li>
