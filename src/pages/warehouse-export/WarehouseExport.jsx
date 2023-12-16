@@ -46,8 +46,7 @@ export default function WarehouseExport() {
   const [open, setOpen] = React.useState(false);
   const [action, setAction] = React.useState("");
   const [isSPOrNVL, setIsSPOrNVL] = React.useState(true);
-  const [countInitWarehouseExport, setCountInitWarehouseExport] =
-    React.useState(0);
+  const [oldQuantity, setOldQuantity] = useState(0);
   const [warehouseExport, setWarehouseExport] = useState({
     id: "",
     maNV: JSON.parse(setting.USER_LOCAL).id,
@@ -202,34 +201,15 @@ export default function WarehouseExport() {
                     );
 
                     if (
-                      parseInt(warehouseExportDetail.soLuong) <
+                      parseInt(warehouseExportDetail.soLuong) <=
                       parseInt(data.soLuong)
                     ) {
-                      if (warehouseExportDetail.soLuong < data.soLuong) {
-                        let countResult = 0;
-                        if (
-                          countInitWarehouseExport >
-                          warehouseExportDetail.soLuong
-                        ) {
-                          countResult =
-                            countInitWarehouseExport -
-                            warehouseExportDetail.soLuong;
-                          data.soLuong -= countResult;
-                        } else if (
-                          countInitWarehouseExport <
-                          warehouseExportDetail.soLuong
-                        ) {
-                          countResult =
-                            warehouseExportDetail.soLuong -
-                            countInitWarehouseExport;
-                          data.soLuong -= countResult;
-                        } else {
-                          data.soLuong = data.soLuong;
-                        }
-                      } else {
-                        data.soLuong = 0;
-                      }
-                      data.soLuong = parseInt(data.soLuong);
+                      let countResult = 0;
+                      countResult =
+                        data.soLuong +
+                        oldQuantity -
+                        warehouseExportDetail.soLuong;
+                      data.soLuong = parseInt(countResult);
                       await UPDATE_MATERIAL_BY_ID(data).then(res => {
                         setLoading(false);
                         if (res.status === setting.STATUS_CODE.OK) {
@@ -260,30 +240,16 @@ export default function WarehouseExport() {
                     );
 
                     if (
-                      parseInt(warehouseExportDetail.soLuong) <
+                      parseInt(warehouseExportDetail.soLuong) <=
                       parseInt(data.soLuong)
                     ) {
                       if (warehouseExportDetail.soLuong < data.soLuong) {
                         let countResult = 0;
-                        if (
-                          countInitWarehouseExport >
-                          warehouseExportDetail.soLuong
-                        ) {
-                          countResult =
-                            countInitWarehouseExport -
-                            warehouseExportDetail.soLuong;
-                          data.soLuong -= countResult;
-                        } else if (
-                          countInitWarehouseExport <
-                          warehouseExportDetail.soLuong
-                        ) {
-                          countResult =
-                            warehouseExportDetail.soLuong -
-                            countInitWarehouseExport;
-                          data.soLuong -= countResult;
-                        } else {
-                          data.soLuong = data.soLuong;
-                        }
+                        countResult =
+                          data.soLuong +
+                          oldQuantity -
+                          warehouseExportDetail.soLuong;
+                        data.soLuong = parseInt(countResult);
                       } else {
                         data.soLuong = 0;
                       }
@@ -387,15 +353,16 @@ export default function WarehouseExport() {
                 if (res.status === setting.STATUS_CODE.OK) {
                   let data = res.data.data[0];
                   if (
-                    parseInt(data.soLuong) <
+                    parseInt(data.soLuong) >=
                     parseInt(warehouseExportDetail.soLuong)
                   ) {
                     data.soLuong = parseInt(data.soLuong);
                     warehouseExportDetail.soLuong = parseInt(
                       warehouseExportDetail.soLuong
                     );
-                    data.soLuong = data.soLuong - warehouseExportDetail.soLuong;
-                    data.soLuong = parseInt(data.soLuong);
+                    data.soLuong = parseInt(
+                      data.soLuong - warehouseExportDetail.soLuong
+                    );
                     await UPDATE_MATERIAL_BY_ID(data).then(res => {
                       setLoading(false);
                       if (res.status === setting.STATUS_CODE.OK) {
@@ -424,9 +391,10 @@ export default function WarehouseExport() {
                   warehouseExportDetail.soLuong = parseInt(
                     warehouseExportDetail.soLuong
                   );
-                  if (data.soLuong < warehouseExportDetail.soLuong) {
-                    data.soLuong = data.soLuong - warehouseExportDetail.soLuong;
-                    data.soLuong = parseInt(data.soLuong);
+                  if (data.soLuong >= warehouseExportDetail.soLuong) {
+                    data.soLuong = parseInt(
+                      data.soLuong - warehouseExportDetail.soLuong
+                    );
                     await UPDATE_PRODUCT_BY_ID(data).then(res => {
                       setLoading(false);
                       if (res.status === setting.STATUS_CODE.OK) {
@@ -488,7 +456,7 @@ export default function WarehouseExport() {
           if (status === setting.ACTION.OPEN) {
             setWarehouseExport(data.row);
             setIsConvert(true);
-            setCountInitWarehouseExport(data.row.soLuong);
+            setOldQuantity(data.row.soLuong);
           } else {
             setWarehouseExport({
               id: "",
@@ -502,7 +470,7 @@ export default function WarehouseExport() {
           if (status === setting.ACTION.OPEN) {
             setWarehouseExportDetail(data.row);
             setIsConvert(false);
-            setCountInitWarehouseExport(data.row.soLuong);
+            setOldQuantity(data.row.soLuong);
           } else {
             setWarehouseExportDetail({
               id: "",
@@ -621,9 +589,9 @@ export default function WarehouseExport() {
                               warehouseExportDetail.soLuong = parseInt(
                                 warehouseExportDetail.soLuong
                               );
-                              data.soLuong =
-                                data.soLuong + warehouseExportDetail.soLuong;
-                              data.soLuong = parseInt(data.soLuong);
+                              data.soLuong = parseInt(
+                                data.soLuong + warehouseExportDetail.soLuong
+                              );
                               await UPDATE_MATERIAL_BY_ID(data).then(res => {
                                 setLoading(false);
                                 if (res.status === setting.STATUS_CODE.OK) {
@@ -647,9 +615,9 @@ export default function WarehouseExport() {
                               warehouseExportDetail.soLuong = parseInt(
                                 warehouseExportDetail.soLuong
                               );
-                              data.soLuong =
-                                data.soLuong + warehouseExportDetail.soLuong;
-                              data.soLuong = parseInt(data.soLuong);
+                              data.soLuong = parseInt(
+                                data.soLuong + warehouseExportDetail.soLuong
+                              );
                               await UPDATE_PRODUCT_BY_ID(data).then(res => {
                                 setLoading(false);
                                 if (res.status === setting.STATUS_CODE.OK) {

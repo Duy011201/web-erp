@@ -36,6 +36,7 @@ import setting from "../../setting.js";
 export default function WarehouseReceipt() {
   const [loading, setLoading] = useState(false);
   const [isConvert, setIsConvert] = useState(true);
+  const [oldQuantity, setOldQuantity] = useState(0);
   const [listWarehouseReceipt, setListWarehouseReceipt] = useState([]);
   const [listWarehouseReceiptDetail, setListWarehouseReceiptDetail] = useState(
     []
@@ -45,8 +46,6 @@ export default function WarehouseReceipt() {
   const [open, setOpen] = React.useState(false);
   const [action, setAction] = React.useState("");
   const [isSPOrNVL, setIsSPOrNVL] = React.useState(true);
-  const [countInitWarehouseReceipt, setCountInitWarehouseExport] =
-    React.useState(0);
   const [warehouseReceipt, setWarehouseReceipt] = useState({
     id: "",
     maNV: JSON.parse(setting.USER_LOCAL).id,
@@ -199,31 +198,12 @@ export default function WarehouseReceipt() {
                     warehouseReceiptDetail.soLuong = parseInt(
                       warehouseReceiptDetail.soLuong
                     );
-                    if (warehouseReceiptDetail.soLuong < data.soLuong) {
-                      let countResult = 0;
-                      if (
-                        countInitWarehouseReceipt >
-                        warehouseReceiptDetail.soLuong
-                      ) {
-                        countResult =
-                          countInitWarehouseReceipt -
-                          warehouseReceiptDetail.soLuong;
-                        data.soLuong -= countResult;
-                      } else if (
-                        countInitWarehouseReceipt <
-                        warehouseReceiptDetail.soLuong
-                      ) {
-                        countResult =
-                          warehouseReceiptDetail.soLuong -
-                          countInitWarehouseReceipt;
-                        data.soLuong -= countResult;
-                      } else {
-                        data.soLuong = data.soLuong;
-                      }
-                    } else {
-                      data.soLuong = 0;
-                    }
-                    data.soLuong = parseInt(data.soLuong);
+                    let countResult = 0;
+                    countResult =
+                      data.soLuong -
+                      oldQuantity +
+                      warehouseReceiptDetail.soLuong;
+                    data.soLuong = parseInt(countResult);
                     await UPDATE_MATERIAL_BY_ID(data).then(res => {
                       setLoading(false);
                       if (res.status === setting.STATUS_CODE.OK) {
@@ -246,31 +226,12 @@ export default function WarehouseReceipt() {
                     warehouseReceiptDetail.soLuong = parseInt(
                       warehouseReceiptDetail.soLuong
                     );
-                    if (warehouseReceiptDetail.soLuong < data.soLuong) {
-                      let countResult = 0;
-                      if (
-                        countInitWarehouseReceipt >
-                        warehouseReceiptDetail.soLuong
-                      ) {
-                        countResult =
-                          countInitWarehouseReceipt -
-                          warehouseReceiptDetail.soLuong;
-                        data.soLuong -= countResult;
-                      } else if (
-                        countInitWarehouseReceipt <
-                        warehouseReceiptDetail.soLuong
-                      ) {
-                        countResult =
-                          warehouseReceiptDetail.soLuong -
-                          countInitWarehouseReceipt;
-                        data.soLuong -= countResult;
-                      } else {
-                        data.soLuong = data.soLuong;
-                      }
-                    } else {
-                      data.soLuong = 0;
-                    }
-                    data.soLuong = parseInt(data.soLuong);
+                    let countResult = 0;
+                    countResult =
+                      data.soLuong -
+                      oldQuantity +
+                      warehouseReceiptDetail.soLuong;
+                    data.soLuong = parseInt(countResult);
                     await UPDATE_PRODUCT_BY_ID(data).then(res => {
                       setLoading(false);
                       if (res.status === setting.STATUS_CODE.OK) {
@@ -448,7 +409,7 @@ export default function WarehouseReceipt() {
           if (status === setting.ACTION.OPEN) {
             setWarehouseReceipt(data.row);
             setIsConvert(true);
-            setCountInitWarehouseExport(data.row.soLuong);
+            setOldQuantity(data.row.soLuong);
           } else {
             setWarehouseReceipt({
               id: "",
@@ -461,7 +422,7 @@ export default function WarehouseReceipt() {
           if (status === setting.ACTION.OPEN) {
             setWarehouseReceiptDetail(data.row);
             setIsConvert(false);
-            setCountInitWarehouseExport(data.row.soLuong);
+            setOldQuantity(data.row.soLuong);
           } else {
             setWarehouseReceiptDetail({
               id: "",
@@ -580,22 +541,9 @@ export default function WarehouseReceipt() {
                               warehouseReceiptDetail.soLuong = parseInt(
                                 warehouseReceiptDetail.soLuong
                               );
-                              if (
-                                warehouseReceiptDetail.soLuong > data.soLuong
-                              ) {
-                                data.soLuong =
-                                  warehouseReceiptDetail.soLuong -
-                                  data.soLuong +
-                                  data.soLuong;
-                              } else if (
-                                warehouseReceiptDetail.soLuong < data.soLuong
-                              ) {
-                                data.soLuong =
-                                  data.soLuong -
-                                  (data.soLuong -
-                                    warehouseReceiptDetail.soLuong);
-                              }
-                              data.soLuong = parseInt(data.soLuong);
+                              data.soLuong = parseInt(
+                                data.soLuong - warehouseReceiptDetail.soLuong
+                              );
                               await UPDATE_MATERIAL_BY_ID(data).then(res => {
                                 setLoading(false);
                                 if (res.status === setting.STATUS_CODE.OK) {
@@ -619,22 +567,9 @@ export default function WarehouseReceipt() {
                               warehouseReceiptDetail.soLuong = parseInt(
                                 warehouseReceiptDetail.soLuong
                               );
-                              if (
-                                warehouseReceiptDetail.soLuong > data.soLuong
-                              ) {
-                                data.soLuong =
-                                  warehouseReceiptDetail.soLuong -
-                                  data.soLuong +
-                                  data.soLuong;
-                              } else if (
-                                warehouseReceiptDetail.soLuong < data.soLuong
-                              ) {
-                                data.soLuong =
-                                  data.soLuong -
-                                  (data.soLuong -
-                                    warehouseReceiptDetail.soLuong);
-                              }
-                              data.soLuong = parseInt(data.soLuong);
+                              data.soLuong = parseInt(
+                                data.soLuong - warehouseReceiptDetail.soLuong
+                              );
                               await UPDATE_PRODUCT_BY_ID(data).then(res => {
                                 setLoading(false);
                                 if (res.status === setting.STATUS_CODE.OK) {
