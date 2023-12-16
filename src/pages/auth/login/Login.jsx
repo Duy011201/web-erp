@@ -31,6 +31,11 @@ export default function Login() {
     await CHECK_LOGIN(formData).then(res => {
       setLoading(false);
       if (res.data.data.length > 0) {
+        localStorage.setItem("role", res.data.data[0].quyen);
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ id: res.data.data[0].id })
+        );
         window.location = "/";
         success(res.data.msg);
       } else {

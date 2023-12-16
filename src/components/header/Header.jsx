@@ -7,11 +7,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export default function Header() {
   const [role, setRole] = useState("");
   useEffect(() => {
-    // localStorage.setItem("role", "admin");
-    localStorage.setItem("role", "store");
-    // localStorage.setItem("role", "employee");
-
-    localStorage.setItem("user", JSON.stringify({ id: 1 }));
     setRole(setting.ROLE_LOCAL);
   }, []);
 
@@ -19,9 +14,9 @@ export default function Header() {
     <nav className="navbar navbar-expand-lg wrap-header">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
-          {role === "admin"
+          {role === setting.ROLE_TYPE.ADMIN.code
             ? "ERP"
-            : role === "employee"
+            : role === setting.ROLE_TYPE.EMPLOYEE.code
             ? "Hệ thống quản lý nhân viên"
             : "Hệ thống quản lý kho"}
         </Link>
@@ -38,7 +33,7 @@ export default function Header() {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            {role === "admin" ? (
+            {role === setting.ROLE_TYPE.ADMIN.code ? (
               <>
                 <li className="nav-item">
                   <Link className="nav-link" to="#">
@@ -49,7 +44,8 @@ export default function Header() {
             ) : (
               <></>
             )}
-            {role === "employee" || role === "admin" ? (
+            {role === setting.ROLE_TYPE.EMPLOYEE.code ||
+            role === setting.ROLE_TYPE.ADMIN.code ? (
               <>
                 <li className="nav-item">
                   <Link className="nav-link" to="/">
@@ -102,7 +98,8 @@ export default function Header() {
               <></>
             )}
           </ul>
-          {role === "admin" || role === "store" ? (
+          {role === setting.ROLE_TYPE.ADMIN.code ||
+          role === setting.ROLE_TYPE.STORE.code ? (
             <div
               className="collapse navbar-collapse"
               id="navbarSupportedContent"

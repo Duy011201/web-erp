@@ -63,6 +63,7 @@ export default function WarehouseExport() {
     ghiChu: "",
   });
 
+  let [indexWarehouseExport, setIndexWarehouseExport] = useState(0);
   const changeWarehouseExport = e => {
     const { name, value } = e.target;
     setWarehouseExport(prevData => ({
@@ -78,8 +79,6 @@ export default function WarehouseExport() {
       [name]: value,
     }));
   };
-
-  let indexWarehouseExport = 0;
 
   const handleIsSPOrNVL = code => {
     code === setting.WAREHOUSE_RECEIPT_DETAIL_STATUS.PRODUCT.code
@@ -764,21 +763,18 @@ export default function WarehouseExport() {
     }, 500);
   }, []);
 
-  const setIndexWarehouseExport = index => {
-    indexWarehouseExport = index;
-
-    console.log();
-
+  const updateIndexWarehouseExport = async index => {
+    setIndexWarehouseExport(index);
     if (listWarehouseExport.length > 0) {
       setWarehouseExportDetail({
         id: "",
-        maPN: listWarehouseExport[indexWarehouseExport].id,
+        maPN: index,
         maSP: 0,
         maNVL: 0,
         soLuong: 0,
         ghiChu: "",
       });
-      getAllWarehouseExportDetail(listWarehouseExport[indexWarehouseExport].id);
+      await getAllWarehouseExportDetail(index);
     }
   };
 
@@ -820,7 +816,7 @@ export default function WarehouseExport() {
                       className={`clb bdbt1px${
                         (i + 1) % 2 === 0 ? " odd" : ""
                       }`}
-                      onClick={() => setIndexWarehouseExport(i)}
+                      onClick={() => updateIndexWarehouseExport(i)}
                     >
                       <div
                         className={`catalog-item pdl10 clb font14 pdr5 ${

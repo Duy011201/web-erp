@@ -1,20 +1,20 @@
 const ROLE_LOCAL = localStorage.getItem("role");
 const USER_LOCAL = localStorage.getItem("user");
 
-const LIST_ROLE = [
-  {
-    role: "employee",
-    desc: "Nhân viên hệ thống",
+const ROLE_TYPE = {
+  EMPLOYEE: {
+    code: "EMPLOYEE",
+    name: "Quản lý nhân viên",
   },
-  {
-    role: "manager",
-    desc: "Quản lý hệ thống",
+  STORE: {
+    code: "STORE",
+    name: "Quản lý kho",
   },
-  {
-    role: "admin",
-    desc: "Admin hệ thống",
+  ADMIN: {
+    code: "ADMIN",
+    name: "Admin hệ thống",
   },
-];
+};
 
 const BASE_URL = "http://localhost:8080/api";
 const URL_API = {
@@ -70,7 +70,7 @@ const URL_API = {
   UPDATE_EMPLOYEE_BY_ID: "/employee/update",
   GET_EMPLOYEE_BY_ID: "/employee",
   CREATE_EMPLOYEE: "/employee/create",
-  DELETE_EMPLOYEE_BY_ID: "employee/delete",
+  DELETE_EMPLOYEE_BY_ID: "/employee/delete",
   GET_ALL_EMPLOYEE: "/employee/all",
 
   UPDATE_REWARD_DISCIPLINE_BY_ID: "/reward-discipline/update",
@@ -194,7 +194,7 @@ const STATUS_CODE = {
 const setting = Object.freeze({
   ROLE_LOCAL,
   USER_LOCAL,
-  LIST_ROLE,
+  ROLE_TYPE,
   BASE_URL,
   URL_API,
   ACTION,

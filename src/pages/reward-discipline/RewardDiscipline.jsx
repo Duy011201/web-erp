@@ -50,7 +50,25 @@ export default function RewardDiscipline() {
     { field: "id", headerName: "Mã", width: 100 },
     { field: "maNV", headerName: "Mã nhân viên", width: 150 },
     { field: "hoTen", headerName: "Tên nhân viên", width: 150 },
-    { field: "hinhThuc", headerName: "Hình thức", width: 150 },
+    {
+      field: "hinhThuc",
+      headerName: "Hình thức",
+      width: 150,
+      renderCell: params => (
+        <div
+          style={{
+            color:
+              params.value === setting.REWARD_DISCIPLINE_TYPE.DISCIPLINE.code
+                ? "Kỷ luật"
+                : "Khen thưởng",
+          }}
+        >
+          {params.value === setting.REWARD_DISCIPLINE_TYPE.DISCIPLINE.code
+            ? setting.REWARD_DISCIPLINE_TYPE.DISCIPLINE.name
+            : setting.REWARD_DISCIPLINE_TYPE.REWARD.name}
+        </div>
+      ),
+    },
     { field: "lyDo", headerName: "Lý do", width: 200 },
     { field: "ngayKTKL", headerName: "Ngày", width: 150 },
     {

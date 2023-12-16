@@ -59,7 +59,7 @@ export default function Store() {
                 ? "orange"
                 : params.value === setting.STORE_STATUS.IN_USE.code
                 ? "green"
-                : "yellow",
+                : "red",
           }}
         >
           {params.value && params.value === setting.STORE_STATUS.EMPTY.code

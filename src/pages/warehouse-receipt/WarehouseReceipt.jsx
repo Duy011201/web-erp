@@ -34,7 +34,6 @@ import {
 import setting from "../../setting.js";
 
 export default function WarehouseReceipt() {
-  const [user, setUser] = useState({});
   const [loading, setLoading] = useState(false);
   const [isConvert, setIsConvert] = useState(true);
   const [listWarehouseReceipt, setListWarehouseReceipt] = useState([]);
@@ -62,6 +61,7 @@ export default function WarehouseReceipt() {
     soLuong: 0,
     ghiChu: "",
   });
+  let [indexWarehouseReceipt, setIndexWarehouseReceipt] = useState(0);
 
   const changeWarehouseReceipt = e => {
     const { name, value } = e.target;
@@ -78,8 +78,6 @@ export default function WarehouseReceipt() {
       [name]: value,
     }));
   };
-
-  let indexWarehouseReceipt = 0;
 
   const handleIsSPOrNVL = code => {
     code === setting.WAREHOUSE_RECEIPT_DETAIL_STATUS.PRODUCT.code
@@ -743,30 +741,24 @@ export default function WarehouseReceipt() {
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
-      setUser(setting.USER_LOCAL);
       getAllProduct();
       getAllMaterial();
       getAllWarehouseReceipt();
     }, 500);
   }, []);
 
-  const setIndexWarehouseReceipt = index => {
-    indexWarehouseReceipt = index;
-
-    console.log();
-
+  const updateIndexWarehouseReceipt = async index => {
+    setIndexWarehouseReceipt(index);
     if (listWarehouseReceipt.length > 0) {
       setWarehouseReceiptDetail({
         id: "",
-        maPN: listWarehouseReceipt[indexWarehouseReceipt].id,
+        maPN: index,
         maSP: 0,
         maNVL: 0,
         soLuong: 0,
         ghiChu: "",
       });
-      getAllWarehouseReceiptDetail(
-        listWarehouseReceipt[indexWarehouseReceipt].id
-      );
+      await getAllWarehouseReceiptDetail(index);
     }
   };
 
@@ -808,7 +800,7 @@ export default function WarehouseReceipt() {
                       className={`clb bdbt1px${
                         (i + 1) % 2 === 0 ? " odd" : ""
                       }`}
-                      onClick={() => setIndexWarehouseReceipt(i)}
+                      onClick={() => updateIndexWarehouseReceipt(i)}
                     >
                       <div
                         className={`catalog-item pdl10 clb font14 pdr5 ${
@@ -842,7 +834,7 @@ export default function WarehouseReceipt() {
                           />
                         </div>
                         <div className="catalog-item-right">
-                          <p title={item.id}>{item.id}</p>
+                          <p title={item.id}>Mã phiếu {item.id}</p>
                           <p className="customer-name" title={item.loaiHang}>
                             {item.loaiHang}
                           </p>

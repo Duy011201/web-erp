@@ -98,7 +98,7 @@ export default function Employee() {
     setOpen(false);
 
     if (isEmptyNullUndefined(formData.hoTen)) {
-      error("Bạn chưa nhập tên!");
+      error("Bạn chưa nhập tên nhân viên!");
       return;
     }
 
@@ -114,6 +114,11 @@ export default function Employee() {
 
     if (isEmptyNullUndefined(formData.soCCCD)) {
       error("Bạn chưa nhập số CCCD!");
+      return;
+    }
+
+    if (formData.soCCCD.length < 12 || formData.soCCCD.length > 12) {
+      error("Bạn chưa nhập đúng địng dạng số CCCD!");
       return;
     }
 

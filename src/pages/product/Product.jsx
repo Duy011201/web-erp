@@ -113,7 +113,7 @@ export default function Product() {
       return;
     }
 
-    if (isNumber(formData.gia)) {
+    if (isNumber(parseInt(formData.gia))) {
       error("Sai định dạng giá sản phẩm!");
       return;
     }
