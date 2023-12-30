@@ -28,15 +28,20 @@ export default function Login() {
       return;
     }
 
+    if (formData.password.length < 5 || formData.password.length > 20) {
+      error("Mật khẩu phải lớn hơn 5 ký tự hoặc nhỏ hơn 20 ký tự!");
+      return;
+    }
+
     await CHECK_LOGIN(formData).then(res => {
       setLoading(false);
       if (res.data.data.length > 0) {
         localStorage.setItem("role", res.data.data[0].quyen);
         localStorage.setItem(
-          "user",
+          "USER",
           JSON.stringify({ id: res.data.data[0].id })
         );
-        window.location = "/";
+        // window.location = "/";
         success(res.data.msg);
       } else {
         error("Tài khoản hoặc mật khẩu không chính xác!");

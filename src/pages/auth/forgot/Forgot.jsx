@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Loading from "../../../components/loading/Loading";
 import { REGISTER, UPDATE_PASSWORD } from "../../service";
 import setting from "../../../setting.js";
+import { isEmptyNullUndefined } from "../../../common/core.js";
 
 export default function Forgot() {
   const [loading, setLoading] = useState(false);
@@ -20,6 +21,12 @@ export default function Forgot() {
 
   const handleSubmit = async e => {
     e.preventDefault();
+
+    if (isEmptyNullUndefined(formData.email)) {
+      error("Bạn chưa nhập email!");
+      return;
+    }
+
     await REGISTER(formData).then(async res => {
       setLoading(false);
       if (res.data.data.length === 0) {
@@ -28,10 +35,13 @@ export default function Forgot() {
       } else {
         const data = res.data.data[0];
         if (verifyCode.isCode === false) {
-          console.log(res.data.data[0]);
           setVerifyCode({ isCode: true });
           return;
         } else {
+          if (formData.password.length < 5 || formData.password.length > 20) {
+            error("Mật khẩu phải lớn hơn 5 ký tự hoặc nhỏ hơn 20 ký tự!");
+            return;
+          }
           await UPDATE_PASSWORD({
             id: data.maTK,
             password: formData.password,

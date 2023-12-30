@@ -34,6 +34,11 @@ export default function Register() {
       return;
     }
 
+    if (formData.password.length < 5 || formData.password.length > 20) {
+      error("Mật khẩu phải lớn hơn 5 ký tự hoặc nhỏ hơn 20 ký tự!");
+      return;
+    }
+
     await REGISTER(formData).then(async res => {
       setLoading(false);
       if (res.data.data.length > 0) {
