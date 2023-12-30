@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Loading from "../../../components/loading/Loading";
 import { CHECK_LOGIN } from "../../service.js";
 import { isEmptyNullUndefined } from "../../../common/core.js";
-import setting from "../../../setting.js";
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -41,7 +40,7 @@ export default function Login() {
           "USER",
           JSON.stringify({ id: res.data.data[0].id })
         );
-        // window.location = "/";
+        window.location = "/";
         success(res.data.msg);
       } else {
         error("Tài khoản hoặc mật khẩu không chính xác!");

@@ -1,5 +1,5 @@
 const ROLE_LOCAL = localStorage.getItem("role");
-const USER_LOCAL = localStorage.getItem("user");
+const USER_LOCAL = localStorage.getItem("USER");
 
 const ROLE_TYPE = {
   EMPLOYEE: {
@@ -13,6 +13,10 @@ const ROLE_TYPE = {
   ADMIN: {
     code: "ADMIN",
     name: "Admin hệ thống",
+  },
+  USER: {
+    code: "USER",
+    name: "Người dùng hệ thống",
   },
 };
 

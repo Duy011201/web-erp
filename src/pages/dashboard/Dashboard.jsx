@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
 import Loading from "../../components/loading/Loading";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./style.scss";
 
 export default function Dashboard() {
@@ -20,11 +19,11 @@ export default function Dashboard() {
       {loading ? (
         <Loading />
       ) : (
-        <body className="wrap-dashboard">
-          <Header></Header>
+        <div className="wrap-dashboard">
+          <Header />
           <div className="container">ERP</div>
           <Footer />
-        </body>
+        </div>
       )}
     </div>
   );
