@@ -22,10 +22,12 @@ export default function NoPage() {
   return (
     <div className="container-fluid m-0 p-0 wrap-home vh-100 bg-lazy d-flex justify-content-center align-items-center">
       <div>
-        <h3 className="text-center text-danger">Trang này không tồn tại</h3>
-        <p className="mt-2">
+        <h3 className="text-center text-danger">
+          Trang này không tồn tại hoặc bạn không có quyền truy cập
+        </h3>
+        <h3 className="mt-2">
           Hệ thống sẽ tự chuyển về trang đăng nhập sau {count}
-        </p>
+        </h3>
       </div>
     </div>
   );

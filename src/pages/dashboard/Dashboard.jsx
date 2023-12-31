@@ -14,7 +14,7 @@ export default function Dashboard() {
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
-      localStorage.setItem("role", "ADMIN");
+      localStorage.setItem("role", "USER");
       setRole(setting.ROLE_LOCAL);
       setLoading(false);
     }, 500);
@@ -127,6 +127,11 @@ export default function Dashboard() {
                   <span>Nguyên vật liệu</span>
                 </Link>
               </div>
+            ) : (
+              <></>
+            )}
+            {role === setting.ROLE_TYPE.USER.code ? (
+              <header>Bạn chưa được cấp quyền sử dụng hệ thống</header>
             ) : (
               <></>
             )}

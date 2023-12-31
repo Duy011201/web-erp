@@ -25,9 +25,7 @@ export default function Home() {
       ) : (
         <>
           {role === setting.ROLE_TYPE.USER.code ? (
-            <>
-              <header>Bạn chưa được cấp quyền sử dụng hệ thống</header>
-            </>
+            <header>Bạn chưa được cấp quyền sử dụng hệ thống</header>
           ) : (
             <>
               <header>Chào mừng bạn trở lại</header>
