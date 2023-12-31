@@ -12,12 +12,20 @@
   }
 
   .container {
-    display: flex;
     width: 100vw;
-    height: 83vh;
-    gap: 30px;
-    .icon-user,
-    .icon-warehouse {
+    height: 82vh;
+
+    .wrap-item {
+      width: 100px;
+      height: 200px;
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: column;
+      text-align: center;
+      gap: 5px;
+    }
+
+    .icon {
       font-size: 50px;
     }
   }

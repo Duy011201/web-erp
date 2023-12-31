@@ -12,6 +12,12 @@ import {
   faTrash,
   faCircleUser,
   faWarehouse,
+  faScaleBalanced,
+  faBusinessTime,
+  faSitemap,
+  faCertificate,
+  faRecycle,
+  faSquare
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -26,5 +32,11 @@ library.add(
   faPencil,
   faTrash,
   faCircleUser,
-  faWarehouse
+  faWarehouse,
+  faScaleBalanced,
+  faBusinessTime,
+  faSitemap,
+  faCertificate,
+  faRecycle,
+  faSquare
 );

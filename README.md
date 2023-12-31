@@ -8,13 +8,13 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
 # Install and start project
+
 - Step 1: Install NodeJS version 16.16.0 [https://nodejs.org/en/blog/release/v16.16.0]
-  
-- Step 2: Install Git                    [https://git-scm.com/downloads]
-  
+- Step 2: Install Git [https://git-scm.com/downloads]
 - Step 3: Clone project (Choose 1 of 2 ways):
-  + Command line: git clone https://github.com/Duy011201/web-erp.git
-  + Download ZIP: open [https://github.com/Duy011201/web-erp] -> Code -> Download ZIP
+
+  - Command line: git clone https://github.com/Duy011201/web-erp.git
+  - Download ZIP: open [https://github.com/Duy011201/web-erp] -> Code -> Download ZIP
 
 - Step 4: Open Command line cd web-erp: git checkout dev
 

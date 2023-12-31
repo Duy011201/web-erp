@@ -214,7 +214,6 @@ export const GET_ALL_EMPLOYEE = body => {
   return axios.post(setting.BASE_URL + setting.URL_API.GET_ALL_EMPLOYEE, body);
 };
 
-
 // Reward discipline
 export const UPDATE_REWARD_DISCIPLINE_BY_ID = updateData => {
   return axios.post(
@@ -243,7 +242,10 @@ export const DELETE_REWARD_DISCIPLINE_BY_ID = id => {
 };
 
 export const GET_ALL_REWARD_DISCIPLINE = body => {
-  return axios.post(setting.BASE_URL + setting.URL_API.GET_ALL_REWARD_DISCIPLINE, body);
+  return axios.post(
+    setting.BASE_URL + setting.URL_API.GET_ALL_REWARD_DISCIPLINE,
+    body
+  );
 };
 
 // Warehouse Export

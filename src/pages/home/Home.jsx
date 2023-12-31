@@ -32,20 +32,27 @@ export default function Home() {
             <>
               <header>Chào mừng bạn trở lại</header>
               <div className="container">
-                <Link to="/dashboard">
-                  <FontAwesomeIcon
-                    className="icon-user mt-15"
-                    icon="fas fa-users"
-                    title="Hệ thống quản lý nhân viên"
-                  />
-                </Link>
-                <Link to="/dashboard">
-                  <FontAwesomeIcon
-                    className="icon-warehouse mt-15"
-                    icon="fas fa-warehouse"
-                    title="Hệ thống quản lý kho"
-                  />
-                </Link>
+                <div className="d-flex gap-3">
+                  <Link className="wrap-item" to="/dashboard">
+                    <FontAwesomeIcon
+                      className="icon mt-15"
+                      icon="fas fa-users"
+                      title="Hệ thống quản lý nhân viên"
+                    />
+                    <span>Hệ thống quản lý nhân viên</span>
+                  </Link>
+
+                  <Link className="wrap-item" to="/dashboard">
+                    <Link to="/dashboard">
+                      <FontAwesomeIcon
+                        className="icon mt-15"
+                        icon="fas fa-warehouse"
+                        title="Hệ thống quản lý kho"
+                      />
+                    </Link>
+                    <span>Hệ thống quản lý kho</span>
+                  </Link>
+                </div>
               </div>
             </>
           )}
