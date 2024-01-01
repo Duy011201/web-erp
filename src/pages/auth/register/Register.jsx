@@ -4,13 +4,14 @@ import { Link } from "react-router-dom";
 import { error, success } from "/src/common/sweetalert2.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Loading from "../../../components/loading/Loading";
-import { REGISTER, CREATE_REGISTER } from "../../service.js";
+import { REGISTER, CREATE_REGISTER, CREATE_EMPLOYEE } from "../../service.js";
 import { isEmptyNullUndefined } from "../../../common/core.js";
 import setting from "../../../setting.js";
 
 export default function Register() {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
+    maNV: "",
     email: "",
     password: "",
     rePassword: "",
@@ -45,15 +46,35 @@ export default function Register() {
         error("Tài khoản đã tồn tại!");
         return;
       } else {
-        await CREATE_REGISTER(formData).then(res => {
+        await CREATE_EMPLOYEE({
+          hoTen: "NEW",
+          gioiTinh: "",
+          ngaySinh: "",
+          soCCCD: "",
+          diaChi: "",
+          maPhongBan: 1,
+          maChucVu: 2,
+        }).then(async res => {
           setLoading(false);
-          if (res.data.status === setting.STATUS_CODE.OK) {
-            window.location = "/login";
-            success(res.data.msg);
-            return;
+          if (res.status === setting.STATUS_CODE.OK) {
+            let payload = {
+              maNV: res.data.newDataId,
+              email: formData.email,
+              password: formData.password
+            }
+            await CREATE_REGISTER(payload).then(res => {
+              setLoading(false);
+              if (res.data.status === setting.STATUS_CODE.OK) {
+                window.location = "/login";
+                success(res.data.msg);
+                return;
+              } else {
+                error("Có lỗi xảy ra vui lòng thử lại sau!");
+                return;
+              }
+            });
           } else {
-            error("Có lỗi xảy ra vui lòng thử lại sau!");
-            return;
+            error(res.data.msg);
           }
         });
       }
