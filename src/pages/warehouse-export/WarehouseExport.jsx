@@ -722,9 +722,16 @@ export default function WarehouseExport() {
   };
 
   useEffect(() => {
+    if (
+      setting.ROLE_LOCAL === setting.ROLE_TYPE.USER.code ||
+      setting.ROLE_LOCAL === setting.ROLE_TYPE.EMPLOYEE.code
+    ) {
+      window.location = "/authentication";
+      return;
+    }
+
     setLoading(true);
     setTimeout(() => {
-      setUser(setting.USER_LOCAL);
       getAllProduct();
       getAllMaterial();
       getAllWarehouseExport();

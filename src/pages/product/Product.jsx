@@ -20,6 +20,7 @@ import {
   DELETE_PRODUCT_BY_ID,
   UPDATE_PRODUCT_BY_ID,
   CREATE_PRODUCT,
+  GET_STORE_BY_ID,
 } from "../service.js";
 
 export default function Product() {
@@ -44,6 +45,27 @@ export default function Product() {
       ...prevData,
       [name]: value,
     }));
+  };
+
+  const handleInputStore = async e => {
+    const { name, value } = e.target;
+
+    await GET_STORE_BY_ID(value).then(res => {
+      setLoading(false);
+      let store;
+      if (res.status === setting.STATUS_CODE.OK) {
+        store = res.data.data[0];
+        if (store.trangThai === setting.STORE_STATUS.FULL.code) {
+          error("Kho này đã đầy, Vui lòng chọn kho khác!");
+          return;
+        } else {
+          setFormData(prevData => ({
+            ...prevData,
+            [name]: value,
+          }));
+        }
+      }
+    });
   };
 
   const columns = [
@@ -145,7 +167,10 @@ export default function Product() {
       return;
     }
 
-    if (isNumber(parseFloat(formData.gia)) || parseFloat(formData.gia) > 10000000000) {
+    if (
+      isNumber(parseFloat(formData.gia)) ||
+      parseFloat(formData.gia) > 10000000000
+    ) {
       error("Sai định dạng giá sản phẩm!");
       return;
     }
@@ -190,7 +215,10 @@ export default function Product() {
       return;
     }
 
-    if (isNumber(parseFloat(formData.gia)) || parseFloat(formData.gia) > 10000000000) {
+    if (
+      isNumber(parseFloat(formData.gia)) ||
+      parseFloat(formData.gia) > 10000000000
+    ) {
       error("Sai định dạng giá sản phẩm!");
       return;
     }
@@ -300,7 +328,6 @@ export default function Product() {
   };
 
   useEffect(() => {
-    localStorage.setItem("role", "ADMIN");
     setLoading(true);
     if (
       setting.ROLE_LOCAL === setting.ROLE_TYPE.USER.code ||
@@ -446,7 +473,7 @@ export default function Product() {
                     className="form-select"
                     aria-label="Default select example"
                     value={formData.maKho}
-                    onChange={handleInputChange}
+                    onChange={handleInputStore}
                     name="maKho"
                   >
                     <option value="">Chọn kho</option>

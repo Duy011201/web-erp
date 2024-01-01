@@ -14,7 +14,6 @@ export default function Dashboard() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      localStorage.setItem("role", "STORE");
     }, 500);
   }, []);
 

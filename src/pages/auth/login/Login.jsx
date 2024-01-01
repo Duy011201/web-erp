@@ -40,7 +40,7 @@ export default function Login() {
           "USER",
           JSON.stringify({ id: res.data.data[0].id })
         );
-        window.location = "/";
+        // window.location = "/";
         success(res.data.msg);
       } else {
         error("Tài khoản hoặc mật khẩu không chính xác!");

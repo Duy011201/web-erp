@@ -21,6 +21,7 @@ import {
   DELETE_MATERIAL_BY_ID,
   UPDATE_MATERIAL_BY_ID,
   CREATE_MATERIAL,
+  GET_STORE_BY_ID,
 } from "../service.js";
 import setting from "../../setting.js";
 
@@ -45,6 +46,27 @@ export default function Material() {
       ...prevData,
       [name]: value,
     }));
+  };
+
+  const handleInputStore = async e => {
+    const { name, value } = e.target;
+
+    await GET_STORE_BY_ID(value).then(res => {
+      setLoading(false);
+      let store;
+      if (res.status === setting.STATUS_CODE.OK) {
+        store = res.data.data[0];
+        if (store.trangThai === setting.STORE_STATUS.FULL.code) {
+          error("Kho này đã đầy, Vui lòng chọn kho khác!");
+          return;
+        } else {
+          setFormData(prevData => ({
+            ...prevData,
+            [name]: value,
+          }));
+        }
+      }
+    });
   };
 
   const columns = [
@@ -129,7 +151,10 @@ export default function Material() {
       return;
     }
 
-    if (isNumber(parseFloat(formData.gia)) || parseFloat(formData.gia) > 10000000000) {
+    if (
+      isNumber(parseFloat(formData.gia)) ||
+      parseFloat(formData.gia) > 10000000000
+    ) {
       error("Sai định dạng giá sản phẩm!");
       return;
     }
@@ -169,7 +194,10 @@ export default function Material() {
       return;
     }
 
-    if (isNumber(parseFloat(formData.gia)) || parseFloat(formData.gia) > 10000000000) {
+    if (
+      isNumber(parseFloat(formData.gia)) ||
+      parseFloat(formData.gia) > 10000000000
+    ) {
       error("Sai định dạng giá sản phẩm!");
       return;
     }
@@ -281,6 +309,13 @@ export default function Material() {
   };
 
   useEffect(() => {
+    if (
+      setting.ROLE_LOCAL === setting.ROLE_TYPE.USER.code ||
+      setting.ROLE_LOCAL === setting.ROLE_TYPE.EMPLOYEE.code
+    ) {
+      window.location = "/authentication";
+      return;
+    }
     setLoading(true);
     setTimeout(() => {
       getAllStore();
@@ -360,7 +395,7 @@ export default function Material() {
                     className="form-select"
                     aria-label="Default select example"
                     value={formData.maKho}
-                    onChange={handleInputChange}
+                    onChange={handleInputStore}
                     name="maKho"
                   >
                     <option value="">Chọn loại kho</option>
