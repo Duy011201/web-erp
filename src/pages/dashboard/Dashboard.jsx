@@ -9,14 +9,12 @@ import setting from "../../setting.js";
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(false);
-  const [role, setRole] = useState("");
 
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
-      localStorage.setItem("role", "USER");
-      setRole(setting.ROLE_LOCAL);
       setLoading(false);
+      localStorage.setItem("role", "STORE");
     }, 500);
   }, []);
 
@@ -28,8 +26,8 @@ export default function Dashboard() {
         <div className="wrap-dashboard">
           <Header />
           <div className="container mt-20">
-            {role === setting.ROLE_TYPE.EMPLOYEE.code ||
-            role === setting.ROLE_TYPE.ADMIN.code ? (
+            {setting.ROLE_LOCAL === setting.ROLE_TYPE.EMPLOYEE.code ||
+            setting.ROLE_LOCAL === setting.ROLE_TYPE.ADMIN.code ? (
               <div className="d-flex gap-3">
                 <Link className="wrap-item" to="/employee">
                   <FontAwesomeIcon
@@ -79,8 +77,8 @@ export default function Dashboard() {
             ) : (
               <></>
             )}
-            {role === setting.ROLE_TYPE.ADMIN.code ||
-            role === setting.ROLE_TYPE.STORE.code ? (
+            {setting.ROLE_LOCAL === setting.ROLE_TYPE.ADMIN.code ||
+            setting.ROLE_LOCAL === setting.ROLE_TYPE.STORE.code ? (
               <div className="d-flex gap-3">
                 <Link className="wrap-item" to="/store">
                   <FontAwesomeIcon
@@ -130,7 +128,7 @@ export default function Dashboard() {
             ) : (
               <></>
             )}
-            {role === setting.ROLE_TYPE.USER.code ? (
+            {setting.ROLE_LOCAL === setting.ROLE_TYPE.USER.code ? (
               <header>Bạn chưa được cấp quyền sử dụng hệ thống</header>
             ) : (
               <></>

@@ -189,6 +189,56 @@ const WAREHOUSE_RECEIPT_DETAIL_STATUS = {
   },
 };
 
+const PRODUCT_TYPE = {
+  SHORT_TERM: {
+    code: "SHORT_TERM",
+    name: "Ngắn hạn",
+  },
+  LONG_TERM: {
+    code: "LONG_TERM",
+    name: "Dài hạn",
+  },
+};
+
+const PRODUCT_UNIT = {
+  TON: {
+    code: "TON",
+    name: "Tấn",
+  },
+  TA: {
+    code: "TA",
+    name: "Tạ",
+  },
+  YEN: {
+    code: "YEN",
+    name: "Yến",
+  },
+  KG: {
+    code: "KG",
+    name: "Kilogram",
+  },
+  GAM: {
+    code: "GAM",
+    name: "Gram",
+  },
+  CAI: {
+    code: "CAI",
+    name: "Cái",
+  },
+  PACKAGING: {
+    code: "PACKAGING",
+    name: "Thùng",
+  },
+  BAG: {
+    code: "BAG",
+    name: "Túi",
+  },
+  PACKAGE: {
+    code: "PACKAGE",
+    name: "Gói",
+  },
+};
+
 const STATUS_CODE = {
   OK: 200,
   NOT_FOUND: 404,
@@ -210,6 +260,8 @@ const setting = Object.freeze({
   DEPARTMENT_TYPE,
   POSITION_TYPE,
   REWARD_DISCIPLINE_TYPE,
+  PRODUCT_UNIT,
+  PRODUCT_TYPE,
 });
 
 export default setting;

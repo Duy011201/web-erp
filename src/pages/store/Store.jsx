@@ -105,8 +105,6 @@ export default function Store() {
   ];
 
   const updateStore = async () => {
-    setOpen(false);
-
     if (isEmptyNullUndefined(formData.tenKho)) {
       error("Bạn chưa nhập tên kho!");
       return;
@@ -127,6 +125,7 @@ export default function Store() {
       return;
     }
 
+    setOpen(false);
     setLoading(true);
     await UPDATE_STORE_BY_ID(formData).then(res => {
       setLoading(false);
@@ -140,8 +139,6 @@ export default function Store() {
   };
 
   const createStore = async () => {
-    setOpen(false);
-
     if (isEmptyNullUndefined(formData.tenKho)) {
       error("Bạn chưa nhập tên kho!");
       return;
@@ -161,6 +158,7 @@ export default function Store() {
       error("Bạn chưa chọn kho!");
       return;
     }
+    setOpen(false);
     setLoading(true);
 
     await CREATE_STORE(formData).then(res => {
@@ -240,6 +238,13 @@ export default function Store() {
 
   useEffect(() => {
     setLoading(true);
+    if (
+      setting.ROLE_LOCAL === setting.ROLE_TYPE.USER.code ||
+      setting.ROLE_LOCAL === setting.ROLE_TYPE.EMPLOYEE.code
+    ) {
+      window.location = "/authentication";
+      return;
+    }
     setTimeout(() => {
       getALLStore();
     }, 500);
@@ -269,7 +274,7 @@ export default function Store() {
               </button>
             </div>
 
-            <div className="mt-20" style={{ height: 400, width: "100%" }}>
+            <div className="mt-20" style={{ height: 500, width: "100%" }}>
               <DataGrid
                 rows={listStore}
                 columns={columns}

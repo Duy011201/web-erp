@@ -8,13 +8,11 @@ import setting from "../../setting.js";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
-  const [role, setRole] = useState("");
 
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      setRole(localStorage.getItem("role"));
     }, 500);
   }, []);
 
@@ -24,7 +22,7 @@ export default function Home() {
         <Loading />
       ) : (
         <>
-          {role === setting.ROLE_TYPE.USER.code ? (
+          {setting.ROLE_LOCAL === setting.ROLE_TYPE.USER.code ? (
             <header>Bạn chưa được cấp quyền sử dụng hệ thống</header>
           ) : (
             <>

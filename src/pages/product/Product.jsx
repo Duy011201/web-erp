@@ -5,11 +5,10 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import React, { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import dayjs from "dayjs";
 import { error, success, confirmDialog } from "../../common/sweetalert2.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { isEmptyNullUndefined, isNumber } from "../../common/core.js";
-
+import setting from "../../setting.js";
 import Header from "../../components/header/Header.jsx";
 import Footer from "../../components/footer/Footer.jsx";
 import Loading from "../../components/loading/Loading.jsx";
@@ -22,7 +21,6 @@ import {
   UPDATE_PRODUCT_BY_ID,
   CREATE_PRODUCT,
 } from "../service.js";
-import setting from "../../setting.js";
 
 export default function Product() {
   const [loading, setLoading] = useState(false);
@@ -51,11 +49,47 @@ export default function Product() {
   const columns = [
     { field: "id", headerName: "Mã", width: 100 },
     { field: "tenSP", headerName: "Tên", width: 150 },
-    { field: "loaiSP", headerName: "Loại", width: 150 },
-    { field: "donViTinh", headerName: "Đơn vị tính", width: 150 },
+    {
+      field: "loaiSP",
+      headerName: "Loại",
+      width: 150,
+      renderCell: params => (
+        <div>
+          {params.value === setting.PRODUCT_TYPE.LONG_TERM.code
+            ? setting.PRODUCT_TYPE.LONG_TERM.name
+            : setting.PRODUCT_TYPE.SHORT_TERM.name}
+        </div>
+      ),
+    },
+    {
+      field: "donViTinh",
+      headerName: "Đơn vị tính",
+      width: 150,
+      renderCell: params => (
+        <div>
+          {params.value === setting.PRODUCT_UNIT.TON.code
+            ? setting.PRODUCT_UNIT.TON.name
+            : setting.PRODUCT_UNIT.TA.code
+            ? setting.PRODUCT_UNIT.TA.name
+            : setting.PRODUCT_UNIT.YEN.code
+            ? setting.PRODUCT_UNIT.YEN.name
+            : setting.PRODUCT_UNIT.KG.code
+            ? setting.PRODUCT_UNIT.KG.name
+            : setting.PRODUCT_UNIT.GAM.code
+            ? setting.PRODUCT_UNIT.GAM.name
+            : setting.PRODUCT_UNIT.CAI.code
+            ? setting.PRODUCT_UNIT.CAI.name
+            : setting.PRODUCT_UNIT.PACKAGING.code
+            ? setting.PRODUCT_UNIT.PACKAGING.name
+            : setting.PRODUCT_UNIT.BAG.code
+            ? setting.PRODUCT_UNIT.BAG.name
+            : setting.PRODUCT_UNIT.PACKAGE.name}
+        </div>
+      ),
+    },
     { field: "soLuong", headerName: "Số lượng", width: 150 },
     { field: "gia", headerName: "Giá", width: 150 },
-    { field: "maKho", headerName: "Mã kho", width: 150 },
+    { field: "maKho", headerName: "Mã kho", width: 100 },
     {
       field: "",
       headerName: "Thao tác",
@@ -91,8 +125,6 @@ export default function Product() {
   ];
 
   const updateProduct = async () => {
-    setOpen(false);
-
     if (isEmptyNullUndefined(formData.tenSP)) {
       error("Bạn chưa nhập tên sản phẩm!");
       return;
@@ -108,21 +140,22 @@ export default function Product() {
       return;
     }
 
-    if (isNumber(formData.soLuong)) {
+    if (isNumber(formData.soLuong) || formData.soLuong > 100000) {
       error("Sai định dạng số lượng sản phẩm!");
       return;
     }
 
-    if (isNumber(parseInt(formData.gia))) {
+    if (isNumber(parseFloat(formData.gia)) || parseFloat(formData.gia) > 10000000000) {
       error("Sai định dạng giá sản phẩm!");
       return;
     }
 
-    if (isEmptyNullUndefined(formData.maKho)) {
-      error("Bạn chưa chọn mã kho!");
+    if (isNumber(formData.maKho)) {
+      error("Bạn chưa chọn kho!");
       return;
     }
 
+    setOpen(false);
     setLoading(true);
     await UPDATE_PRODUCT_BY_ID(formData).then(res => {
       setLoading(false);
@@ -137,8 +170,6 @@ export default function Product() {
   };
 
   const createProduct = async () => {
-    setOpen(false);
-
     if (isEmptyNullUndefined(formData.tenSP)) {
       error("Bạn chưa nhập tên sản phẩm!");
       return;
@@ -154,12 +185,12 @@ export default function Product() {
       return;
     }
 
-    if (isNumber(formData.soLuong)) {
+    if (isNumber(formData.soLuong) || formData.soLuong > 100000) {
       error("Sai định dạng số lượng sản phẩm!");
       return;
     }
 
-    if (isNumber(formData.gia)) {
+    if (isNumber(parseFloat(formData.gia)) || parseFloat(formData.gia) > 10000000000) {
       error("Sai định dạng giá sản phẩm!");
       return;
     }
@@ -168,6 +199,7 @@ export default function Product() {
       error("Bạn chưa nhập mã kho!");
       return;
     }
+    setOpen(false);
     setLoading(true);
 
     await CREATE_PRODUCT(formData).then(res => {
@@ -268,7 +300,16 @@ export default function Product() {
   };
 
   useEffect(() => {
+    localStorage.setItem("role", "ADMIN");
     setLoading(true);
+    if (
+      setting.ROLE_LOCAL === setting.ROLE_TYPE.USER.code ||
+      setting.ROLE_LOCAL === setting.ROLE_TYPE.EMPLOYEE.code
+    ) {
+      window.location = "/authentication";
+      return;
+    }
+
     setTimeout(() => {
       getAllStore();
       getAllProduct();
@@ -341,31 +382,22 @@ export default function Product() {
                     required
                   />
                 </div>
-                <div className="form-group mt-10 col-md-6">
+                <div className="col-md-6 mt-10">
                   <label htmlFor="loaiSP">Loại sản phẩm</label>
-                  <input
-                    type="text"
-                    name="loaiSP"
+                  <select
+                    className="form-select"
+                    aria-label="Default select example"
                     value={formData.loaiSP}
                     onChange={handleInputChange}
-                    className="form-control"
-                    placeholder="Nhập loại sản phẩm"
-                    required
-                  />
-                </div>
-              </div>
-              <div className="row">
-                <div className="form-group mt-10 col-md-6">
-                  <label htmlFor="donViTinh">Đơn vị tính</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="donViTinh"
-                    value={formData.donViTinh}
-                    placeholder="Nhập đơn vị tính"
-                    onChange={handleInputChange}
-                    required
-                  />
+                    name="loaiSP"
+                  >
+                    <option value="">Chọn loại sản phẩm</option>
+                    {Object.values(setting.PRODUCT_TYPE).map(store => (
+                      <option key={store.code} value={store.code}>
+                        {store.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <div className="form-group mt-10 col-md-6">
                   <label htmlFor="soLuong">Số lượng</label>
@@ -379,8 +411,23 @@ export default function Product() {
                     required
                   />
                 </div>
-              </div>
-              <div className="row">
+                <div className="col-md-6 mt-10">
+                  <label htmlFor="donViTinh">Đơn vị tính</label>
+                  <select
+                    className="form-select"
+                    aria-label="Default select example"
+                    value={formData.donViTinh}
+                    onChange={handleInputChange}
+                    name="donViTinh"
+                  >
+                    <option value="">Chọn đơn vị tính</option>
+                    {Object.values(setting.PRODUCT_UNIT).map(store => (
+                      <option key={store.code} value={store.code}>
+                        {store.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
                 <div className="form-group mt-10 col-md-6">
                   <label htmlFor="gia">Giá</label>
                   <input
@@ -402,7 +449,7 @@ export default function Product() {
                     onChange={handleInputChange}
                     name="maKho"
                   >
-                    <option value="">Chọn loại kho</option>
+                    <option value="">Chọn kho</option>
                     {listStore.map(store => (
                       <option key={store.id} name={store.id} value={store.id}>
                         {store.tenKho}
