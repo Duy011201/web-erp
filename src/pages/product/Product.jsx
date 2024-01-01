@@ -74,7 +74,7 @@ export default function Product() {
     {
       field: "loaiSP",
       headerName: "Loại",
-      width: 150,
+      width: 100,
       renderCell: params => (
         <div>
           {params.value === setting.PRODUCT_TYPE.LONG_TERM.code
@@ -86,7 +86,7 @@ export default function Product() {
     {
       field: "donViTinh",
       headerName: "Đơn vị tính",
-      width: 150,
+      width: 100,
       renderCell: params => (
         <div>
           {params.value === setting.PRODUCT_UNIT.TON.code
@@ -109,9 +109,10 @@ export default function Product() {
         </div>
       ),
     },
-    { field: "soLuong", headerName: "Số lượng", width: 150 },
-    { field: "gia", headerName: "Giá", width: 150 },
+    { field: "soLuong", headerName: "Số lượng", width: 100 },
+    { field: "gia", headerName: "Giá", width: 100 },
     { field: "maKho", headerName: "Mã kho", width: 100 },
+    { field: "tenKho", headerName: "Tên kho", width: 200 },
     {
       field: "",
       headerName: "Thao tác",

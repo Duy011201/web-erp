@@ -106,8 +106,6 @@ export default function RewardDiscipline() {
   ];
 
   const update = async () => {
-    setOpen(false);
-
     if (isEmptyNullUndefined(formData.maNV)) {
       error("Bạn chưa chọn nhân viên!");
       return;
@@ -129,6 +127,7 @@ export default function RewardDiscipline() {
     }
 
     setLoading(true);
+    setOpen(false);
     await UPDATE_REWARD_DISCIPLINE_BY_ID(formData).then(res => {
       setLoading(false);
       if (res.status === setting.STATUS_CODE.OK) {
@@ -141,8 +140,6 @@ export default function RewardDiscipline() {
   };
 
   const create = async () => {
-    setOpen(false);
-
     if (isEmptyNullUndefined(formData.maNV)) {
       error("Bạn chưa chọn nhân viên!");
       return;
@@ -163,6 +160,7 @@ export default function RewardDiscipline() {
       return;
     }
     setLoading(true);
+    setOpen(false);
 
     await CREATE_REWARD_DISCIPLINE(formData).then(res => {
       setLoading(false);
