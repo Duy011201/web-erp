@@ -8,5 +8,5 @@ export const isEmptyNullUndefined = value => {
 
 export const isNumber = value => {
   const regex = /^\d+$/;
-  return !regex.test(value) || parseInt(value) <= 0;
+  return !regex.test(value);
 };

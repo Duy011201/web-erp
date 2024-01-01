@@ -95,8 +95,6 @@ export default function Employee() {
   ];
 
   const update = async () => {
-    setOpen(false);
-
     if (isEmptyNullUndefined(formData.hoTen)) {
       error("Bạn chưa nhập tên nhân viên!");
       return;
@@ -114,6 +112,11 @@ export default function Employee() {
 
     if (isEmptyNullUndefined(formData.soCCCD)) {
       error("Bạn chưa nhập số CCCD!");
+      return;
+    }
+
+    if (isNumber(formData.soCCCD)) {
+      error("Bạn chưa nhập đúng địng dạng số CCCD!");
       return;
     }
 
@@ -138,6 +141,7 @@ export default function Employee() {
     }
 
     setLoading(true);
+    setOpen(false);
     await UPDATE_EMPLOYEE_BY_ID(formData).then(res => {
       setLoading(false);
       if (res.status === setting.STATUS_CODE.OK) {
@@ -150,8 +154,6 @@ export default function Employee() {
   };
 
   const create = async () => {
-    setOpen(false);
-
     if (isEmptyNullUndefined(formData.hoTen)) {
       error("Bạn chưa nhập tên!");
       return;
@@ -167,8 +169,13 @@ export default function Employee() {
       return;
     }
 
-    if (isEmptyNullUndefined(formData.soCCCD)) {
-      error("Bạn chưa nhập số CCCD!");
+    if (isNumber(formData.soCCCD)) {
+      error("Bạn chưa nhập đúng địng dạng số CCCD!");
+      return;
+    }
+
+    if (formData.soCCCD.length < 12 || formData.soCCCD.length > 12) {
+      error("Bạn chưa nhập đúng địng dạng số CCCD!");
       return;
     }
 
@@ -187,6 +194,7 @@ export default function Employee() {
       return;
     }
     setLoading(true);
+    setOpen(false);
 
     await CREATE_EMPLOYEE(formData).then(res => {
       setLoading(false);
