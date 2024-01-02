@@ -11,6 +11,9 @@ import Material from "./pages/material/Material";
 import WarehouseReceipt from "./pages/warehouse-receipt/WarehouseReceipt";
 import Personal from "./pages/personal/Personal";
 import Employee from "./pages/employee/Employee";
+import Department from "./pages/department/Department";
+import Position from "./pages/position/Position";
+import WorkingProcess from "./pages/workingprocess/Workingprocess";
 import RewardDiscipline from "./pages/reward-discipline/RewardDiscipline";
 import Dashboard from "./pages/dashboard/Dashboard";
 import WarehouseExport from "./pages/warehouse-export/WarehouseExport";
@@ -30,6 +33,9 @@ function App() {
         <Route path="/warehouse-receipt" element={<WarehouseReceipt />} />
         <Route path="/warehouse-export" element={<WarehouseExport />} />
         <Route path="/employee" element={<Employee />} />
+        <Route path="/position" element={<Position />} />
+        <Route path="/department" element={<Department />} />
+        <Route path="/workingprocess" element={<WorkingProcess />} />
         <Route path="/reward-discipline" element={<RewardDiscipline />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="*" element={<NoPage />} />

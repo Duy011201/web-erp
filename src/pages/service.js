@@ -214,6 +214,7 @@ export const GET_ALL_EMPLOYEE = body => {
   return axios.post(setting.BASE_URL + setting.URL_API.GET_ALL_EMPLOYEE, body);
 };
 
+
 // Reward discipline
 export const UPDATE_REWARD_DISCIPLINE_BY_ID = updateData => {
   return axios.post(
@@ -242,10 +243,7 @@ export const DELETE_REWARD_DISCIPLINE_BY_ID = id => {
 };
 
 export const GET_ALL_REWARD_DISCIPLINE = body => {
-  return axios.post(
-    setting.BASE_URL + setting.URL_API.GET_ALL_REWARD_DISCIPLINE,
-    body
-  );
+  return axios.post(setting.BASE_URL + setting.URL_API.GET_ALL_REWARD_DISCIPLINE, body);
 };
 
 // Warehouse Export
@@ -320,11 +318,93 @@ export const DELETE_WAREHOUSE_EXPORT_DETAIL_BY_ID = id => {
 export const GET_ALL_POSITION = body => {
   return axios.post(setting.BASE_URL + setting.URL_API.GET_ALL_POSITION, body);
 };
+export const GET_POSITION_BY_ID = id => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.GET_POSITION_BY_ID}?id=${id}`
+  );
+};
+
+export const UPDATE_POSITION_BY_ID = updateData => {
+  return axios.post(
+    setting.BASE_URL + setting.URL_API.UPDATE_POSITION_BY_ID,
+    updateData
+  );
+};
+
+export const CREATE_POSITION = newData => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.CREATE_POSITION}`,
+    newData
+  );
+};
+
+export const DELETE_POSITION_BY_ID = id => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.DELETE_POSITION_BY_ID}?id=${id}`
+  );
+};
 
 // Department
 export const GET_ALL_DEPARTMENT = body => {
   return axios.post(
     setting.BASE_URL + setting.URL_API.GET_ALL_DEPARTMENT,
     body
+  );
+};
+export const GET_DEPARTMENT_BY_ID = id => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.GET_DEPARTMENT_BY_ID}?id=${id}`
+  );
+};
+
+export const UPDATE_DEPARTMENT_BY_ID = updateData => {
+  return axios.post(
+    setting.BASE_URL + setting.URL_API.UPDATE_DEPARTMENT_BY_ID,
+    updateData
+  );
+};
+
+export const CREATE_DEPARTMENT = newData => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.CREATE_DEPARTMENT}`,
+    newData
+  );
+};
+
+export const DELETE_DEPARTMENT_BY_ID = id => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.DELETE_DEPARTMENT_BY_ID}?id=${id}`
+  );
+};
+//workingprocess
+export const GET_ALL_WORKINGPROCESS = body => {
+  return axios.post(
+    setting.BASE_URL + setting.URL_API.GET_ALL_WORKINGPROCESS,
+    body
+  );
+};
+export const GET_WORKINGPROCESS_BY_ID = id => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.GET_WORKINGPROCESS_BY_ID}?id=${id}`
+  );
+};
+
+export const UPDATE_WORKINGPROCESS_BY_ID = updateData => {
+  return axios.post(
+    setting.BASE_URL + setting.URL_API.UPDATE_WORKINGPROCESS_BY_ID,
+    updateData
+  );
+};
+
+export const CREATE_WORKINGPROCESS = newData => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.CREATE_WORKINGPROCESS}`,
+    newData
+  );
+};
+
+export const DELETE_WORKINGPROCESS_BY_ID = id => {
+  return axios.post(
+    `${setting.BASE_URL}${setting.URL_API.DELETE_WORKINGPROCESS_BY_ID}?id=${id}`
   );
 };
