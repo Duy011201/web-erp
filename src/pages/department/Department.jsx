@@ -146,7 +146,7 @@ export default function Department() {
       if (res.status === setting.STATUS_CODE.OK) {
         success(res.data.msg);
         getAllDepartment();
-        getAllStore();
+     
       } else {
         error(res.data.msg);
       }

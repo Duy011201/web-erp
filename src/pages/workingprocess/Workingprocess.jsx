@@ -20,6 +20,8 @@ import {
   DELETE_WORKINGPROCESS_BY_ID,
   UPDATE_WORKINGPROCESS_BY_ID,
   CREATE_WORKINGPROCESS,
+  GET_ALL_EMPLOYEE,
+  GET_ALL_POSITION,
 } from "../service.js";
 import setting from "../../setting.js";
 
@@ -120,6 +122,8 @@ export default function WorkingProcess() {
       if (res.status === setting.STATUS_CODE.OK) {
         success(res.data.msg);
         getAllWorkingProcess();
+        getAllPosition();
+        getAllEmployee();
       } else {
         error(res.data.msg);
       }
@@ -234,12 +238,46 @@ export default function WorkingProcess() {
     }
   };
 
-  
+  const getAllPosition = async () => {
+    try {
+      setLoading(true);
+      let listPosition;
+      await GET_ALL_POSITION().then(res => {
+        setLoading(false);
+        if (res.status === setting.STATUS_CODE.OK) {
+          listPosition = res.data.data;
+          setListPosition(listPosition);
+        }
+      });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setLoading(false);
+    }
+  };
+
+  const getAllEmployee = async () => {
+    try {
+      setLoading(true);
+      let listEmployee;
+      await GET_ALL_EMPLOYEE().then(res => {
+        setLoading(false);
+        if (res.status === setting.STATUS_CODE.OK) {
+          listEmployee = res.data.data;
+          setListEmployee(listEmployee);
+        }
+      });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     setLoading(true);
     setTimeout(() => {
       getAllWorkingProcess();
+      getAllPosition();
+      getAllEmployee();
     }, 500);
   }, []);
 
