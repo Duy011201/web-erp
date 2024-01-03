@@ -377,34 +377,34 @@ export const DELETE_DEPARTMENT_BY_ID = id => {
   );
 };
 //workingprocess
-export const GET_ALL_WORKINGPROCESS = body => {
+export const GET_ALL_WORKING_PROCESS = body => {
   return axios.post(
-    setting.BASE_URL + setting.URL_API.GET_ALL_WORKINGPROCESS,
+    setting.BASE_URL + setting.URL_API.GET_ALL_WORKING_PROCESS,
     body
   );
 };
-export const GET_WORKINGPROCESS_BY_ID = id => {
+export const GET_WORKING_PROCESS_BY_ID = id => {
   return axios.post(
-    `${setting.BASE_URL}${setting.URL_API.GET_WORKINGPROCESS_BY_ID}?id=${id}`
+    `${setting.BASE_URL}${setting.URL_API.GET_WORKING_PROCESS_BY_ID}?id=${id}`
   );
 };
 
-export const UPDATE_WORKINGPROCESS_BY_ID = updateData => {
+export const UPDATE_WORKING_PROCESS_BY_ID = updateData => {
   return axios.post(
-    setting.BASE_URL + setting.URL_API.UPDATE_WORKINGPROCESS_BY_ID,
+    setting.BASE_URL + setting.URL_API.UPDATE_WORKING_PROCESS_BY_ID,
     updateData
   );
 };
 
-export const CREATE_WORKINGPROCESS = newData => {
+export const CREATE_WORKING_PROCESS = newData => {
   return axios.post(
-    `${setting.BASE_URL}${setting.URL_API.CREATE_WORKINGPROCESS}`,
+    `${setting.BASE_URL}${setting.URL_API.CREATE_WORKING_PROCESS}`,
     newData
   );
 };
 
-export const DELETE_WORKINGPROCESS_BY_ID = id => {
+export const DELETE_WORKING_PROCESS_BY_ID = id => {
   return axios.post(
-    `${setting.BASE_URL}${setting.URL_API.DELETE_WORKINGPROCESS_BY_ID}?id=${id}`
+    `${setting.BASE_URL}${setting.URL_API.DELETE_WORKING_PROCESS_BY_ID}?id=${id}`
   );
 };

@@ -86,6 +86,16 @@ const URL_API = {
   GET_ALL_POSITION: "/position/all",
 
   GET_ALL_DEPARTMENT: "/department/all",
+  UPDATE_DEPARTMENT_BY_ID: "/department/update",
+  GET_DEPARTMENT_BY_ID: "/department",
+  CREATE_DEPARTMENT: "/department/create",
+  DELETE_DEPARTMENT_BY_ID: "/department/delete",
+
+  GET_ALL_WORKING_PROCESS: "/workingprocess/all",
+  UPDATE_WORKING_PROCESS_BY_ID: "/workingprocess/update",
+  GET_WORKING_PROCESS_BY_ID: "/workingprocess",
+  CREATE_WORKING_PROCESS: "/workingprocess/create",
+  DELETE_WORKING_PROCESS_BY_ID: "/workingprocess/delete",
 };
 
 const ACTION = {

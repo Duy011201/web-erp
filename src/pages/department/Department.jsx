@@ -50,7 +50,7 @@ export default function Department() {
     { field: "diaChi", headerName: "Địa Chỉ", width: 150 },
     { field: "soDienThoai", headerName: "Số Điện Thoại", width: 150 },
     { field: "email", headerName: "Email", width: 150 },
-    
+
     {
       field: "",
       headerName: "Thao tác",
@@ -86,8 +86,6 @@ export default function Department() {
   ];
 
   const updateDepartment = async () => {
-    setOpen(false);
-
     if (isEmptyNullUndefined(formData.tenPhongBan)) {
       error("Bạn chưa nhập tên phòng ban!");
       return;
@@ -109,6 +107,7 @@ export default function Department() {
     }
 
     setLoading(true);
+    setOpen(false);
     await UPDATE_DEPARTMENT_BY_ID(formData).then(res => {
       setLoading(false);
       if (res.status === setting.STATUS_CODE.OK) {
@@ -121,8 +120,6 @@ export default function Department() {
   };
 
   const createDepartment = async () => {
-    setOpen(false);
-
     if (isEmptyNullUndefined(formData.tenPhongBan)) {
       error("Bạn chưa nhập tên phòng ban!");
       return;
@@ -143,6 +140,7 @@ export default function Department() {
       return;
     }
     setLoading(true);
+    setOpen(false);
 
     await CREATE_DEPARTMENT(formData).then(res => {
       setLoading(false);
@@ -183,22 +181,20 @@ export default function Department() {
         }
         break;
       case setting.ACTION.DELETE:
-        confirmDialog("Bạn muốn xóa phòng ban này!").then(
-          async result => {
-            if (result.value) {
-              setLoading(true);
-              await DELETE_DEPARTMENT_BY_ID(data.id).then(res => {
-                setLoading(false);
-                if (res.status === setting.STATUS_CODE.OK) {
-                  success(res.data.msg);
-                  getAllDepartment();
-                } else {
-                  error(res.data.msg);
-                }
-              });
-            }
+        confirmDialog("Bạn muốn xóa phòng ban này!").then(async result => {
+          if (result.value) {
+            setLoading(true);
+            await DELETE_DEPARTMENT_BY_ID(data.id).then(res => {
+              setLoading(false);
+              if (res.status === setting.STATUS_CODE.OK) {
+                success(res.data.msg);
+                getAllDepartment();
+              } else {
+                error(res.data.msg);
+              }
+            });
           }
-        );
+        });
         break;
     }
     setAction(action);
@@ -224,6 +220,14 @@ export default function Department() {
 
   useEffect(() => {
     setLoading(true);
+    if (
+      setting.ROLE_LOCAL === setting.ROLE_TYPE.USER.code ||
+      setting.ROLE_LOCAL === setting.ROLE_TYPE.EMPLOYEE.code
+    ) {
+      window.location = "/authentication";
+      return;
+    }
+
     setTimeout(() => {
       getAllDepartment();
     }, 500);
@@ -282,7 +286,7 @@ export default function Department() {
               } phòng ban`}
             </DialogTitle>
             <DialogContent>
-            <div className="row">
+              <div className="row">
                 <div className="form-group mt-10 col-md-6">
                   <label htmlFor="tenPhongBan">Phòng Ban</label>
                   <input
@@ -327,10 +331,10 @@ export default function Department() {
                     value={formData.email}
                     onChange={handleInputChange}
                     className="form-control"
-                    placeholder="Nhập email"                   
+                    placeholder="Nhập email"
                     required
                   />
-                </div>            
+                </div>
               </div>
             </DialogContent>
             <DialogActions>

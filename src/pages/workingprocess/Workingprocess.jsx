@@ -16,10 +16,10 @@ import Loading from "../../components/loading/Loading.jsx";
 
 import "./style.scss";
 import {
-  GET_ALL_WORKINGPROCESS,
-  DELETE_WORKINGPROCESS_BY_ID,
-  UPDATE_WORKINGPROCESS_BY_ID,
-  CREATE_WORKINGPROCESS,
+  GET_ALL_WORKING_PROCESS,
+  DELETE_WORKING_PROCESS_BY_ID,
+  UPDATE_WORKING_PROCESS_BY_ID,
+  CREATE_WORKING_PROCESS,
 } from "../service.js";
 import setting from "../../setting.js";
 
@@ -87,8 +87,6 @@ export default function WorkingProcess() {
   ];
 
   const updateWorkingprocess = async () => {
-    setOpen(false);
-
     if (isEmptyNullUndefined(formData.maNV)) {
       error("Bạn chưa nhập !");
       return;
@@ -115,7 +113,8 @@ export default function WorkingProcess() {
     }
 
     setLoading(true);
-    await UPDATE_WORKINGPROCESS_BY_ID(formData).then(res => {
+    setOpen(false);
+    await UPDATE_WORKING_PROCESS_BY_ID(formData).then(res => {
       setLoading(false);
       if (res.status === setting.STATUS_CODE.OK) {
         success(res.data.msg);
@@ -127,35 +126,34 @@ export default function WorkingProcess() {
   };
 
   const createWorkingProcess= async () => {
-    setOpen(false);
-
     if (isEmptyNullUndefined(formData.maNV)) {
-      error("Bạn chưa nhập !");
+      error("Bạn chưa chọn mã nhân viên!");
       return;
     }
 
     if (isEmptyNullUndefined(formData.maCV)) {
-      error("Bạn chưa nhập !");
+      error("Bạn chưa chọn mã chức vụ!");
       return;
     }
 
     if (isEmptyNullUndefined(formData.ngayBatDau)) {
-      error("Bạn chưa nhập !");
+      error("Bạn chưa chọn ngày bắt đầu!");
       return;
     }
 
     if (isNumber(formData.ngayKetThuc)) {
-      error("Bạn chưa nhập!");
+      error("Bạn chưa ngày kết thúc!");
       return;
     }
 
     if (isEmptyNullUndefined(formData.danhGia)) {
-      error("Bạn chưa nhập !");
+      error("Bạn chưa đánh giá!");
       return;
     }
     setLoading(true);
+    setOpen(false);
 
-    await CREATE_WORKINGPROCESS(formData).then(res => {
+    await CREATE_WORKING_PROCESS(formData).then(res => {
       setLoading(false);
       if (res.status === setting.STATUS_CODE.OK) {
         success(res.data.msg);
@@ -199,7 +197,7 @@ export default function WorkingProcess() {
           async result => {
             if (result.value) {
               setLoading(true);
-              await DELETE_WORKINGPROCESS_BY_ID(data.id).then(res => {
+              await DELETE_WORKING_PROCESS_BY_ID(data.id).then(res => {
                 setLoading(false);
                 if (res.status === setting.STATUS_CODE.OK) {
                   success(res.data.msg);
@@ -221,7 +219,7 @@ export default function WorkingProcess() {
     try {
       setLoading(true);
       let listWorkingProcess;
-      await GET_ALL_WORKINGPROCESS().then(res => {
+      await GET_ALL_WORKING_PROCESS().then(res => {
         setLoading(false);
         if (res.status === setting.STATUS_CODE.OK) {
           listWorkingProcess = res.data.data;
@@ -234,7 +232,7 @@ export default function WorkingProcess() {
     }
   };
 
-  
+
 
   useEffect(() => {
     setLoading(true);
@@ -332,7 +330,7 @@ export default function WorkingProcess() {
                     onChange={handleInputChange}
                     required
                   />
-                </div>               
+                </div>
                 <div className="form-group mt-10 col-md-6">
                   <label htmlFor="ngayKetThuc">Ngày Kết thúc</label>
                   <input
@@ -342,7 +340,7 @@ export default function WorkingProcess() {
                     onChange={handleInputChange}
                     className="form-control"
                     placeholder="Nhập Ngày Kết thúc"
-                  
+
                     required
                   />
                 </div>
@@ -355,7 +353,7 @@ export default function WorkingProcess() {
                     onChange={handleInputChange}
                     className="form-control"
                     placeholder="Nhập đánh giá"
-                  
+
                     required
                   />
                 </div>
