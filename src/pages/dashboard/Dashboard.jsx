@@ -127,6 +127,28 @@ export default function Dashboard() {
             ) : (
               <></>
             )}
+            {setting.ROLE_LOCAL === setting.ROLE_TYPE.ADMIN.code ? (
+              <div className="d-flex gap-3">
+                <Link className="wrap-item" to="/product">
+                  <FontAwesomeIcon
+                    className="icon"
+                    icon="fas fa-chart-line"
+                    title="Thống kê hệ quản lý thống kho"
+                  />
+                  <span>Thống kê hệ thống quản lý kho</span>
+                </Link>
+                <Link className="wrap-item" to="/product">
+                  <FontAwesomeIcon
+                    className="icon"
+                    icon="fas fa-chart-line"
+                    title="Thống kê hệ thống quản lý nhân sự"
+                  />
+                  <span>Thống kê hệ thống quản lý nhân sự</span>
+                </Link>
+              </div>
+            ) : (
+              <></>
+            )}
             {setting.ROLE_LOCAL === setting.ROLE_TYPE.USER.code ? (
               <header>Bạn chưa được cấp quyền sử dụng hệ thống</header>
             ) : (
