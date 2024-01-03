@@ -84,8 +84,22 @@ const URL_API = {
   GET_ALL_REWARD_DISCIPLINE: "/reward-discipline/all",
 
   GET_ALL_POSITION: "/position/all",
+  UPDATE_POSITION_BY_ID: "/position/update",
+  CREATE_POSITION: "/position/create",
+  DELETE_POSITION_BY_ID: "/position/delete",
+  GET_ALL_POSITION: "/position/all",
 
   GET_ALL_DEPARTMENT: "/department/all",
+  UPDATE_DEPARTMENT_BY_ID: "/department/update",
+  CREATE_DEPARTMENT: "/department/create",
+  DELETE_DEPARTMENT_BY_ID: "/department/delete",
+  GET_ALL_DEPARTMENT: "/department/all",
+
+  GET_ALL_WORINGPROCESS: "/workingprocess/all",
+  UPDATE_WORINGPROCESS_BY_ID: "/workingprocess/update",
+  CREATE_WORINGPROCESS: "/workingprocess/create",
+  DELETE_WORINGPROCESS_BY_ID: "/workingprocess/delete",
+  GET_ALL_WORINGPROCESS: "/workingprocess/all",
 };
 
 const ACTION = {
@@ -262,6 +276,7 @@ const setting = Object.freeze({
   REWARD_DISCIPLINE_TYPE,
   PRODUCT_UNIT,
   PRODUCT_TYPE,
+ 
 });
 
 export default setting;
