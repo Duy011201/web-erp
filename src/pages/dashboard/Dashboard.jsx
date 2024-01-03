@@ -55,7 +55,7 @@ export default function Dashboard() {
                   <span>Quá trình công tác</span>
                 </Link>
 
-                <Link className="wrap-item" to="#">
+                <Link className="wrap-item" to="/position">
                   <FontAwesomeIcon
                     className="icon"
                     icon="fas fa-sitemap"

@@ -267,7 +267,7 @@ export default function RewardDiscipline() {
     setLoading(true);
     if (
       setting.ROLE_LOCAL === setting.ROLE_TYPE.USER.code ||
-      setting.ROLE_LOCAL === setting.ROLE_TYPE.EMPLOYEE.code
+      setting.ROLE_LOCAL === setting.ROLE_TYPE.STORE.code
     ) {
       window.location = "/authentication";
       return;

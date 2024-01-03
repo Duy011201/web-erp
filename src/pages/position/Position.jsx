@@ -50,7 +50,6 @@ export default function Position() {
     { field: "tenChucVu", headerName: "Tên Chức Vụ", width: 150 },
     { field: "trangThai", headerName: "Trạng Thái", width: 150 },
     { field: "maPhongBan", headerName: "Mã Phòng Ban", width: 150 },
-
     {
       field: "",
       headerName: "Thao tác",
@@ -86,23 +85,22 @@ export default function Position() {
   ];
 
   const updatePosition = async () => {
-    setOpen(false);
-
     if (isEmptyNullUndefined(formData.tenChucVu)) {
-        error("Bạn chưa nhập tên chức vụ!");
-        return;
-      }
-  
-      if (isEmptyNullUndefined(formData.trangThai)) {
-        error("Bạn chưa nhập trạng thái!");
-        return;
-      }
-  
-      if (isEmptyNullUndefined(formData.maPhongBan)) {
-        error("Bạn chưa nhập mã phòng ban!");
-        return;
-      }
+      error("Bạn chưa nhập tên chức vụ!");
+      return;
+    }
+
+    if (isEmptyNullUndefined(formData.trangThai)) {
+      error("Bạn chưa nhập trạng thái!");
+      return;
+    }
+
+    if (isEmptyNullUndefined(formData.maPhongBan)) {
+      error("Bạn chưa nhập mã phòng ban!");
+      return;
+    }
     setLoading(true);
+    setOpen(false);
     await UPDATE_POSITION_BY_ID(formData).then(res => {
       setLoading(false);
       if (res.status === setting.STATUS_CODE.OK) {
@@ -116,22 +114,22 @@ export default function Position() {
   };
 
   const createPosition = async () => {
-    setOpen(false);
     if (isEmptyNullUndefined(formData.tenChucVu)) {
-        error("Bạn chưa nhập tên chức vụ!");
-        return;
-      }
-  
-      if (isEmptyNullUndefined(formData.trangThai)) {
-        error("Bạn chưa nhập trạng thái!");
-        return;
-      }
-  
-      if (isEmptyNullUndefined(formData.maPhongBan)) {
-        error("Bạn chưa nhập mã phòng ban!");
-        return;
-      }
+      error("Bạn chưa nhập tên chức vụ!");
+      return;
+    }
+
+    if (isEmptyNullUndefined(formData.trangThai)) {
+      error("Bạn chưa nhập trạng thái!");
+      return;
+    }
+
+    if (isEmptyNullUndefined(formData.maPhongBan)) {
+      error("Bạn chưa nhập mã phòng ban!");
+      return;
+    }
     setLoading(true);
+    setOpen(false);
 
     await CREATE_POSITION(formData).then(res => {
       setLoading(false);
@@ -170,22 +168,20 @@ export default function Position() {
         }
         break;
       case setting.ACTION.DELETE:
-        confirmDialog("Bạn muốn xóa chức vụ này không!").then(
-          async result => {
-            if (result.value) {
-              setLoading(true);
-              await DELETE_POSITION_BY_ID(data.id).then(res => {
-                setLoading(false);
-                if (res.status === setting.STATUS_CODE.OK) {
-                  success(res.data.msg);
-                  getAllPosition();
-                } else {
-                  error(res.data.msg);
-                }
-              });
-            }
+        confirmDialog("Bạn muốn xóa chức vụ này không!").then(async result => {
+          if (result.value) {
+            setLoading(true);
+            await DELETE_POSITION_BY_ID(data.id).then(res => {
+              setLoading(false);
+              if (res.status === setting.STATUS_CODE.OK) {
+                success(res.data.msg);
+                getAllPosition();
+              } else {
+                error(res.data.msg);
+              }
+            });
           }
-        );
+        });
         break;
     }
     setAction(action);
@@ -227,6 +223,14 @@ export default function Position() {
   };
 
   useEffect(() => {
+    if (
+      setting.ROLE_LOCAL === setting.ROLE_TYPE.USER.code ||
+      setting.ROLE_LOCAL === setting.ROLE_TYPE.STORE.code
+    ) {
+      window.location = "/authentication";
+      return;
+    }
+
     setLoading(true);
     setTimeout(() => {
       getAllDepartment();
@@ -245,7 +249,6 @@ export default function Position() {
             <div className="d-flex justify-content-between mt-20">
               <span className="fw-700 pl-10 title-page font-30">
                 Quản lý Chức Vụ
-
               </span>
               <button
                 type="button"
@@ -259,7 +262,7 @@ export default function Position() {
               </button>
             </div>
 
-            <div className="mt-20" style={{ height: 400, width: "100%" }}>
+            <div className="mt-20" style={{ height: 530, width: "100%" }}>
               <DataGrid
                 rows={listPosition}
                 columns={columns}
@@ -288,30 +291,45 @@ export default function Position() {
               } chức vụ`}
             </DialogTitle>
             <DialogContent>
-            <div className="row">
-                <div className="form-group mt-10 col-md-6">
-                  <label htmlFor="tenChucVu">Tên Chức Vụ</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="tenChucVu"
+              <div className="row">
+                <div className="col-md-6 mt-10">
+                  <label htmlFor="tenChucVu">Chọn chức vụ</label>
+                  <select
+                    className="form-select"
+                    aria-label="Default select example"
                     value={formData.tenChucVu}
-                    placeholder="Nhập Tên Chức Vụ"
                     onChange={handleInputChange}
-                    required
-                  />
+                    name="tenChucVu"
+                  >
+                    <option value="" disabled>
+                      Chọn Chọn chức vụ
+                    </option>
+                    {Object.values(setting.POSITION_TYPE).map(e => (
+                      <option key={e.code} value={e.code}>
+                        {e.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-                <div className="form-group mt-10 col-md-6">
-                  <label htmlFor="trangThai">Trạng thái</label>
-                  <input
-                    type="text"
-                    name="trangThai"
+
+                <div className="col-md-6 mt-10">
+                  <label htmlFor="trangThai">Trạng Thái</label>
+                  <select
+                    className="form-select"
+                    aria-label="Default select example"
                     value={formData.trangThai}
                     onChange={handleInputChange}
-                    className="form-control"
-                    placeholder="Trạng thái"
-                    required
-                  />
+                    name="trangThai"
+                  >
+                    <option value="" disabled>
+                      Chọn trạng thái
+                    </option>
+                    {Object.values(setting.POSITION_STATUS).map(e => (
+                      <option key={e.code} value={e.code}>
+                        {e.name}
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <div className="col-md-6 mt-10">
                   <label htmlFor="maPhongBan">Phòng Ban</label>
@@ -324,7 +342,11 @@ export default function Position() {
                   >
                     <option value="">Chọn phòng ban</option>
                     {listDepartment.map(Department => (
-                      <option key={Department.id} name={Department.id} value={Department.id}>
+                      <option
+                        key={Department.id}
+                        name={Department.id}
+                        value={Department.id}
+                      >
                         {Department.tenPhongBan}
                       </option>
                     ))}
