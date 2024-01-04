@@ -87,19 +87,27 @@ const URL_API = {
   UPDATE_POSITION_BY_ID: "/position/update",
   CREATE_POSITION: "/position/create",
   DELETE_POSITION_BY_ID: "/position/delete",
-  GET_ALL_POSITION: "/position/all",
 
-  GET_ALL_DEPARTMENT: "/department/all",
   UPDATE_DEPARTMENT_BY_ID: "/department/update",
   CREATE_DEPARTMENT: "/department/create",
   DELETE_DEPARTMENT_BY_ID: "/department/delete",
   GET_ALL_DEPARTMENT: "/department/all",
 
+<<<<<<< HEAD
   GET_ALL_WORKINGPROCESS: "/workingprocess/all",
   UPDATE_WORKINGPROCESS_BY_ID: "/workingprocess/update",
   CREATE_WORKINGPROCESS: "/workingprocess/create",
   DELETE_WORKINGPROCESS_BY_ID: "/workingprocess/delete",
   GET_WORKINGPROCESS_BY_ID:"/workingprocess/all",
+=======
+  UPDATE_WORINGPROCESS_BY_ID: "/workingprocess/update",
+  CREATE_WORINGPROCESS: "/workingprocess/create",
+  DELETE_WORINGPROCESS_BY_ID: "/workingprocess/delete",
+  GET_ALL_WORINGPROCESS: "/workingprocess/all",
+
+  GET_ALL_REPORT_RECEIPT: "/report/receipt",
+  GET_ALL_REPORT_EXPORT: "/report/export",
+>>>>>>> 6321d86e95b6c11810e093df4dbcf786f7c40e91
 };
 
 const ACTION = {
@@ -122,6 +130,31 @@ const GENDER_STATUS = {
 };
 
 const POSITION_TYPE = {
+  CHAIRMAN_OF_THE_BOARD: { code: "", name: "Chủ tịch hội đồng quản trị" },
+  MEMBER_OF_MANAGEMENT_COUNCIL: {
+    code: "",
+    name: "Thành viên hội đồng quản trị",
+  },
+  CHIEF_EXECUTIVE_OFFICER: {
+    code: "CHIEF_EXECUTIVE_OFFICER",
+    name: "Giám đốc điều hành",
+  },
+  CHIEF_FINANCIAL_OFFICER: {
+    code: "CHIEF_FINANCIAL_OFFICER",
+    name: "Giám đốc tài chính",
+  },
+  CHIEF_MARKETING_OFFICER: {
+    code: "CHIEF_MARKETING_OFFICER",
+    name: "Giám đốc Marketing",
+  },
+  CHIEF_LEGAL_OFFICER: {
+    code: "CHIEF_LEGAL_OFFICER",
+    name: "Giám đốc pháp lý",
+  },
+  CHIEF_COMMERCIAL_OFFICER: {
+    code: "CHIEF_COMMERCIAL_OFFICER",
+    name: "Giám đốc thương mại",
+  },
   MANAGER: { code: "MANAGER", name: "Quản lý" },
   EMPLOYEE: { code: "EMPLOYEE", name: "Nhân viên" },
   ADMIN: { code: "ADMIN", name: "Admin" },
@@ -259,6 +292,17 @@ const STATUS_CODE = {
   SERVER_ERROR: 500,
 };
 
+const POSITION_STATUS = {
+  ACTIVE: { code: "ACTIVE", name: "Họat động" },
+  UN_ACTIVE: { code: "UN_ACTIVE", name: "Không hoạt động" },
+};
+
+const REPORT_TYPE = {
+  MONTH: { code: "MONTH", name: "Tháng" },
+  QUY: { code: "QUY", name: "Quý" },
+  YEAR: { code: "YEAR", name: "Năm" },
+};
+
 const setting = Object.freeze({
   ROLE_LOCAL,
   USER_LOCAL,
@@ -273,9 +317,14 @@ const setting = Object.freeze({
   GENDER_STATUS,
   DEPARTMENT_TYPE,
   POSITION_TYPE,
+  POSITION_STATUS,
   REWARD_DISCIPLINE_TYPE,
   PRODUCT_UNIT,
   PRODUCT_TYPE,
+<<<<<<< HEAD
+=======
+  REPORT_TYPE,
+>>>>>>> 6321d86e95b6c11810e093df4dbcf786f7c40e91
 });
 
 export default setting;

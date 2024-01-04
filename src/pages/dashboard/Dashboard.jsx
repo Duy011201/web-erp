@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
 import Loading from "../../components/loading/Loading";
 import "./style.scss";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {Link} from "react-router-dom";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import setting from "../../setting.js";
 
 export default function Dashboard() {
@@ -20,10 +20,10 @@ export default function Dashboard() {
   return (
     <div className="container-fluid m-0 p-0 vh-100 bg-lazy">
       {loading ? (
-        <Loading />
+        <Loading/>
       ) : (
         <div className="wrap-dashboard">
-          <Header />
+          <Header/>
           <div className="container mt-20">
             {setting.ROLE_LOCAL === setting.ROLE_TYPE.EMPLOYEE.code ||
             setting.ROLE_LOCAL === setting.ROLE_TYPE.ADMIN.code ? (
@@ -55,7 +55,7 @@ export default function Dashboard() {
                   <span>Quá trình công tác</span>
                 </Link>
 
-                <Link className="wrap-item" to="#">
+                <Link className="wrap-item" to="/position">
                   <FontAwesomeIcon
                     className="icon"
                     icon="fas fa-sitemap"
@@ -127,13 +127,25 @@ export default function Dashboard() {
             ) : (
               <></>
             )}
+            {setting.ROLE_LOCAL === setting.ROLE_TYPE.ADMIN.code ? (
+              <Link className="wrap-item" to="/report">
+                <FontAwesomeIcon
+                  className="icon"
+                  icon="fas fa-chart-line"
+                  title="Báo cáo thống kê"
+                />
+                <span>Báo cáo thống kê</span>
+              </Link>
+            ) : (
+              <></>
+            )}
             {setting.ROLE_LOCAL === setting.ROLE_TYPE.USER.code ? (
               <header>Bạn chưa được cấp quyền sử dụng hệ thống</header>
             ) : (
               <></>
             )}
           </div>
-          <Footer />
+          <Footer/>
         </div>
       )}
     </div>

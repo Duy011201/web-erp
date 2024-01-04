@@ -16,7 +16,7 @@ export default function Header() {
           {role === setting.ROLE_TYPE.ADMIN.code
             ? "ADMIN"
             : role === setting.ROLE_TYPE.EMPLOYEE.code
-            ? "Hệ thống quản lý nhân viên"
+            ? "Hệ thống quản lý nhân sự"
             : role === setting.ROLE_TYPE.STORE.code
             ? "Hệ thống quản lý kho"
             : "USER"}

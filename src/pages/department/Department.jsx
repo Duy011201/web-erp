@@ -50,7 +50,6 @@ export default function Department() {
     { field: "diaChi", headerName: "Địa Chỉ", width: 150 },
     { field: "soDienThoai", headerName: "Số Điện Thoại", width: 150 },
     { field: "email", headerName: "Email", width: 150 },
-    
     {
       field: "",
       headerName: "Thao tác",
@@ -86,8 +85,6 @@ export default function Department() {
   ];
 
   const updateDepartment = async () => {
-    setOpen(false);
-
     if (isEmptyNullUndefined(formData.tenPhongBan)) {
       error("Bạn chưa nhập tên phòng ban!");
       return;
@@ -109,6 +106,7 @@ export default function Department() {
     }
 
     setLoading(true);
+    setOpen(false);
     await UPDATE_DEPARTMENT_BY_ID(formData).then(res => {
       setLoading(false);
       if (res.status === setting.STATUS_CODE.OK) {
@@ -121,8 +119,6 @@ export default function Department() {
   };
 
   const createDepartment = async () => {
-    setOpen(false);
-
     if (isEmptyNullUndefined(formData.tenPhongBan)) {
       error("Bạn chưa nhập tên phòng ban!");
       return;
@@ -143,6 +139,7 @@ export default function Department() {
       return;
     }
     setLoading(true);
+    setOpen(false);
 
     await CREATE_DEPARTMENT(formData).then(res => {
       setLoading(false);
@@ -327,10 +324,10 @@ export default function Department() {
                     value={formData.email}
                     onChange={handleInputChange}
                     className="form-control"
-                    placeholder="Nhập email"                   
+                    placeholder="Nhập email"
                     required
                   />
-                </div>            
+                </div>
               </div>
             </DialogContent>
             <DialogActions>

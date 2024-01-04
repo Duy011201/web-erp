@@ -17,7 +17,8 @@ import {
   faSitemap,
   faCertificate,
   faRecycle,
-  faSquare
+  faSquare,
+  faChartLine
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -38,5 +39,6 @@ library.add(
   faSitemap,
   faCertificate,
   faRecycle,
-  faSquare
+  faSquare,
+  faChartLine
 );

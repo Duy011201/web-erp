@@ -408,3 +408,12 @@ export const DELETE_WORKINGPROCESS_BY_ID = id => {
     `${setting.BASE_URL}${setting.URL_API.DELETE_WORKINGPROCESS_BY_ID}?id=${id}`
   );
 };
+
+// Report
+export const GET_ALL_REPORT_RECEIPT = () => {
+  return axios.post(setting.BASE_URL + setting.URL_API.GET_ALL_REPORT_RECEIPT);
+};
+
+export const GET_ALL_REPORT_EXPORT = () => {
+  return axios.post(setting.BASE_URL + setting.URL_API.GET_ALL_REPORT_EXPORT);
+};

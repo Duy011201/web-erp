@@ -41,40 +41,25 @@ export default function Personal() {
   };
 
   const update = async () => {
-    setOpen(false);
-
     if (isEmptyNullUndefined(formData.hoTen)) {
       error("Bạn chưa nhập tên!");
       return;
     }
 
-    if (isEmptyNullUndefined(formData.gioiTinh)) {
-      error("Bạn chưa nhập giới tính!");
-      return;
-    }
-
-    if (isEmptyNullUndefined(formData.diaChi)) {
-      error("Bạn chưa nhập địa chỉ!");
-      return;
-    }
-
-    if (isNumber(formData.soCCCD)) {
-      error("Sai định dạng số CCCD!");
-      return;
-    }
-
-    if (isEmptyNullUndefined(formData.maChucVu)) {
-      error("Bạn chưa nhập mã chức vụ!");
-      return;
-    }
-
-    if (isEmptyNullUndefined(formData.maPhongBan)) {
-      error("Bạn chưa nhập mã phòng ban!");
-      return;
-    }
-
+    setOpen(false);
     setLoading(true);
-    await UPDATE_EMPLOYEE_BY_ID(formData).then(res => {
+
+    let payload = {
+      id: formData.id,
+      hoTen: formData.hoTen ? formData.hoTen : "",
+      gioiTinh: formData.gioiTinh ? formData.gioiTinh : "",
+      diaChi: formData.diaChi ? formData.diaChi : "",
+      soCCCD: formData.soCCCD ? formData.soCCCD : "",
+      maChucVu: formData.maChucVu ? formData.maChucVu : "",
+      maPhongBan: formData.maPhongBan ? formData.maPhongBan : "",
+    };
+
+    await UPDATE_EMPLOYEE_BY_ID(payload).then(res => {
       setLoading(false);
       if (res.status === setting.STATUS_CODE.OK) {
         success(res.data.msg);

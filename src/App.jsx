@@ -17,6 +17,7 @@ import WorkingProcess from "./pages/workingprocess/Workingprocess";
 import RewardDiscipline from "./pages/reward-discipline/RewardDiscipline";
 import Dashboard from "./pages/dashboard/Dashboard";
 import WarehouseExport from "./pages/warehouse-export/WarehouseExport";
+import Report from "./pages/report/Report";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
         <Route path="/workingprocess" element={<WorkingProcess />} />
         <Route path="/reward-discipline" element={<RewardDiscipline />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/report" element={<Report />} />
         <Route path="*" element={<NoPage />} />
       </Routes>
     </BrowserRouter>
