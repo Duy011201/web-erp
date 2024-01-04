@@ -377,7 +377,7 @@ export const DELETE_DEPARTMENT_BY_ID = id => {
   );
 };
 //workingprocess
-export const GET_ALL_WORKINGPROCESS = body => {
+export const  GET_ALL_WORKINGPROCESS = body => {
   return axios.post(
     setting.BASE_URL + setting.URL_API.GET_ALL_WORKINGPROCESS,
     body

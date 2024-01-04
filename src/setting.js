@@ -95,11 +95,11 @@ const URL_API = {
   DELETE_DEPARTMENT_BY_ID: "/department/delete",
   GET_ALL_DEPARTMENT: "/department/all",
 
-  GET_ALL_WORINGPROCESS: "/workingprocess/all",
-  UPDATE_WORINGPROCESS_BY_ID: "/workingprocess/update",
-  CREATE_WORINGPROCESS: "/workingprocess/create",
-  DELETE_WORINGPROCESS_BY_ID: "/workingprocess/delete",
-  GET_ALL_WORINGPROCESS: "/workingprocess/all",
+  GET_ALL_WORKINGPROCESS: "/workingprocess/all",
+  UPDATE_WORKINGPROCESS_BY_ID: "/workingprocess/update",
+  CREATE_WORKINGPROCESS: "/workingprocess/create",
+  DELETE_WORKINGPROCESS_BY_ID: "/workingprocess/delete",
+  GET_WORKINGPROCESS_BY_ID:"/workingprocess/all",
 };
 
 const ACTION = {
@@ -276,7 +276,6 @@ const setting = Object.freeze({
   REWARD_DISCIPLINE_TYPE,
   PRODUCT_UNIT,
   PRODUCT_TYPE,
- 
 });
 
 export default setting;
