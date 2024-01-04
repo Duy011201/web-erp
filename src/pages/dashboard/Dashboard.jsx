@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import Header from "../../components/header/Header";
 import Footer from "../../components/footer/Footer";
 import Loading from "../../components/loading/Loading";
 import "./style.scss";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {Link} from "react-router-dom";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import setting from "../../setting.js";
 
 export default function Dashboard() {
@@ -20,10 +20,10 @@ export default function Dashboard() {
   return (
     <div className="container-fluid m-0 p-0 vh-100 bg-lazy">
       {loading ? (
-        <Loading />
+        <Loading/>
       ) : (
         <div className="wrap-dashboard">
-          <Header />
+          <Header/>
           <div className="container mt-20">
             {setting.ROLE_LOCAL === setting.ROLE_TYPE.EMPLOYEE.code ||
             setting.ROLE_LOCAL === setting.ROLE_TYPE.ADMIN.code ? (
@@ -128,24 +128,14 @@ export default function Dashboard() {
               <></>
             )}
             {setting.ROLE_LOCAL === setting.ROLE_TYPE.ADMIN.code ? (
-              <div className="d-flex gap-3">
-                <Link className="wrap-item" to="/product">
-                  <FontAwesomeIcon
-                    className="icon"
-                    icon="fas fa-chart-line"
-                    title="Thống kê hệ quản lý thống kho"
-                  />
-                  <span>Thống kê hệ thống quản lý kho</span>
-                </Link>
-                <Link className="wrap-item" to="/product">
-                  <FontAwesomeIcon
-                    className="icon"
-                    icon="fas fa-chart-line"
-                    title="Thống kê hệ thống quản lý nhân sự"
-                  />
-                  <span>Thống kê hệ thống quản lý nhân sự</span>
-                </Link>
-              </div>
+              <Link className="wrap-item" to="/report">
+                <FontAwesomeIcon
+                  className="icon"
+                  icon="fas fa-chart-line"
+                  title="Báo cáo thống kê"
+                />
+                <span>Báo cáo thống kê</span>
+              </Link>
             ) : (
               <></>
             )}
@@ -155,7 +145,7 @@ export default function Dashboard() {
               <></>
             )}
           </div>
-          <Footer />
+          <Footer/>
         </div>
       )}
     </div>
